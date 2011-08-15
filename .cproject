@@ -1,0 +1,1036 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?>
+
+<cproject>
+<storageModule moduleId="org.eclipse.cdt.core.settings">
+<cconfiguration id="avr32.managedbuild.config.gnu.exe.debug.1442898900">
+<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="avr32.managedbuild.config.gnu.exe.debug.1442898900" moduleId="org.eclipse.cdt.core.settings" name="Debug">
+<externalSettings/>
+<extensions>
+<extension id="org.eclipse.cdt.managedbuilder.core.ManagedBuildManager" point="org.eclipse.cdt.core.ScannerInfoProvider"/>
+<extension id="com.atmel.avr32.toolchain.standalone.elf32-avr32" point="org.eclipse.cdt.core.BinaryParser"/>
+<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+</extensions>
+</storageModule>
+<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+<configuration artifactExtension="elf" artifactName="test" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="AVR32 Standalone debug configuration" id="avr32.managedbuild.config.gnu.exe.debug.1442898900" name="Debug" parent="avr32.managedbuild.config.gnu.exe.debug">
+<folderInfo id="avr32.managedbuild.config.gnu.exe.debug.1442898900." name="/" resourcePath="">
+<toolChain id="avr32.managedbuild.toolchain.gnu.exe.debug.921508295" name="AVR32 Standalone GCC" superClass="avr32.managedbuild.toolchain.gnu.exe.debug">
+<targetPlatform id="avr32.managedbuild.target.gnu.platform.exe.debug.1648417862" name="Debug Platform  " superClass="avr32.managedbuild.target.gnu.platform.exe.debug"/>
+<builder buildPath="${workspace_loc:/test/Debug}" id="avr32.managedbuild.target.gnu.builder.exe.debug.1964216125" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="avr32.managedbuild.target.gnu.builder.exe.debug"/>
+<tool id="avr32.managedbuild.tool.gnu.archiver.base.1851857019" name="GCC Archiver" superClass="avr32.managedbuild.tool.gnu.archiver.base"/>
+<tool id="avr32.managedbuild.tool.gnu.cpp.compiler.exe.debug.1695285918" name="AVR32/GNU C++ Compiler" superClass="avr32.managedbuild.tool.gnu.cpp.compiler.exe.debug">
+<option id="gnu.cpp.compiler.option.optimization.level.1436983023" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+<option id="gnu.cpp.compiler.option.debugging.level.754608175" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+<option id="avr32.cpp.compiler.option.mcu.2020497378" name="Microcontroller Unit" superClass="avr32.cpp.compiler.option.mcu" value="-mpart=uc3b0256" valueType="string"/>
+</tool>
+<tool command="avr32-gcc -mpart=uc3b0256" id="avr32.managedbuild.tool.gnu.c.compiler.exe.debug.1862969542" name="AVR32/GNU C Compiler" superClass="avr32.managedbuild.tool.gnu.c.compiler.exe.debug">
+<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.1019723140" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" valueType="enumerated"/>
+<option id="gnu.c.compiler.option.debugging.level.1832661357" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+<option id="avr32.c.compiler.option.mcu.1084845589" name="Microcontroller Unit" superClass="avr32.c.compiler.option.mcu" value="-mpart=uc3b0256" valueType="string"/>
+<option id="gnu.c.compiler.option.optimization.flags.838040527" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" value="-O3 -fno-strict-aliasing -ffunction-sections -fdata-sections" valueType="string"/>
+<option id="gnu.c.compiler.option.debugging.other.60430339" name="Other debugging flags" superClass="gnu.c.compiler.option.debugging.other" value="-g" valueType="string"/>
+<option id="gnu.c.compiler.option.misc.other.1910923778" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 " valueType="string"/>
+<option id="gnu.c.compiler.option.include.paths.20718451" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+<listOptionValue builtIn="false" value="../src/BOARDS"/>
+<listOptionValue builtIn="false" value="../src/UTILS"/>
+<listOptionValue builtIn="false" value="../src/UTILS/PREPROCESSOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB/CLASS/DFU/EXAMPLES/ISP/BOOT"/>
+<listOptionValue builtIn="false" value="../src/UTILS/LIBS/NEWLIB_ADDONS/INCLUDE"/>
+<listOptionValue builtIn="false" value="../src/UTILS/LIBS/DRIVERS/AT32UC3B/INCLUDE"/>
+<listOptionValue builtIn="false" value="../src/UTILS/DEBUG"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB/ENUM"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB/ENUM/DEVICE"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB/CLASS/CDC"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/CONCORDIA"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/HALL_ESTIMATOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/MOTOR_DRIVER/BLDC_MOTOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/PARK"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/REGULATOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/SVPWM"/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/CONF/ "/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/ENUM/ "/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/"/>
+</option>
+<option id="gnu.c.compiler.option.preprocessor.def.symbols.1982972200" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
+<listOptionValue builtIn="false" value="BOARD=EVK1101"/>
+</option>
+<option id="gnu.c.compiler.option.preprocessor.undef.symbol.1132903908" name="Undefined symbols (-U)" superClass="gnu.c.compiler.option.preprocessor.undef.symbol"/>
+<inputType id="avr32.managedbuild.tool.gnu.c.compiler.input.2015294605" superClass="avr32.managedbuild.tool.gnu.c.compiler.input"/>
+</tool>
+<tool command="avr32-gcc -T ../src/UTILS/LINKER_SCRIPTS/AT32UC3B/0256/GCC/link_uc3b0256.lds" id="avr32.managedbuild.tool.gnu.c.linker.exe.debug.303187484" name="AVR32/GNU C Linker" superClass="avr32.managedbuild.tool.gnu.c.linker.exe.debug">
+<option id="avr32.c.linker.option.mcu.466800392" name="Microcontroller Unit" superClass="avr32.c.linker.option.mcu" value="-mpart=uc3b0256" valueType="string"/>
+<option id="gnu.c.link.option.ldflags.675199046" name="Linker flags" superClass="gnu.c.link.option.ldflags" value="-Wl,--gc-sections -Wl,-e,_trampoline" valueType="string"/>
+<option id="gnu.c.link.option.libs.2082201223" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
+<listOptionValue builtIn="false" value="newlib_addons-at32ucr1-speed_opt"/>
+<listOptionValue builtIn="false" value="drivers-at32uc3b-speed_opt"/>
+</option>
+<option id="gnu.c.link.option.paths.1878238154" name="Library search path (-L)" superClass="gnu.c.link.option.paths" valueType="libPaths">
+<listOptionValue builtIn="false" value="../src/UTILS/LIBS/NEWLIB_ADDONS/AT32UCR1"/>
+<listOptionValue builtIn="false" value="../src/UTILS/LIBS/DRIVERS/AT32UC3B/GCC"/>
+</option>
+<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.833173445" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
+<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+</inputType>
+</tool>
+<tool id="avr32.managedbuild.tool.gnu.cpp.linker.exe.debug.1931521818" name="AVR32/GNU C++ Linker" superClass="avr32.managedbuild.tool.gnu.cpp.linker.exe.debug">
+<option id="avr32.cpp.linker.option.mcu.1046884810" name="Microcontroller Unit" superClass="avr32.cpp.linker.option.mcu" value="-mpart=uc3b0256" valueType="string"/>
+</tool>
+<tool command="avr32-as -mpart=uc3b0256" id="avr32.managedbuild.tool.gnu.assembler.exe.debug.828153487" name="AVR32/GNU Assembler" superClass="avr32.managedbuild.tool.gnu.assembler.exe.debug">
+<option id="avr32.both.asm.option.debugging.level.1310971645" name="Debug Level" superClass="avr32.both.asm.option.debugging.level" value="avr32.both.asm.debugging.level.max" valueType="enumerated"/>
+<option id="avr32.both.asm.option.mcu.708811044" name="Microcontroller Unit" superClass="avr32.both.asm.option.mcu" value="-mpart=uc3b0256" valueType="string"/>
+<option id="gnu.both.asm.option.include.paths.1297178696" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+<listOptionValue builtIn="false" value="../src/BOARDS"/>
+<listOptionValue builtIn="false" value="../src/UTILS"/>
+<listOptionValue builtIn="false" value="../src/UTILS/PREPROCESSOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB/CLASS/DFU/EXAMPLES/ISP/BOOT"/>
+<listOptionValue builtIn="false" value="../src/UTILS/LIBS/NEWLIB_ADDONS/INCLUDE"/>
+<listOptionValue builtIn="false" value="../src/UTILS/LIBS/DRIVERS/AT32UC3B/INCLUDE"/>
+<listOptionValue builtIn="false" value="../src/UTILS/DEBUG"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB/ENUM"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB/ENUM/DEVICE"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB/CLASS/CDC"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/CONCORDIA"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/HALL_ESTIMATOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/MOTOR_DRIVER/BLDC_MOTOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/PARK"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/REGULATOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/SVPWM"/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/AT32UC3B0256_EVK1101/CONF/ "/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/AT32UC3B0256_EVK1101/ENUM/ "/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION"/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/AT32UC3B0256_EVK1101"/>
+</option>
+</tool>
+<tool command="avr32-gcc -x assembler-with-cpp -c -mpart=uc3b0256" id="avr32.managedbuild.tool.gnu.preprocessor.exe.debug.843094329" name="AVR32/GNU Preprocessing Assembler" superClass="avr32.managedbuild.tool.gnu.preprocessor.exe.debug">
+<option id="avr32.both.preprocessor.option.debugging.level.761305243" name="Debug Level" superClass="avr32.both.preprocessor.option.debugging.level" value="avr32.both.preprocessor.debugging.level.max" valueType="enumerated"/>
+<option id="avr32.both.preprocessor.option.mcu.671904382" name="Microcontroller Unit" superClass="avr32.both.preprocessor.option.mcu" value="-mpart=uc3b0256" valueType="string"/>
+<option id="avr32.both.preprocessor.option.paths.1520966292" name="Include paths (-I)" superClass="avr32.both.preprocessor.option.paths" valueType="includePath">
+<listOptionValue builtIn="false" value="../src/BOARDS"/>
+<listOptionValue builtIn="false" value="../src/UTILS"/>
+<listOptionValue builtIn="false" value="../src/UTILS/PREPROCESSOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB/CLASS/DFU/EXAMPLES/ISP/BOOT"/>
+<listOptionValue builtIn="false" value="../src/UTILS/LIBS/NEWLIB_ADDONS/INCLUDE"/>
+<listOptionValue builtIn="false" value="../src/UTILS/LIBS/DRIVERS/AT32UC3B/INCLUDE"/>
+<listOptionValue builtIn="false" value="../src/UTILS/DEBUG"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB/ENUM"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB/ENUM/DEVICE"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB/CLASS/CDC"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/CONCORDIA"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/HALL_ESTIMATOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/MOTOR_DRIVER/BLDC_MOTOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/PARK"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/REGULATOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/SVPWM"/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/AT32UC3B0256_EVK1101/CONF/ "/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/AT32UC3B0256_EVK1101/ENUM/ "/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION"/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/AT32UC3B0256_EVK1101"/>
+</option>
+<inputType id="avr32.managedbuild.tool.gnu.preprocessor.input.173809671" superClass="avr32.managedbuild.tool.gnu.preprocessor.input"/>
+</tool>
+<tool id="avr32.managedbuild.tool.gnu.archiver.exe.debug.189069195" name="AVR32/GNU Archiver" superClass="avr32.managedbuild.tool.gnu.archiver.exe.debug"/>
+<tool id="avr32.managedbuild.tool.gnu.listing.exe.debug.534029211" name="AVR32/GNU Object Dump" superClass="avr32.managedbuild.tool.gnu.listing.exe.debug"/>
+</toolChain>
+</folderInfo>
+</configuration>
+</storageModule>
+<storageModule moduleId="scannerConfiguration">
+<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile"/>
+<profile id="com.atmel.avr32.debug.AVR32ManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32ManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="avr32-g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32LinuxManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-linux-gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32LinuxManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-linux-g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerFileProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="makefileGenerator">
+<runAction arguments="-f ${project_name}_scd.mk" command="make" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<scannerConfigBuildInfo instanceId="avr32.managedbuild.config.gnu.exe.release.1503653492;avr32.managedbuild.config.gnu.exe.release.1503653492.;avr32.managedbuild.tool.gnu.c.compiler.exe.release.1675116371;avr32.managedbuild.tool.gnu.c.compiler.input.892361001">
+<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.atmel.avr32.debug.AVR32ManagedMakePerProjectProfileC"/>
+<profile id="com.atmel.avr32.debug.AVR32ManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32ManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="avr32-g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32LinuxManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-linux-gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32LinuxManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-linux-g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerFileProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="makefileGenerator">
+<runAction arguments="-f ${project_name}_scd.mk" command="make" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+</scannerConfigBuildInfo>
+<scannerConfigBuildInfo instanceId="avr32.managedbuild.config.gnu.exe.debug.1442898900;avr32.managedbuild.config.gnu.exe.debug.1442898900.;avr32.managedbuild.tool.gnu.c.compiler.exe.debug.1862969542;avr32.managedbuild.tool.gnu.c.compiler.input.2015294605">
+<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.atmel.avr32.debug.AVR32ManagedMakePerProjectProfileC"/>
+<profile id="com.atmel.avr32.debug.AVR32ManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32ManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="avr32-g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32LinuxManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-linux-gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32LinuxManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-linux-g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerFileProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="makefileGenerator">
+<runAction arguments="-f ${project_name}_scd.mk" command="make" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+</scannerConfigBuildInfo>
+</storageModule>
+<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+</cconfiguration>
+<cconfiguration id="avr32.managedbuild.config.gnu.exe.release.1503653492">
+<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="avr32.managedbuild.config.gnu.exe.release.1503653492" moduleId="org.eclipse.cdt.core.settings" name="Release">
+<externalSettings/>
+<extensions>
+<extension id="org.eclipse.cdt.managedbuilder.core.ManagedBuildManager" point="org.eclipse.cdt.core.ScannerInfoProvider"/>
+<extension id="com.atmel.avr32.toolchain.standalone.elf32-avr32" point="org.eclipse.cdt.core.BinaryParser"/>
+<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+</extensions>
+</storageModule>
+<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+<configuration artifactName="test" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="AVR32 Standalone release configuration" id="avr32.managedbuild.config.gnu.exe.release.1503653492" name="Release" parent="avr32.managedbuild.config.gnu.exe.release">
+<folderInfo id="avr32.managedbuild.config.gnu.exe.release.1503653492." name="/" resourcePath="">
+<toolChain id="avr32.managedbuild.toolchain.gnu.exe.release.1913736400" name="AVR32 Standalone GCC" superClass="avr32.managedbuild.toolchain.gnu.exe.release">
+<targetPlatform id="avr32.managedbuild.target.gnu.platform.exe.release.1167108226" name="Debug Platform  " superClass="avr32.managedbuild.target.gnu.platform.exe.release"/>
+<builder buildPath="${workspace_loc:/test/Release}" id="avr32.managedbuild.target.gnu.builder.exe.release.1710915148" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="avr32.managedbuild.target.gnu.builder.exe.release"/>
+<tool id="avr32.managedbuild.tool.gnu.archiver.base.1357216047" name="GCC Archiver" superClass="avr32.managedbuild.tool.gnu.archiver.base"/>
+<tool id="avr32.managedbuild.tool.gnu.cpp.compiler.exe.release.1510284140" name="AVR32/GNU C++ Compiler" superClass="avr32.managedbuild.tool.gnu.cpp.compiler.exe.release">
+<option id="gnu.cpp.compiler.option.optimization.level.773558494" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
+<option id="gnu.cpp.compiler.option.debugging.level.1411502335" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
+<option defaultValue="gnu.c.optimization.level.most" id="avr32.cpp.compiler.option.optimization.level.release.349117899" name="Optimization Level" superClass="avr32.cpp.compiler.option.optimization.level.release" valueType="enumerated"/>
+<option id="avr32.cpp.compiler.option.mcu.22997711" name="Microcontroller Unit" superClass="avr32.cpp.compiler.option.mcu" value="-mpart=uc3b0256" valueType="string"/>
+</tool>
+<tool command="avr32-gcc -mpart=uc3b0256" id="avr32.managedbuild.tool.gnu.c.compiler.exe.release.1675116371" name="AVR32/GNU C Compiler" superClass="avr32.managedbuild.tool.gnu.c.compiler.exe.release">
+<option defaultValue="gnu.c.optimization.level.most" id="avr32.c.compiler.option.optimization.level.release.944227974" name="Optimization Level" superClass="avr32.c.compiler.option.optimization.level.release" valueType="enumerated"/>
+<option id="gnu.c.compiler.option.debugging.level.1024701361" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
+<option id="avr32.c.compiler.option.mcu.223259016" name="Microcontroller Unit" superClass="avr32.c.compiler.option.mcu" value="-mpart=uc3b0256" valueType="string"/>
+<option id="gnu.c.compiler.option.optimization.flags.601498494" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" value="-O3 -fno-strict-aliasing -ffunction-sections -fdata-sections" valueType="string"/>
+<option id="gnu.c.compiler.option.debugging.other.1040336367" name="Other debugging flags" superClass="gnu.c.compiler.option.debugging.other" value="-g" valueType="string"/>
+<option id="gnu.c.compiler.option.misc.other.2070562140" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 " valueType="string"/>
+<option id="gnu.c.compiler.option.include.paths.517712891" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+<listOptionValue builtIn="false" value="../src/BOARDS"/>
+<listOptionValue builtIn="false" value="../src/UTILS"/>
+<listOptionValue builtIn="false" value="../src/UTILS/PREPROCESSOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB/CLASS/DFU/EXAMPLES/ISP/BOOT"/>
+<listOptionValue builtIn="false" value="../src/UTILS/LIBS/NEWLIB_ADDONS/INCLUDE"/>
+<listOptionValue builtIn="false" value="../src/UTILS/LIBS/DRIVERS/AT32UC3B/INCLUDE"/>
+<listOptionValue builtIn="false" value="../src/UTILS/DEBUG"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB/ENUM"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB/ENUM/DEVICE"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB/CLASS/CDC"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/CONCORDIA"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/HALL_ESTIMATOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/MOTOR_DRIVER/BLDC_MOTOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/PARK"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/REGULATOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/SVPWM"/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/AT32UC3B0256_EVK1101/CONF/ "/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/AT32UC3B0256_EVK1101/ENUM/ "/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION"/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/AT32UC3B0256_EVK1101"/>
+</option>
+<option id="gnu.c.compiler.option.preprocessor.def.symbols.595017423" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
+<listOptionValue builtIn="false" value="BOARD=EVK1101"/>
+</option>
+<option id="gnu.c.compiler.option.preprocessor.undef.symbol.250980378" name="Undefined symbols (-U)" superClass="gnu.c.compiler.option.preprocessor.undef.symbol"/>
+<inputType id="avr32.managedbuild.tool.gnu.c.compiler.input.892361001" superClass="avr32.managedbuild.tool.gnu.c.compiler.input"/>
+</tool>
+<tool command="avr32-gcc -T ../src/UTILS/LINKER_SCRIPTS/AT32UC3B/0256/GCC/link_uc3b0256.lds" id="avr32.managedbuild.tool.gnu.c.linker.exe.release.796512905" name="AVR32/GNU C Linker" superClass="avr32.managedbuild.tool.gnu.c.linker.exe.release">
+<option id="avr32.c.linker.option.mcu.2071446357" name="Microcontroller Unit" superClass="avr32.c.linker.option.mcu" value="-mpart=uc3b0256" valueType="string"/>
+<option id="gnu.c.link.option.ldflags.287045153" name="Linker flags" superClass="gnu.c.link.option.ldflags" value="-Wl,--gc-sections -Wl,-e,_trampoline" valueType="string"/>
+<option id="gnu.c.link.option.libs.617032444" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
+<listOptionValue builtIn="false" value="drivers-at32uc3b-speed_opt "/>
+<listOptionValue builtIn="false" value="newlib_addons-at32ucr1-speed_opt"/>
+</option>
+<option id="gnu.c.link.option.paths.1099697381" name="Library search path (-L)" superClass="gnu.c.link.option.paths" valueType="libPaths">
+<listOptionValue builtIn="false" value="../src/ UTILS/LIBS/DRIVERS/AT32UC3B/GCC"/>
+<listOptionValue builtIn="false" value="../src/ UTILS/LIBS/NEWLIB_ADDONS/AT32UCR1"/>
+</option>
+<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.635334061" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
+<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+</inputType>
+</tool>
+<tool id="avr32.managedbuild.tool.gnu.cpp.linker.exe.release.558270890" name="AVR32/GNU C++ Linker" superClass="avr32.managedbuild.tool.gnu.cpp.linker.exe.release">
+<option id="avr32.cpp.linker.option.mcu.1700594144" name="Microcontroller Unit" superClass="avr32.cpp.linker.option.mcu" value="-mpart=uc3b0256" valueType="string"/>
+</tool>
+<tool command="avr32-as -mpart=uc3b0256" id="avr32.managedbuild.tool.gnu.assembler.exe.release.420846688" name="AVR32/GNU Assembler" superClass="avr32.managedbuild.tool.gnu.assembler.exe.release">
+<option id="avr32.both.asm.option.debugging.level.1285060306" name="Debug Level" superClass="avr32.both.asm.option.debugging.level" value="avr32.both.asm.debugging.level.none" valueType="enumerated"/>
+<option id="avr32.both.asm.option.mcu.1606370028" name="Microcontroller Unit" superClass="avr32.both.asm.option.mcu" value="-mpart=uc3b0256" valueType="string"/>
+<option id="gnu.both.asm.option.include.paths.1671390418" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+<listOptionValue builtIn="false" value="../src/BOARDS"/>
+<listOptionValue builtIn="false" value="../src/UTILS"/>
+<listOptionValue builtIn="false" value="../src/UTILS/PREPROCESSOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB/CLASS/DFU/EXAMPLES/ISP/BOOT"/>
+<listOptionValue builtIn="false" value="../src/UTILS/LIBS/NEWLIB_ADDONS/INCLUDE"/>
+<listOptionValue builtIn="false" value="../src/UTILS/LIBS/DRIVERS/AT32UC3B/INCLUDE"/>
+<listOptionValue builtIn="false" value="../src/UTILS/DEBUG"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB/ENUM"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB/ENUM/DEVICE"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB/CLASS/CDC"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/CONCORDIA"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/HALL_ESTIMATOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/MOTOR_DRIVER/BLDC_MOTOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/PARK"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/REGULATOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/SVPWM"/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/AT32UC3B0256_EVK1101/CONF/ "/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/AT32UC3B0256_EVK1101/ENUM/ "/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION"/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/AT32UC3B0256_EVK1101"/>
+</option>
+</tool>
+<tool command="avr32-gcc -x assembler-with-cpp -c -mpart=uc3b0256" id="avr32.managedbuild.tool.gnu.preprocessor.exe.release.1658873253" name="AVR32/GNU Preprocessing Assembler" superClass="avr32.managedbuild.tool.gnu.preprocessor.exe.release">
+<option id="avr32.both.preprocessor.option.debugging.level.464668611" name="Debug Level" superClass="avr32.both.preprocessor.option.debugging.level" value="avr32.both.preprocessor.debugging.level.none" valueType="enumerated"/>
+<option id="avr32.both.preprocessor.option.mcu.730583454" name="Microcontroller Unit" superClass="avr32.both.preprocessor.option.mcu" value="-mpart=uc3b0256" valueType="string"/>
+<option id="avr32.both.preprocessor.option.paths.1195900482" name="Include paths (-I)" superClass="avr32.both.preprocessor.option.paths" valueType="includePath">
+<listOptionValue builtIn="false" value="../src/BOARDS"/>
+<listOptionValue builtIn="false" value="../src/UTILS"/>
+<listOptionValue builtIn="false" value="../src/UTILS/PREPROCESSOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB/CLASS/DFU/EXAMPLES/ISP/BOOT"/>
+<listOptionValue builtIn="false" value="../src/UTILS/LIBS/NEWLIB_ADDONS/INCLUDE"/>
+<listOptionValue builtIn="false" value="../src/UTILS/LIBS/DRIVERS/AT32UC3B/INCLUDE"/>
+<listOptionValue builtIn="false" value="../src/UTILS/DEBUG"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB/ENUM"/>
+<listOptionValue builtIn="false" value="../src/DRIVERS/USBB/ENUM/DEVICE"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/USB/CLASS/CDC"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/CONCORDIA"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/HALL_ESTIMATOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/MOTOR_DRIVER/BLDC_MOTOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/PARK"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/REGULATOR"/>
+<listOptionValue builtIn="false" value="../src/SERVICES/MOTOR_CONTROL/SVPWM"/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/AT32UC3B0256_EVK1101/CONF/ "/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/AT32UC3B0256_EVK1101/ENUM/ "/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION"/>
+<listOptionValue builtIn="false" value="../src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/AT32UC3B0256_EVK1101"/>
+</option>
+<inputType id="avr32.managedbuild.tool.gnu.preprocessor.input.1812102854" superClass="avr32.managedbuild.tool.gnu.preprocessor.input"/>
+</tool>
+<tool id="avr32.managedbuild.tool.gnu.archiver.exe.release.488489087" name="AVR32/GNU Archiver" superClass="avr32.managedbuild.tool.gnu.archiver.exe.release"/>
+<tool id="avr32.managedbuild.tool.gnu.listing.exe.release.822512352" name="AVR32/GNU Object Dump" superClass="avr32.managedbuild.tool.gnu.listing.exe.release"/>
+</toolChain>
+</folderInfo>
+</configuration>
+</storageModule>
+<storageModule moduleId="scannerConfiguration">
+<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile"/>
+<profile id="com.atmel.avr32.debug.AVR32ManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32ManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="avr32-g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32LinuxManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-linux-gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32LinuxManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-linux-g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerFileProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="makefileGenerator">
+<runAction arguments="-f ${project_name}_scd.mk" command="make" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<scannerConfigBuildInfo instanceId="avr32.managedbuild.config.gnu.exe.release.1503653492;avr32.managedbuild.config.gnu.exe.release.1503653492.;avr32.managedbuild.tool.gnu.c.compiler.exe.release.1675116371;avr32.managedbuild.tool.gnu.c.compiler.input.892361001">
+<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.atmel.avr32.debug.AVR32ManagedMakePerProjectProfileC"/>
+<profile id="com.atmel.avr32.debug.AVR32ManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32ManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="avr32-g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32LinuxManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-linux-gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32LinuxManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-linux-g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerFileProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="makefileGenerator">
+<runAction arguments="-f ${project_name}_scd.mk" command="make" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+</scannerConfigBuildInfo>
+<scannerConfigBuildInfo instanceId="avr32.managedbuild.config.gnu.exe.debug.1442898900;avr32.managedbuild.config.gnu.exe.debug.1442898900.;avr32.managedbuild.tool.gnu.c.compiler.exe.debug.1862969542;avr32.managedbuild.tool.gnu.c.compiler.input.2015294605">
+<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.atmel.avr32.debug.AVR32ManagedMakePerProjectProfileC"/>
+<profile id="com.atmel.avr32.debug.AVR32ManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32ManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="avr32-g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32LinuxManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-linux-gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="com.atmel.avr32.debug.AVR32LinuxManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="false" filePath=""/>
+<parser enabled="false"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="avr32-linux-g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerFileProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="makefileGenerator">
+<runAction arguments="-f ${project_name}_scd.mk" command="make" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfile">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfileCPP">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.cpp" command="g++" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+<profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfileC">
+<buildOutputProvider>
+<openAction enabled="true" filePath=""/>
+<parser enabled="true"/>
+</buildOutputProvider>
+<scannerInfoProvider id="specsFile">
+<runAction arguments="-E -P -v -dD ${plugin_state_location}/specs.c" command="gcc" useDefault="true"/>
+<parser enabled="true"/>
+</scannerInfoProvider>
+</profile>
+</scannerConfigBuildInfo>
+</storageModule>
+<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+</cconfiguration>
+</storageModule>
+<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+<project id="AVR32723.avr32.managedbuild.target.gnu.exe_2.0.1.8074763" name="AVR32 Standalone Executable" projectType="avr32.managedbuild.target.gnu.exe_2.0.1"/>
+</storageModule>
+</cproject>
