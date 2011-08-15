@@ -45,6 +45,8 @@
 #ifndef _HALL_ESTIMATOR_H_
 #define _HALL_ESTIMATOR_H_
 
+#if EXT_BOARD == MC300
+
 #include "compiler.h"
 #include "mc_driver.h"
 
@@ -86,8 +88,10 @@ extern void hall_estimator_init_teta(volatile unsigned short teta);
  * \param vitesse_elec : Electrical Speed .
  * \retval NONE
  */
-extern void hall_estimator_update_teta_and_speed(volatile unsigned short *teta_elec, 
+extern void hall_estimator_update_teta_and_speed(volatile unsigned short *teta_elec,
                                                  volatile unsigned short *vitesse_elec);
 
 #endif  // _HALL_ESTIMATOR_H_
 //@}
+
+#endif // BOARD == EXT300

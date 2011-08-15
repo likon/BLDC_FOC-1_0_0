@@ -67,8 +67,8 @@
 # define  transf_v                              858993
 #define    Te                                   214748    // 100 us
 #define    Fe                                   10000     // 100 us
-#define   IQREF_RAMPUP                          89478485        //!< (Icrete*2^31)/(2E) 
-#define   IQREF_REGULAR                         (IQREF_RAMPUP>>1)   //!< (Icrete*2^31)/(2E) 
+#define   IQREF_RAMPUP                          89478485        //!< (Icrete*2^31)/(2E)
+#define   IQREF_REGULAR                         (IQREF_RAMPUP>>1)   //!< (Icrete*2^31)/(2E)
 //! Motor Parameters
 // !!!!!!!!! Current and Voltages are divided by 2E  !!!!!!!!
 #define    R              472446402 // R=0.22 ohms
@@ -97,6 +97,13 @@
 #  define STDIO_USART_TX_PIN        AVR32_USART1_TXD_0_0_PIN
 #  define STDIO_USART_TX_FUNCTION   AVR32_USART1_TXD_0_0_FUNCTION
 #elif BOARD == EVK1101
+#  define STDIO_USART               (&AVR32_USART1)
+#  define STDIO_USART_BAUDRATE      57600
+#  define STDIO_USART_RX_PIN        AVR32_USART1_RXD_0_0_PIN
+#  define STDIO_USART_RX_FUNCTION   AVR32_USART1_RXD_0_0_FUNCTION
+#  define STDIO_USART_TX_PIN        AVR32_USART1_TXD_0_0_PIN
+#  define STDIO_USART_TX_FUNCTION   AVR32_USART1_TXD_0_0_FUNCTION
+#elif BOARD == USB11
 #  define STDIO_USART               (&AVR32_USART1)
 #  define STDIO_USART_BAUDRATE      57600
 #  define STDIO_USART_RX_PIN        AVR32_USART1_RXD_0_0_PIN

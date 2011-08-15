@@ -98,8 +98,8 @@
   #include "EXT1102/ext1102.h"
 #elif EXT_BOARD == MC300
   #include "MC300/mc300.h"
-//#elif EXT_BOARD == EXT_USB11	//TODO: If not used anywhere, remove.
-//	#include "USB11/usb11.h"
+#elif EXT_BOARD == EXT_USB11	//TODO: If not used anywhere, remove.
+	#include "USB11/usb11.h"	//TODO: Redundant with BOARD == USB11
 #elif EXT_BOARD == USER_EXT_BOARD
   // User-reserved area: #include the header file of your extension board here
   // (if any).

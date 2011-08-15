@@ -70,22 +70,23 @@ extern void pwm_drv_stop(void);
 /*! \name Set/Get Functions
  */
 //! @{
-/*! \brief Set PWM_DRV duty cycle services 
+/*! \brief Set PWM_DRV duty cycle services
  * \param *pwm_drv_options PWM_DRV struct param.
  * \param pwm0      Duty cycle to apply on PWM0
  * \param pwm1      Duty cycle to apply on PWM1
  * \param pwm2      Duty cycle to apply on PWM2
- * \param pwm3      Duty cycle to apply on PWM3
- * \param pwm4      Duty cycle to apply on PWM4
- * \param pwm5      Duty cycle to apply on PWM5
+ //~ * \param pwm3      Duty cycle to apply on PWM3
+ //~ * \param pwm4      Duty cycle to apply on PWM4
+ //~ * \param pwm5      Duty cycle to apply on PWM5
  */
-extern void pwm_drv_duty_cycle( volatile pwm_drv_options_t *pwm_drv_options,
+extern void pwm_drv_duty_cycle( volatile pwm_drv_options_t * pwm_drv_options,
                                 U32 pwm0,
                                 U32 pwm1,
-                                U32 pwm2,
-                                U32 pwm3,
-                                U32 pwm4,
-                                U32 pwm5);
+                                U32 pwm2);
+                                //~ U32 pwm3,
+                                //~ U32 pwm4,
+                                //~ U32 pwm5
+
 
 
 #endif  // _PWM_DRV_H_

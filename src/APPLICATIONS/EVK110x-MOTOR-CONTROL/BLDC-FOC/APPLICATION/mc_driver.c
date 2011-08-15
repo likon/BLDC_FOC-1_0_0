@@ -58,7 +58,8 @@
 #include "mc_control.h"
 #include "hall_estimator.h"
 #include "CONF/conf_foc.h"
-#include "CONF/mc300.h"
+#include "CONF/conf_motor_driver.h"
+//~ #include "CONF/mc300.h"
 //_____ M A C R O S ________________________________________________________
 
 //_____ D E F I N I T I O N S ______________________________________________
@@ -106,7 +107,7 @@ __interrupt void pwm_int_handler( void )
         if (MC_BLDC_motor.mc_state == RUN)
         {
           // Call application
-          motor_control_params.motor_appli_callback();          
+          motor_control_params.motor_appli_callback();
           g_mc_tick++;
           if (g_mc_tick == TICK_SPEED_FACTOR) { g_mc_tick = 0 ; FOC_tick_speed = 1; }
           else FOC_tick_speed = 0;
@@ -128,7 +129,7 @@ void mc_unregister_callback()
  */
 //! @{
 void mc_global_init(void)
-{   
+{
   // --------------------- ADC Initialization ----------------------------------
   static const gpio_map_t ADC_GPIO_MAP =
   {
@@ -141,10 +142,10 @@ void mc_global_init(void)
   // configure ADC
   adc_configure(adc);
   // --------------------- Hall Sensors Initialization -------------------------
-  hall_estimator_init(); 
-  hall_estimator_init_interrupt();
+  //~ hall_estimator_init();
+  //~ hall_estimator_init_interrupt();
   // --------------------- PWM Initialization ----------------------------------
-  pwm_drv_options.max_pwm_value = 1200;    // Cprd 
+  pwm_drv_options.max_pwm_value = 1200;    // Cprd
   pwm_drv_init(&pwm_drv_options);
   INTC_register_interrupt(&pwm_int_handler, AVR32_PWM_IRQ, AVR32_INTC_INT0);
 }
@@ -169,10 +170,11 @@ void mc_lowlevel_start(void)
   adc_enable(adc,adc_channel_ib);
   adc_enable(adc,adc_channel_ic);
   // --------------------- Hall Sensors Start -------------------------
-  hall_estimator_start();
+  //~ hall_estimator_start();
   // --------------------- PWM Start ----------------------------------
   pwm_drv_start(); // Start PWM Channels
-  pwm_drv_duty_cycle(&pwm_drv_options,500,550,500,550,500,550);
+  pwm_drv_duty_cycle(&pwm_drv_options,500,550,500);
+  //~ pwm_drv_duty_cycle(&pwm_drv_options,500,550,500,550,500,550);
 }
 
 void mc_lowlevel_stop(void)
@@ -183,10 +185,11 @@ void mc_lowlevel_stop(void)
   adc_disable(adc,adc_channel_ib);
   adc_disable(adc,adc_channel_ic);
   // --------------------- Hall Sensors Stop -------------------------
-  hall_estimator_stop();
+  //~ hall_estimator_stop();
   // --------------------- PWM Stop ----------------------------------
   pwm_drv_stop(); // Stop PWM Channels
-  mc_update_duty_cycle(500,550,500,550,500,550);
+  mc_update_duty_cycle((volatile U16)500, (volatile U16)550, (volatile U16)500);
+  //~ mc_update_duty_cycle(500,550,500,550,500,550);
 }
 //@}
 
@@ -208,18 +211,21 @@ unsigned long mc_get_ic(void)
     return adc_get_value(adc, adc_channel_ic);
 }
 
+//~ void mc_update_duty_cycle( volatile U16 mc_duty0,
+                           //~ volatile U16 mc_duty1,
+                           //~ volatile U16 mc_duty2,
+                           //~ volatile U16 mc_duty3,
+                           //~ volatile U16 mc_duty4,
+                           //~ volatile U16 mc_duty5)
 void mc_update_duty_cycle( volatile U16 mc_duty0,
                            volatile U16 mc_duty1,
-                           volatile U16 mc_duty2,
-                           volatile U16 mc_duty3,
-                           volatile U16 mc_duty4,
-                           volatile U16 mc_duty5)
+                           volatile U16 mc_duty2)
 {
      pwm_drv_duty_cycle(&pwm_drv_options,
                           mc_duty0,
                           mc_duty1,
-                          mc_duty2,
-                          mc_duty3,
-                          mc_duty4,
-                          mc_duty5);
+                          mc_duty2);
+                          //~ mc_duty3,
+                          //~ mc_duty4,
+                          //~ mc_duty5);
 }

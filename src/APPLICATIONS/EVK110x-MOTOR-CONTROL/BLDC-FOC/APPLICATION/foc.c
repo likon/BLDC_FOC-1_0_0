@@ -55,7 +55,8 @@
 #include "util.h"
 #include "CONF/conf_foc.h"
 #include "CONF/cos_sin.h"
-#include "CONF/mc300.h"
+#include "CONF/conf_motor_driver.h"
+//~ #include "CONF/mc300.h"
 //_____ M A C R O S ________________________________________________________
 
 
@@ -72,7 +73,7 @@ int Vqref=0;
 //!< Current svpwm value
 volatile svpwm_options_t svpwm_options;
 //!< Tick reference for Speed Regulation
-volatile unsigned short FOC_tick_speed = 0; 
+volatile unsigned short FOC_tick_speed = 0;
 //!< Current IA value
 int ia = 0;
 //!< Current IB value
@@ -123,7 +124,7 @@ static unsigned char FOC_start_motor(void);
 
 void FOC_set_state_machine(FOC_STATE_t FOC_state_p) { FOC_state = FOC_state_p;}
 
-//! @brief This function executes FOC treatment 
+//! @brief This function executes FOC treatment
 //! This function is called at every tick reference.
 //!
 void FOC_state_machine(void)
@@ -152,7 +153,7 @@ void FOC_state_machine(void)
       // Compute Clarke Transformation
       FOC_compute_clarke();
       // Compute Park Transformation
-      FOC_compute_park();      
+      FOC_compute_park();
       // In case of speed regulation: regulate torque
       if (FOC_tick_speed)
       {
@@ -171,9 +172,9 @@ void FOC_state_machine(void)
   }
 }
 
-//! @brief This function executes Current Reading 
-//! Theory : 
-//!           ia+ib+ic=0 
+//! @brief This function executes Current Reading
+//! Theory :
+//!           ia+ib+ic=0
 //!                       or
 //!           adc_value_ia + adc_value_ib + adc_value_ic = zero_adc;
 //!
@@ -182,16 +183,16 @@ static void FOC_read_current(void)
   volatile unsigned short adc_value_ia;
   volatile unsigned short adc_value_ib;
   volatile unsigned short adc_value_ic;
-  
+
   if(svpwm_options.current_to_be_measured == AB)
   {
     adc_value_ia = mc_get_ia();
     adc_value_ib = mc_get_ib();
-    
+
     adc_value_ic =zero_adc-adc_value_ia-adc_value_ib;
     svpwm_options.current_to_be_measured == NONE;
   }
-  else 
+  else
       if(svpwm_options.current_to_be_measured == AC)
       {
         adc_value_ia = mc_get_ia();
@@ -199,7 +200,7 @@ static void FOC_read_current(void)
         adc_value_ib =zero_adc-adc_value_ia-adc_value_ic;
         svpwm_options.current_to_be_measured == NONE;
       }
-      else 
+      else
              if (svpwm_options.current_to_be_measured == BA)
              {
                 adc_value_ib = mc_get_ib();
@@ -207,7 +208,7 @@ static void FOC_read_current(void)
                 adc_value_ic =zero_adc-adc_value_ia-adc_value_ib;
                 svpwm_options.current_to_be_measured == NONE;
              }
-             else 
+             else
                    if (svpwm_options.current_to_be_measured == BC)
                    {
                       adc_value_ib = mc_get_ib();
@@ -215,7 +216,7 @@ static void FOC_read_current(void)
                       adc_value_ia =zero_adc-adc_value_ib-adc_value_ic;
                       svpwm_options.current_to_be_measured == NONE;
                    }
-                   else 
+                   else
                          if (svpwm_options.current_to_be_measured == CA)
                          {
                             adc_value_ic = mc_get_ic();
@@ -223,7 +224,7 @@ static void FOC_read_current(void)
                             adc_value_ib =zero_adc-adc_value_ia-adc_value_ic;
                             svpwm_options.current_to_be_measured == NONE;
                          }
-                          else 
+                          else
                                 if (svpwm_options.current_to_be_measured == CB)
                                 {
                                     adc_value_ic = mc_get_ic();
@@ -241,7 +242,7 @@ static void FOC_computeVdVq(void)
 {
   int prev_Vd;
   int prev_Vq;
-  
+
   // Vd= Vdref-Speed.Lc.Iq
   // Vq= Vqref+omega.Lc.Id+(Speed/p).kcn
   Vd=Vdref- (int)((((long long int)Lc* (long long int)MC_BLDC_motor.Iqm)>>31)*MC_BLDC_motor.Speedm);
@@ -249,7 +250,7 @@ static void FOC_computeVdVq(void)
 
   prev_Vd = Vd;
   prev_Vq = Vq;
-  
+
   // if abs(Vd)>1/sqrt(8) (V.fixe) so Vd=1/sqrt(8)
   if (Vd >rayon_limitation)
   {
@@ -261,7 +262,7 @@ static void FOC_computeVdVq(void)
      Vd=-rayon_limitation;
      Vq=0;
     }
- else 
+ else
  {
    int Vdcarre;
    int test;
@@ -277,7 +278,7 @@ static void FOC_computeVdVq(void)
       test=rayon_carre_limitation- Vdcarre;
       Vq=sqrtt(test,erreur_max);
     }
-    else //*Vq= -sqrt( 268435456- *Vd^2 ); 
+    else //*Vq= -sqrt( 268435456- *Vd^2 );
     {
       test=rayon_carre_limitation- Vdcarre;
       Vq=-sqrtt(test,erreur_max);
@@ -285,12 +286,13 @@ static void FOC_computeVdVq(void)
    }
  }
   FOC_Id_reg.IP_REG_discharge = prev_Vd - Vd;
-  FOC_Iq_reg.IP_REG_discharge = prev_Vq - Vq; 
+  FOC_Iq_reg.IP_REG_discharge = prev_Vq - Vq;
 }
 
 static void FOC_update_teta_speed(void)
 {
-     hall_estimator_update_teta_and_speed(&(MC_BLDC_motor.Tetam), &(MC_BLDC_motor.Speedm));
+	//~ TODO: Fix
+     //~ hall_estimator_update_teta_and_speed(&(MC_BLDC_motor.Tetam), &(MC_BLDC_motor.Speedm));
 }
 static void FOC_compute_clarke(void)
 {
@@ -341,19 +343,23 @@ static void FOC_update_duty(void)
   {
       mc_update_duty_cycle( svpwm_options.duty0,
                             svpwm_options.duty1,
-                            svpwm_options.duty2,
-                            svpwm_options.duty3,
-                            svpwm_options.duty4,
-                            svpwm_options.duty5);
+                            svpwm_options.duty2);
+                            //~ svpwm_options.duty3,
+                            //~ svpwm_options.duty4,
+                            //~ svpwm_options.duty5);
    }
    else
    {
       mc_update_duty_cycle( svpwm_options.duty2,
-                            svpwm_options.duty3,
-                            svpwm_options.duty0,
                             svpwm_options.duty1,
-                            svpwm_options.duty4,
-                            svpwm_options.duty5);
+                            svpwm_options.duty0);	//TODO: Get the numbers correct!!!
+
+      //~ mc_update_duty_cycle( svpwm_options.duty2,
+                            //~ svpwm_options.duty3,
+                            //~ svpwm_options.duty0);
+                            //~ svpwm_options.duty1,
+                            //~ svpwm_options.duty4,
+                            //~ svpwm_options.duty5);
    }
 }
 //------------------------------------------------------------------------------
@@ -371,7 +377,7 @@ static unsigned char FOC_start_motor(void)
         FOC_rampup_step_torquereg_counter  = 0;
         MC_BLDC_motor.Idref = 0;
         MC_BLDC_motor.Iqref = IQREF_RAMPUP;
-        Vqref=(int)((R*(long long int)MC_BLDC_motor.Iqref)>>31)+(187904750*2);        
+        Vqref=(int)((R*(long long int)MC_BLDC_motor.Iqref)>>31)+(187904750*2);
         park_inv(Vdref,Vqref,2,&(svpwm_options.Valpha),&(svpwm_options.Vbeta));
         FOC_compute_svpwm();
         FOC_update_duty();
@@ -380,8 +386,8 @@ static unsigned char FOC_start_motor(void)
 
     case FOC_rampup_step_alignement:
       FOC_rampup_step_alignement_counter++;
-      if (FOC_rampup_step_alignement_counter == 5000) { 
-          hall_estimator_init();
+      if (FOC_rampup_step_alignement_counter == 5000) {
+		  //~ TODO: Fix          //~ hall_estimator_init();
           FOC_rampup_step = FOC_rampup_step_openloop;
       }
       break;
@@ -394,10 +400,11 @@ static unsigned char FOC_start_motor(void)
       FOC_compute_svpwm();
       FOC_update_duty();
       if (FOC_rampup_step_openloop_counter == 6000) {
-          hall_estimator_init_teta(MC_BLDC_motor.Tetam);
+		  //~ TODO: Fix
+          //~ hall_estimator_init_teta(MC_BLDC_motor.Tetam);
           FOC_rampup_step_fieldreg_counter = 5000;
           FOC_Id_reg.IP_REG_discharge = 0;
-          FOC_Iq_reg.IP_REG_discharge = 0;          
+          FOC_Iq_reg.IP_REG_discharge = 0;
           FOC_Iq_reg.IP_REG_lasterror=MC_BLDC_motor.Iqref-MC_BLDC_motor.Iqm;
           FOC_Id_reg.IP_REG_lasterror=-MC_BLDC_motor.Idm;
           FOC_rampup_step = FOC_rampup_step_fieldreg_loop;
@@ -433,14 +440,14 @@ static unsigned char FOC_start_motor(void)
           FOC_Iq_reg.IP_REG_discharge = 0;
           FOC_Speed_reg.IP_REG_discharge = 0;
           FOC_Iq_reg.Ki = (163040327>>5);
-          FOC_Id_reg.Ki = (163040327>>5);            
+          FOC_Id_reg.Ki = (163040327>>5);
           FOC_rampup_step = FOC_rampup_step_torquereg_loop;
       }
     break;
 
 
     case FOC_rampup_step_torquereg_loop:
-      FOC_rampup_step_torquereg_counter++; 
+      FOC_rampup_step_torquereg_counter++;
       FOC_read_current();
       FOC_update_teta_speed();
       FOC_compute_clarke();
@@ -451,8 +458,8 @@ static unsigned char FOC_start_motor(void)
       FOC_compute_svpwm();
       FOC_update_duty();
       if (FOC_rampup_step_torquereg_counter == 10000) {
-        MC_BLDC_motor.Speedref=MC_BLDC_motor.Speedm*transf_v;   
-        FOC_Speed_reg.IP_REG_lasterror=0;  
+        MC_BLDC_motor.Speedref=MC_BLDC_motor.Speedm*transf_v;
+        FOC_Speed_reg.IP_REG_lasterror=0;
         FOC_Speed_reg.IP_REG_feedback=(int)(((long long int)MC_BLDC_motor.Speedref*(long long int)FOC_Speed_reg.Kp)>>31) + (MC_BLDC_motor.Iqref/104);
         return (1);
       }

@@ -86,6 +86,7 @@ INC_PATH = \
   $(SERV_PATH)/MOTOR_CONTROL/REGULATOR/ \
   $(SERV_PATH)/MOTOR_CONTROL/SVPWM/ \
   $(MAIN_PATH)/CONF/ \
+  $(MAIN_PATH)/ENUM \
   $(MAIN_PATH)/ \
 #  ../../../ \
 #  ../../

@@ -49,7 +49,14 @@
 /*! \name USART Settings for the Debug Module
  */
 //! @{
-#if BOARD == EVK1100
+#if BOARD == USB11
+#  define DBG_USART               (&AVR32_USART1)
+#  define DBG_USART_RX_PIN        AVR32_USART1_RXD_0_0_PIN
+#  define DBG_USART_RX_FUNCTION   AVR32_USART1_RXD_0_0_FUNCTION
+#  define DBG_USART_TX_PIN        AVR32_USART1_TXD_0_0_PIN
+#  define DBG_USART_TX_FUNCTION   AVR32_USART1_TXD_0_0_FUNCTION
+#  define DBG_USART_BAUDRATE      57600
+#elif BOARD == EVK1100
 #  define DBG_USART               (&AVR32_USART1)
 #  define DBG_USART_RX_PIN        AVR32_USART1_RXD_0_0_PIN
 #  define DBG_USART_RX_FUNCTION   AVR32_USART1_RXD_0_0_FUNCTION

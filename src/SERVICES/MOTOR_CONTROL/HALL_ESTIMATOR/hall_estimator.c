@@ -51,7 +51,10 @@
 #include "cycle_counter.h"
 #include "hall_estimator.h"
 #include "CONF/conf_foc.h"
-#include "CONF/mc300.h"
+#include "CONF/conf_motor_driver.h"
+//~ #include "CONF/mc300.h"
+
+#if EXT_BOARD == MC300
 //_____ M A C R O S ________________________________________________________
 
 
@@ -75,9 +78,9 @@ void hall_estimator_update_teta_and_speed(volatile unsigned short *teta_elec, vo
   if(*teta_elec>360)
   {
     *teta_elec=360;
-    nieme=0; 
+    nieme=0;
   }
-  *vitesse_elec=pi_Fcpu/hall_demi_period;  //pi*Fcpu  (Fcpu=48Mhz)      
+  *vitesse_elec=pi_Fcpu/hall_demi_period;  //pi*Fcpu  (Fcpu=48Mhz)
 }
 
 // interrupt handler due à l'interruption generée par  HALL
@@ -87,15 +90,15 @@ __attribute__((__interrupt__)) void hall_int_handler( void )
 /* TC Interrupt  */
 __interrupt void hall_int_handler( void )
 #endif
-{	
+{
    // determine hall period
   if(gpio_get_pin_interrupt_flag(HALL_1_PIN))
   {
      hall_tj= Get_sys_count();
      hall_demi_period = hall_tj - hall_ti;
-     hall_ti = hall_tj; // arm for next period     
+     hall_ti = hall_tj; // arm for next period
      gpio_clear_pin_interrupt_flag(HALL_1_PIN);   //PB0
-  
+
       if (first_interrupt)
       {
         nieme=0;
@@ -135,7 +138,7 @@ void hall_estimator_init_interrupt(void)
 //! @{
 void hall_estimator_start(void)
 {
-    gpio_enable_pin_pull_up(HALL_1_PIN );	// HALL_1_PIN 
+    gpio_enable_pin_pull_up(HALL_1_PIN );	// HALL_1_PIN
     gpio_enable_pin_interrupt(HALL_1_PIN , GPIO_PIN_CHANGE);	// HALL_1_PIN
     hall_ti = Get_sys_count();
     nieme = 0;
@@ -150,3 +153,5 @@ void hall_estimator_stop(void)
     gpio_disable_pin_interrupt(HALL_1_PIN);	// HALL_1_PIN
 }
 //@}
+
+#endif //EXT_BOARD == MC300
