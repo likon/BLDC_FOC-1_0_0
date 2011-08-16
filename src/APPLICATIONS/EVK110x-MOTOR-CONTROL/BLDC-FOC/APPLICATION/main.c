@@ -82,6 +82,7 @@
 #include "cycle_counter.h"
 #include "intc.h"
 #include "tc.h"
+#include "tirq.h"
 #include "adc.h"
 #include "compiler.h"
 
@@ -153,13 +154,56 @@ volatile avr32_pm_t* pm = &AVR32_PM;
                0,   // unsigned int osc
                16); // unsigned int lockcount
 
-  pm_pll_set_option(pm, 0, 1, 1, 0);//60MHz
+  pm_pll_set_option(pm, 0, 1, 1, 0);//Max 60MHz, TODO: Update FCPU_HZ in foc.h
+
+//~ // Supported frequencies:
+//~ // Fosc0 mul div PLL div2_en cpu_f pba_f   Comment
+//~ //  12   15   1  192     1     12    12
+//~ //  12    9   3   40     1     20    20    PLL out of spec
+//~ //  12   15   1  192     1     24    12
+//~ //  12    9   1  120     1     30    15
+//~ //  12    9   3   40     0     40    20    PLL out of spec
+//~ //  12   15   1  192     1     48    12
+//~ //  12   15   1  192     1     48    24
+//~ //  12    8   1  108     1     54    27
+//~ //  12    9   1  120     1     60    15   <--- We set up PLL0 according to this, mjan 20101228
+//~ //  12    9   1  120     1     60    30
+//~ //  12   10   1  132     1     66    16.5
+//~ /*!
+ //~ * \brief This function will setup a PLL.
+ //~ * \param pm Base address of the Power Manager (i.e. &AVR32_PM)
+ //~ * \param pll PLL number(0 for PLL0, 1 for PLL1)
+ //~ * \param mul PLL MUL in the PLL formula
+ //~ * \param div PLL DIV in the PLL formula
+ //~ * \param osc OSC number (0 for osc0, 1 for osc1)
+ //~ * \param lockcount PLL lockount
+ //~ */
+//~ extern void pm_pll_setup(volatile avr32_pm_t *pm,
+//~ unsigned int pll,
+//~ unsigned int mul,
+//~ unsigned int div,
+//~ unsigned int osc,
+//~ unsigned int lockcount);
+
+/*!
+ //~ * \brief This function will set a PLL option.
+ //~ * \param pm Base address of the Power Manager (i.e. &AVR32_PM)
+ //~ * \param pll PLL number(0 for PLL0, 1 for PLL1)
+ //~ * \param pll_freq Set to 1 for VCO frequency range 80-180MHz, set to 0 for VCO frequency range 160-240Mhz.
+ //~ * \param pll_div2 Divide the PLL output frequency by 2 (this settings does not change the FVCO value)
+ //~ * \param pll_wbwdisable 1 Disable the Wide-Bandith Mode (Wide-Bandwith mode allow a faster startup time and out-of-lock time). 0 to enable the Wide-Bandith Mode.
+ //~ */
+//~ extern void pm_pll_set_option(volatile avr32_pm_t *pm,
+								//~ unsigned int pll,
+								//~ unsigned int  pll_freq,
+								//~ unsigned int  pll_div2,
+								//~ unsigned int  pll_wbwdisable);
 
   /* Enable PLL0 */
   pm_pll_enable(pm,0);
   /* Wait for PLL0 locked */
   pm_wait_for_pll0_locked(pm) ;
-  /* set divider to 4 for PBA bus */
+  /* set divider to 4 (CPU = CLK / 2; PBA = CPU / 2) for PBA bus */
   pm_cksel(pm,1,0,0,0,0,0);
   /* switch to clock */
   pm_switch_to_clock(pm, AVR32_PM_MCCTRL_MCSEL_PLL0);
@@ -212,7 +256,7 @@ void init_usb(void)
 
   // Initialize device CDC USB task
   device_cdc_task_init();
-  
+
 }
 int main (void)
 {
@@ -221,28 +265,31 @@ int main (void)
   setbuf(stdin, NULL);
 #endif
   setbuf(stdout, NULL);
-   
+
 #ifdef USB_DEBUG
   init_usb();
-     
+
    // Wait enumeration
-   do 
+   do
    {
-     usb_task();     
+     usb_task();
    }while(!Is_device_enumerated());
-     
+
 #endif
-  
+
+	//Initialize timer interrupt
+	tirq_init();
+
    // Initialize control task
    mc_control_task_init();
-   
+
    // Initialize direction
    mc_set_motor_direction(MC_CW);
-   
+
    while(1)
    {
-#ifdef USB_DEBUG     
-      usb_task();   
+#ifdef USB_DEBUG
+      usb_task();
       device_cdc_task();
 #endif
       mc_control_task();

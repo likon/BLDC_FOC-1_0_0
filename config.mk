@@ -113,7 +113,8 @@ CSRCS = \
   $(MAIN_PATH)/mc_driver.c \
   $(MAIN_PATH)/foc.c \
   $(MAIN_PATH)/uart_usb_lib.c \
-  $(MAIN_PATH)/util.c
+  $(MAIN_PATH)/util.c \
+  $(MAIN_PATH)/tirq.c
 
 # Assembler source files
 ASSRCS = \

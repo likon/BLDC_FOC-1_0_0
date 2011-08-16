@@ -52,7 +52,7 @@
 // #define SENSOR_TASK
 #define TICK_SPEED_FACTOR          6// Min Value = 360*Te
 #define FCPU_HZ                    48000000
-#define FPBA_HZ                    (FCPU_HZ/2)
+#define FPBA_HZ                    (FCPU_HZ / 2)
 #define FTICK_HZ                    20000
 
 # define  zero_adc                              1680
@@ -63,7 +63,8 @@
 # define  rayon_limitation                      751619276  // 1/sqrt8
 # define  rayon_carre_limitation                263066746  // 1/8
 # define  vitesse_inst                          864000
-# define  pi_Fcpu                               150796447
+//~ # define  pi_Fcpu                               150796447
+#define pi_Fcpu                                 ((int)(FCPU_HZ * 3.141592654))
 # define  hall_demi_period_init                 300000
 # define  transf_v                              858993
 #define    Te                                   214748    // 100 us

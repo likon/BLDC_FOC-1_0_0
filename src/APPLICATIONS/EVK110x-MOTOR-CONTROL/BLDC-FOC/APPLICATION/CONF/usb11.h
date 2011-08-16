@@ -66,20 +66,11 @@
  */
 //! @{
 
-/*
-#define MOTIA AVR32_PIN_PA21
-#define MOTIB AVR32_PIN_PA22
-#define MOTIC AVR32_PIN_PA23
-*/
-
 #define MOTIA AVR32_ADC_AD_0_PIN
 #define MOTIB AVR32_ADC_AD_1_PIN
 #define MOTIC AVR32_ADC_AD_2_PIN
 
 //! @}
-
-
-
 
 /*! \name ADC Connections of Current Measurement
  */
