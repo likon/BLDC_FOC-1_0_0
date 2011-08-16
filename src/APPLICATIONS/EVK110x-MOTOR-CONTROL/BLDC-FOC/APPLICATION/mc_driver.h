@@ -11,6 +11,7 @@
  *
  * \author               Atmel Corporation: http://www.atmel.com \n
  *                       Support email: avr32@atmel.com
+ *                       Adapted by Marcus Jansson for Eberharter Elektronik, GmbH
  *
  ***************************************************************************/
 

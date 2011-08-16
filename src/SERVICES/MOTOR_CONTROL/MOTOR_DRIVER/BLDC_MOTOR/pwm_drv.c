@@ -11,7 +11,7 @@
  *
  * \author               Atmel Corporation: http://www.atmel.com \n
  *                       Support and FAQ: http://support.atmel.no/
- *
+ *                       Adapted by Marcus Jansson for Eberharter Elektronik, GmbH
  *****************************************************************************/
 
 /* Copyright (c) 2007, Atmel Corporation All rights reserved.
@@ -50,7 +50,7 @@
 #include "gpio.h"
 #include "pwm_drv.h"
 #include "CONF/conf_motor_driver.h"
-//~ #include "CONF/mc300.h"
+//~ #include "CONF/mc300.h"	//TODO: Remove
 
 //_____ M A C R O S ________________________________________________________
 //_____ D E F I N I T I O N S ______________________________________________
@@ -61,7 +61,6 @@
 //! @{
 void pwm_drv_init(volatile pwm_drv_options_t *pwm_drv_options)
 {
-
    volatile avr32_pwm_t *pwm = &AVR32_PWM;
 
   // select GPIO alternate function
@@ -75,18 +74,16 @@ void pwm_drv_init(volatile pwm_drv_options_t *pwm_drv_options)
     //~ {PWM_ZH_PIN_NUMBER, PWM_ZH_PWM_FUNCTION}
   };
   // Assign GPIO to PWM.
-  gpio_enable_module(PWM_GPIO_MAP ,
-                     sizeof(PWM_GPIO_MAP ) / sizeof(PWM_GPIO_MAP[0]));
+  gpio_enable_module(PWM_GPIO_MAP, sizeof(PWM_GPIO_MAP ) / sizeof(PWM_GPIO_MAP[0]));
 
   // set PWM mode register
   pwm->mr =
     (0<<AVR32_PWM_DIVA) |
     (0<<AVR32_PWM_DIVB) |
     (0<<AVR32_PWM_PREA) |
-    (0<<AVR32_PWM_PREB)
-    ;
+    (0<<AVR32_PWM_PREB) ;
 
-  // channel XH_PWM_CHANNEL
+  // channel XH_PWM_CHANNEL	//TODO: remove
   //~ pwm->channel[PWM_XH_PWM_CHANNEL].cmr=
     //~ (0<<AVR32_PWM_CMR_CPRE) | // MCK % 1
     //~ (1<<AVR32_PWM_CMR_CALG) | // center aligned
@@ -106,7 +103,7 @@ void pwm_drv_init(volatile pwm_drv_options_t *pwm_drv_options)
   pwm->channel[PWM_XL_PWM_CHANNEL].cprd= pwm_drv_options->max_pwm_value; // channel period
   pwm->channel[PWM_XL_PWM_CHANNEL].cdty= pwm_drv_options->max_pwm_value - 10; // duty cycle, should be < CPRD
 
-  // channel YH_PWM_CHANNEL
+  // channel YH_PWM_CHANNEL //TODO: remove
   //~ pwm->channel[PWM_YH_PWM_CHANNEL].cmr=
     //~ (0<<AVR32_PWM_CMR_CPRE) | // MCK % 1
     //~ (1<<AVR32_PWM_CMR_CALG) | // center aligned
@@ -126,7 +123,7 @@ void pwm_drv_init(volatile pwm_drv_options_t *pwm_drv_options)
   pwm->channel[PWM_YL_PWM_CHANNEL].cprd= pwm_drv_options->max_pwm_value; // channel period
   pwm->channel[PWM_YL_PWM_CHANNEL].cdty= pwm_drv_options->max_pwm_value - 10; // duty cycle, should be < CPRD
 
-  // channel ZH_PWM_CHANNEL
+  // channel ZH_PWM_CHANNEL //TODO: remove
   //~ pwm->channel[PWM_ZH_PWM_CHANNEL].cmr=
     //~ (0<<AVR32_PWM_CMR_CPRE) | // MCK % 1
     //~ (1<<AVR32_PWM_CMR_CALG) | // center aligned
@@ -152,7 +149,7 @@ void pwm_drv_start(void)
   volatile avr32_pwm_t *pwm = &AVR32_PWM;
   pwm->ier = (1<<PWM_XL_PWM_CHANNEL );
   pwm->ena = (1<<PWM_XL_PWM_CHANNEL )|(1<<PWM_YL_PWM_CHANNEL )|(1<<PWM_ZL_PWM_CHANNEL ); // enable channel 0 to 6
-  //~ pwm->ena = (1<<PWM_XL_PWM_CHANNEL )|(1<<PWM_XH_PWM_CHANNEL )|(1<<PWM_YL_PWM_CHANNEL )|(1<<PWM_YH_PWM_CHANNEL )|(1<<PWM_ZL_PWM_CHANNEL )|(1<<PWM_ZH_PWM_CHANNEL ); // enable channel 0 to 6
+  //~ pwm->ena = (1<<PWM_XL_PWM_CHANNEL )|(1<<PWM_XH_PWM_CHANNEL )|(1<<PWM_YL_PWM_CHANNEL )|(1<<PWM_YH_PWM_CHANNEL )|(1<<PWM_ZL_PWM_CHANNEL )|(1<<PWM_ZH_PWM_CHANNEL ); // enable channel 0 to 6  //TODO: remove
 }
 void pwm_drv_stop(void)
 {
@@ -162,15 +159,15 @@ void pwm_drv_stop(void)
  */
 //! @{
 void pwm_drv_duty_cycle(volatile pwm_drv_options_t * pwm_drv_options,U32 pwm0,U32 pwm1,U32 pwm2)
-//~ void pwm_drv_duty_cycle(volatile pwm_drv_options_t *pwm_drv_options,U32 pwm0,U32 pwm1,U32 pwm2,U32 pwm3,U32 pwm4,U32 pwm5)
+//~ void pwm_drv_duty_cycle(volatile pwm_drv_options_t *pwm_drv_options,U32 pwm0,U32 pwm1,U32 pwm2,U32 pwm3,U32 pwm4,U32 pwm5) //TODO: remove
 {
   volatile avr32_pwm_t *pwm = &AVR32_PWM;
 
-  //~ pwm->channel[PWM_XH_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm0;
+  //~ pwm->channel[PWM_XH_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm0; //TODO: remove comment
   pwm->channel[PWM_XL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm0;	//was -pwm1
-  //~ pwm->channel[PWM_YH_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm2;
+  //~ pwm->channel[PWM_YH_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm2; //TODO: remove comment
   pwm->channel[PWM_YL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm1;	//was -pwm3
-  //~ pwm->channel[PWM_ZH_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm4;
+  //~ pwm->channel[PWM_ZH_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm4; //TODO: remove comment
   pwm->channel[PWM_ZL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm2;	//was -pwm5
 }
 //@}

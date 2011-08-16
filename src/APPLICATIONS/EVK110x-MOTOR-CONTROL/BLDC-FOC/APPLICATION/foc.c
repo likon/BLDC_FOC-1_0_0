@@ -11,6 +11,7 @@
  *
  * \author               Atmel Corporation: http://www.atmel.com \n
  *                       Support and FAQ: http://support.atmel.no/
+ *                       Adapted by Marcus Jansson for Eberharter Elektronik, GmbH
  *
  ***************************************************************************/
 
