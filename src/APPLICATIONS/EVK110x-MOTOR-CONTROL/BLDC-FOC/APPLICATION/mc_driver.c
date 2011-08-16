@@ -56,7 +56,9 @@
 #include "uart_usb_lib.h"
 #include "usb_standard_request.h"
 #include "mc_control.h"
-#include "hall_estimator.h"
+#include "mc_driver.h"
+//~ #include "hall_estimator.h" //TODO: Remove
+#include "tirq.h"	//TODO: Rename? tirq_estimator?
 #include "CONF/conf_foc.h"
 #include "CONF/conf_motor_driver.h"
 //~ #include "CONF/mc300.h"
@@ -142,8 +144,11 @@ void mc_global_init(void)
   // configure ADC
   adc_configure(adc);
   // --------------------- Hall Sensors Initialization -------------------------
-  //~ hall_estimator_init();
-  //~ hall_estimator_init_interrupt();
+  //~ hall_estimator_init();	//TODO: remove
+  //~ hall_estimator_init_interrupt();	//TODO: remove
+  //~ TODO: Better name?
+  tirq_estimator_init();
+  tirq_estimator_init_interrupt();
   // --------------------- PWM Initialization ----------------------------------
   pwm_drv_options.max_pwm_value = 1200;    // Cprd
   pwm_drv_init(&pwm_drv_options);
@@ -170,7 +175,8 @@ void mc_lowlevel_start(void)
   adc_enable(adc,adc_channel_ib);
   adc_enable(adc,adc_channel_ic);
   // --------------------- Hall Sensors Start -------------------------
-  //~ hall_estimator_start();
+  //~ hall_estimator_start();	//TODO: remove
+  tirq_estimator_start();
   // --------------------- PWM Start ----------------------------------
   pwm_drv_start(); // Start PWM Channels
   pwm_drv_duty_cycle(&pwm_drv_options,500,550,500);
@@ -186,6 +192,7 @@ void mc_lowlevel_stop(void)
   adc_disable(adc,adc_channel_ic);
   // --------------------- Hall Sensors Stop -------------------------
   //~ hall_estimator_stop();
+  tirq_estimator_stop();
   // --------------------- PWM Stop ----------------------------------
   pwm_drv_stop(); // Stop PWM Channels
   mc_update_duty_cycle((volatile U16)500, (volatile U16)550, (volatile U16)500);

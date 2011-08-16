@@ -7,7 +7,6 @@
 
 #include "tirq.h"
 
-
 #define TC_CHANNEL_0 0
 
 //TODO: Remove MLED and BUT definitions and relevant debug code
@@ -20,18 +19,103 @@
 #define BUT1 AVR32_PIN_PX19
 #define BUT2 AVR32_PIN_PX22
 
-__attribute__((__interrupt__))
-void tc_irq(void)
+//TODO: move away
+void tirq_int_handler(void);
+
+volatile unsigned short first_interrupt = 0;
+volatile unsigned short nieme = 0;
+volatile U32 tirq_demi_period = tirq_demi_period_init ;
+volatile unsigned short teta0 = 0;
+volatile U32 tirq_tj;
+volatile U32 tirq_ti;                //!<  last hall period value
+
+void tirq_estimator_update_teta_and_speed(volatile unsigned short *teta_elec, volatile unsigned short *vitesse_elec)
 {
-	tc_read_sr(&AVR32_TC, TC_CHANNEL_0);
+   nieme++;
+   // 180*Fcpu*100e-6
+  *teta_elec = (unsigned short)((U32)(vitesse_inst * 1 * nieme) / (U32)tirq_demi_period);
+  if(*teta_elec > 360) {
+    *teta_elec = 360;
+    nieme = 0;
+  }
+  *vitesse_elec = PI_X_FCPU / tirq_demi_period;  //pi*Fcpu  (Fcpu=48Mhz)
+}
+
+void tirq_estimator_init_teta(volatile unsigned short teta)
+{
+    nieme = (int)(((teta * tirq_demi_period) / vitesse_inst) + 2);
+}
+//------------------------------------------------------------------------------
+/*! \name Initialization function
+ */
+//! @{
+void tirq_estimator_init(void)
+{
+    nieme = 0;
+}
+
+//------------------------------------------------------------------------------
+/*! \name Interrupt intitialization function
+ */
+//! @{
+void tirq_estimator_init_interrupt(void)
+{
+	INTC_register_interrupt(&tirq_int_handler, AVR32_TC_IRQ0, AVR32_INTC_INT0);
+    //~ INTC_register_interrupt(&tirq_int_handler, HALL_GPIO_IRQ+HALL_1_PIN/8, AVR32_INTC_INT0);
+}
+
+//------------------------------------------------------------------------------
+/*! \name Start function
+ */
+//! @{
+void tirq_estimator_start(void)
+{
+	tc_start(&AVR32_TC, TC_CHANNEL_0);
+    //~ gpio_enable_pin_pull_up(HALL_1_PIN );	// HALL_1_PIN
+    //~ gpio_enable_pin_interrupt(HALL_1_PIN , GPIO_PIN_CHANGE);	// HALL_1_PIN
+    tirq_ti = Get_sys_count();
+    nieme = 0;
+}
+
+//------------------------------------------------------------------------------
+/*! \name Stop function
+ */
+//! @{
+void tirq_estimator_stop(void)
+{
+    tc_stop(&AVR32_TC, TC_CHANNEL_0);
+    //~ gpio_disable_pin_interrupt(HALL_1_PIN);	// HALL_1_PIN
+
+}
+//@}
+
+
+__attribute__((__interrupt__))
+void tirq_int_handler(void)
+{
+	unsigned int sr;
+	sr = tc_read_sr(&AVR32_TC, TC_CHANNEL_0);
+	if(sr && (1 << AVR32_TC_CPCS)) {
+		gpio_tgl_gpio_pin(MLED0);	//TODO: Remove, debug code
+		tirq_tj= Get_sys_count();
+		tirq_demi_period = tirq_tj - tirq_ti;
+		tirq_ti = tirq_tj; // arm for next period
+		//~ gpio_clear_pin_interrupt_flag(HALL_1_PIN);   //PB0
+
+		if (first_interrupt)
+		{
+			nieme=0;
+			first_interrupt=0;
+		} else {
+			first_interrupt=1;
+		}
+	}
+
 	gpio_tgl_gpio_pin(MLED1);
 }
 
 void m_tc_init(void)
 {
-	//~ volatile avr32_pm_t * pm = &AVR32_PM;
-	//~ volatile avr32_tc_t * tc = &AVR32_TC;
-
 	static tc_waveform_opt_t waveform_opt =
 	{
 		.channel = TC_CHANNEL_0,
@@ -48,10 +132,9 @@ void m_tc_init(void)
 
 	//Configure timer, for interrupt
 	tc_init_waveform(&AVR32_TC, &waveform_opt);
-	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 0xffff);
+	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 960);
 	tc_start(&AVR32_TC, TC_CHANNEL_0);
 }
-
 
 void tirq_init(void)
 {
@@ -65,7 +148,7 @@ void tirq_init(void)
 	Disable_global_interrupt();
 	m_tc_init();
 	INTC_init_interrupts();
-	INTC_register_interrupt(&tc_irq, AVR32_TC_IRQ0, AVR32_INTC_INT0);
+	tirq_estimator_init_interrupt(); 	//~ was: INTC_register_interrupt(&tirq_int_handler, AVR32_TC_IRQ0, AVR32_INTC_INT0);
 	tc_configure_interrupts(&AVR32_TC, TC_CHANNEL_0, &TC_INTERRUPT_OPT);
 	Enable_global_interrupt();
 }

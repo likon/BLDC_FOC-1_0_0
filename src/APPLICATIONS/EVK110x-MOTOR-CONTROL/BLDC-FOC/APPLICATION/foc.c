@@ -47,7 +47,8 @@
 #include "foc.h"
 #include "svpwm.h"
 #include "mc_control.h"
-#include "hall_estimator.h"
+//~ #include "hall_estimator.h"
+#include "tirq.h"	//TODO: Name? tirq_estimator?
 #include "mc_driver.h"
 #include "park.h"
 #include "concordia.h"
@@ -141,10 +142,12 @@ void FOC_state_machine(void)
         FOC_rampup_step = FOC_rampup_step_alignement_init;
         FOC_state = FOC_state_ramp_up;
       break;
+
     case FOC_state_ramp_up:
       if (FOC_start_motor()==1)
         FOC_state = FOC_state_regulation;
       break;
+
     case FOC_state_regulation:
       // Current Measurement
       FOC_read_current();
@@ -291,7 +294,8 @@ static void FOC_computeVdVq(void)
 
 static void FOC_update_teta_speed(void)
 {
-	//~ TODO: Fix
+	//~ TODO: Fix better name
+     tirq_estimator_update_teta_and_speed(&(MC_BLDC_motor.Tetam), &(MC_BLDC_motor.Speedm));
      //~ hall_estimator_update_teta_and_speed(&(MC_BLDC_motor.Tetam), &(MC_BLDC_motor.Speedm));
 }
 static void FOC_compute_clarke(void)
@@ -387,7 +391,8 @@ static unsigned char FOC_start_motor(void)
     case FOC_rampup_step_alignement:
       FOC_rampup_step_alignement_counter++;
       if (FOC_rampup_step_alignement_counter == 5000) {
-		  //~ TODO: Fix          //~ hall_estimator_init();
+		  //~ TODO: Fix name
+		  tirq_estimator_init();          //~ hall_estimator_init();
           FOC_rampup_step = FOC_rampup_step_openloop;
       }
       break;
@@ -400,7 +405,8 @@ static unsigned char FOC_start_motor(void)
       FOC_compute_svpwm();
       FOC_update_duty();
       if (FOC_rampup_step_openloop_counter == 6000) {
-		  //~ TODO: Fix
+		  //~ TODO: Fix better name for tirq_estimator_...
+          tirq_estimator_init_teta(MC_BLDC_motor.Tetam);
           //~ hall_estimator_init_teta(MC_BLDC_motor.Tetam);
           FOC_rampup_step_fieldreg_counter = 5000;
           FOC_Id_reg.IP_REG_discharge = 0;

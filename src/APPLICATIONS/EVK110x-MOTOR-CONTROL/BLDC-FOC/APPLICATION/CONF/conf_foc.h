@@ -64,8 +64,8 @@
 # define  rayon_carre_limitation                263066746  // 1/8
 # define  vitesse_inst                          864000
 //~ # define  pi_Fcpu                               150796447
-#define pi_Fcpu                                 ((int)(FCPU_HZ * 3.141592654))
-# define  hall_demi_period_init                 300000
+#define PI_X_FCPU                                 ((int)(FCPU_HZ * 3.141592654))
+# define  tirq_demi_period_init                 300000
 # define  transf_v                              858993
 #define    Te                                   214748    // 100 us
 #define    Fe                                   10000     // 100 us
