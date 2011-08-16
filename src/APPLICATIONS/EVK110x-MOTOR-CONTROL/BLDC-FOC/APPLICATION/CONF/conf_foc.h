@@ -47,7 +47,8 @@
 #include "board.h"
 
 #define SPEED_REGULATION
-#define USB_DEBUG
+//#define USB_DEBUG
+#undef USB_DEBUG
 // #define SENSOR_TASK
 #define TICK_SPEED_FACTOR          6// Min Value = 360*Te
 #define FCPU_HZ                    48000000
