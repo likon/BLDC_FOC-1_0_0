@@ -43,13 +43,13 @@ UTIL_PATH = $(PRJ_PATH)/UTILS
 
 
 # CPU architecture: {ap|ucr1|ucr2}
-ARCH = ucr2
+ARCH = ucr1
 
 # Part: {none|ap7xxx|uc3xxxxx}
-PART = uc3a1512
+PART = uc3b0256
 
 # Flash memories: [{cfi|internal}@address,size]...
-FLASH = internal@0x80000000,512Kb
+FLASH = internal@0x80000000,256Kb
 
 # Clock source to use when programming: [{xtal|extclk|int}]
 PROG_CLOCK = xtal
@@ -65,7 +65,7 @@ TARGET = $(PART)-bldc_foc.elf
 # Things that might be added to DEFS:
 #   BOARD             Board used: see $(BRDS_PATH)/board.h
 #   EXT_BOARD         Extension board used (if any): see $(BRDS_PATH)/board.h
-DEFS = -D BOARD=USB11
+DEFS = -D BOARD=EVK1101
 
 # Include path
 INC_PATH = \
@@ -73,7 +73,7 @@ INC_PATH = \
   $(UTIL_PATH)/PREPROCESSOR/ \
   $(SERV_PATH)/USB/CLASS/DFU/EXAMPLES/ISP/BOOT/ \
   $(UTIL_PATH)/LIBS/NEWLIB_ADDONS/INCLUDE/ \
-  $(UTIL_PATH)/LIBS/DRIVERS/AT32UC3A/INCLUDE/ \
+  $(UTIL_PATH)/LIBS/DRIVERS/AT32UC3B/INCLUDE/ \
   $(UTIL_PATH)/DEBUG/ \
   $(DRVR_PATH)/USBB/ \
   $(DRVR_PATH)/USBB/ENUM/ \
@@ -124,16 +124,16 @@ ASSRCS = \
 
 # Library path
 LIB_PATH = \
-   $(UTIL_PATH)/LIBS/DRIVERS/AT32UC3A/GCC/ \
-   $(UTIL_PATH)/LIBS/NEWLIB_ADDONS/AT32UCR2/
+   $(UTIL_PATH)/LIBS/DRIVERS/AT32UC3B/GCC/ \
+   $(UTIL_PATH)/LIBS/NEWLIB_ADDONS/AT32UCR1/
 
 # Libraries to link with the project
 LIBS = \
-  drivers-at32uc3a-speed_opt \
-  newlib_addons-at32ucr2-speed_opt
+  drivers-at32uc3b-speed_opt \
+  newlib_addons-at32ucr1-speed_opt
 
 # Linker script file if any
-LINKER_SCRIPT = $(UTIL_PATH)/LINKER_SCRIPTS/AT32UC3A/0512/GCC/link_uc3a0512.lds
+LINKER_SCRIPT = $(UTIL_PATH)/LINKER_SCRIPTS/AT32UC3A/0256/GCC/link_uc3b0256.lds
 
 # Options to request or suppress warnings: [-fsyntax-only] [-pedantic[-errors]] [-w] [-Wwarning...]
 # For further details, refer to the chapter "GCC Command Options" of the GCC manual.
