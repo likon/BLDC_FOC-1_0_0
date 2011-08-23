@@ -78,8 +78,6 @@ else
 	MAKECFG   = config_usb11.mk
 endif
 
-
-
 TGTTYPE   = $(suffix $(TARGET))
 
 RM        = rm -Rf

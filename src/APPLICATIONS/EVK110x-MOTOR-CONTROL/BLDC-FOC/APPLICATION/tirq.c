@@ -3,6 +3,8 @@
  * Author: Marcus Jansson
  * Copyright (C) 2011 Marcus Jansson <mjansson256@gmail.com>
  * and Thomas Eberharter, Eberharter Elektronik GmbH
+ *
+ * This file is the replacement for the Hall detector code.
  *********************************************************************/
 
 #include "tirq.h"
@@ -10,14 +12,14 @@
 #define TC_CHANNEL_0 0
 
 //TODO: Remove MLED and BUT definitions and relevant debug code
-#define MLED0 AVR32_PIN_PB27
-#define MLED1 AVR32_PIN_PB28
-#define MLED2 AVR32_PIN_PB29
-#define MLED3 AVR32_PIN_PB30
-
-#define BUT0 AVR32_PIN_PX16
-#define BUT1 AVR32_PIN_PX19
-#define BUT2 AVR32_PIN_PX22
+//~ #define MLED0 AVR32_PIN_PB27
+//~ #define MLED1 AVR32_PIN_PB28
+//~ #define MLED2 AVR32_PIN_PB29
+//~ #define MLED3 AVR32_PIN_PB30
+//~
+//~ #define BUT0 AVR32_PIN_PX16
+//~ #define BUT1 AVR32_PIN_PX19
+//~ #define BUT2 AVR32_PIN_PX22
 
 //TODO: move away
 void tirq_int_handler(void);
@@ -96,7 +98,7 @@ void tirq_int_handler(void)
 	unsigned int sr;
 	sr = tc_read_sr(&AVR32_TC, TC_CHANNEL_0);
 	if(sr && (1 << AVR32_TC_CPCS)) {
-		gpio_tgl_gpio_pin(MLED0);	//TODO: Remove, debug code
+		//~ gpio_tgl_gpio_pin(MLED0);	//TODO: Remove, debug code
 		tirq_tj= Get_sys_count();
 		tirq_demi_period = tirq_tj - tirq_ti;
 		tirq_ti = tirq_tj; // arm for next period
@@ -111,7 +113,7 @@ void tirq_int_handler(void)
 		}
 	}
 
-	gpio_tgl_gpio_pin(MLED1);
+	//~ gpio_tgl_gpio_pin(MLED1);
 }
 
 void m_tc_init(void)
@@ -132,8 +134,8 @@ void m_tc_init(void)
 
 	//Configure timer, for interrupt
 	tc_init_waveform(&AVR32_TC, &waveform_opt);
-	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 960);
-	tc_start(&AVR32_TC, TC_CHANNEL_0);
+	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 960);	//TODO: RANDOM CONSTANT!
+	//~ tc_start(&AVR32_TC, TC_CHANNEL_0);
 }
 
 void tirq_init(void)

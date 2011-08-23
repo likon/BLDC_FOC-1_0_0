@@ -31,9 +31,10 @@
 /*! \name USB11 pin definitions
  */
 //! @{
-
-#define MOTEN AVR32_PIN_PA11
-#define POWER_DOWN_INT AVR32_PIN_PB01
+//These are found in the file:
+// /BLDC_FOC-1_0_0/src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/CONF/usb11.h
+//~ #define MOTEN AVR32_PIN_PA11
+//~ #define POWER_DOWN_INT AVR32_PIN_PB01
 
 //! @}
 

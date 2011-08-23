@@ -130,7 +130,8 @@ LIB_PATH = \
 # Libraries to link with the project
 LIBS = \
   drivers-at32uc3a-speed_opt \
-  newlib_addons-at32ucr2-speed_opt
+  newlib_addons-at32ucr2-speed_opt \
+  m
 
 # Linker script file if any
 LINKER_SCRIPT = $(UTIL_PATH)/LINKER_SCRIPTS/AT32UC3A/0512/GCC/link_uc3a0512.lds
@@ -145,7 +146,7 @@ DEBUG = -g
 
 # Options that control optimization: [-O[0|1|2|3|s]]...
 # For further details, refer to the chapter "GCC Command Options" of the GCC manual.
-OPTIMIZATION = -O3 -fno-strict-aliasing -ffunction-sections -fdata-sections
+OPTIMIZATION = -O0 -fno-strict-aliasing -ffunction-sections -fdata-sections
 
 # Extra flags to use when preprocessing
 CPP_EXTRA_FLAGS =

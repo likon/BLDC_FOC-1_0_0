@@ -161,9 +161,12 @@ void mc_lowlevel_start(void)
   // --------------------- ADC Start ----------------------------------
   if (MC_BLDC_motor.mc_motor_direction == MC_CW)
   {
-    adc_channel_ia = CURRENT_IB_ADC_CHANNEL;
-    adc_channel_ib = CURRENT_IC_ADC_CHANNEL;
-    adc_channel_ic = CURRENT_IA_ADC_CHANNEL;
+    //~ adc_channel_ia = CURRENT_IB_ADC_CHANNEL;
+    //~ adc_channel_ib = CURRENT_IC_ADC_CHANNEL;
+    //~ adc_channel_ic = CURRENT_IA_ADC_CHANNEL;
+    adc_channel_ia = CURRENT_IA_ADC_CHANNEL;
+    adc_channel_ib = CURRENT_IB_ADC_CHANNEL;
+    adc_channel_ic = CURRENT_IC_ADC_CHANNEL;
   }
   else
   {

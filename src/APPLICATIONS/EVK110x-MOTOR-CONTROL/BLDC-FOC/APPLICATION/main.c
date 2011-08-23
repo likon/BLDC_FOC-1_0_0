@@ -89,7 +89,9 @@
 
 #include "mc_driver.h"
 #include "mc_control.h"
-#include "board.h"
+#include "conf_motor_driver.h"
+
+#include "math.h"
 
 #if __GNUC__ && __AVR32__
   #include "nlao_cpu.h"
@@ -279,7 +281,7 @@ int main (void)
 #endif
 
 	//Initialize timer interrupt
-	tirq_init();
+	//~ tirq_init();
 
    // Initialize control task
    mc_control_task_init();
@@ -287,9 +289,51 @@ int main (void)
    // Initialize direction
    mc_set_motor_direction(MC_CW);
 
+	//Enable the motor driver circuit
+	gpio_set_gpio_pin(MOTEN);
+	gpio_set_gpio_pin(STBINV);
+	gpio_tgl_gpio_pin(PWM_YL_PIN_NUMBER);
+	gpio_enable_module_pin(PWM_XL_PIN_NUMBER, PWM_XL_PWM_FUNCTION);
+	gpio_enable_module_pin(PWM_YL_PIN_NUMBER, PWM_YL_PWM_FUNCTION);
+	gpio_enable_module_pin(PWM_ZL_PIN_NUMBER, PWM_ZL_PWM_FUNCTION);
+
+//-----------
+int i;
+double phi;
+int si1,si2,si3;
+
+	AVR32_PWM.mr = 1|(1<<16)|(3<<24)|(3<<8);	//clka,b ohne div, MCLK/8
+	for(i=0; i<3; i++){
+	  AVR32_PWM.channel[i].cmr= 2|(1<<8);   // Channel mode. MCLK/4 center aligned
+	  AVR32_PWM.channel[i].cdty= 180; // Duty cycle, should be < CPRD.
+	  AVR32_PWM.channel[i].cprd= 256; // Channel period.
+	}
+
+	AVR32_PWM.ena = 0x07;	//channel 0..2 enable
+	delay_init(48000000UL);
+#define OFFSET 127
+#define AMP 30.0
+#define DPHI 0.03
+	while(1){
+		phi+=DPHI;
+		si1=OFFSET+(int)(AMP*sin(phi));
+		si2=OFFSET+(int)(AMP*sin(phi+2.0943));	//120°
+		si3=OFFSET+(int)(AMP*sin(phi+4.1888));	//240°
+		AVR32_PWM.channel[0].cdty=si1;
+		AVR32_PWM.channel[1].cdty=si2;
+		AVR32_PWM.channel[2].cdty=si3;
+		//delay_ms(1);
+		//for(i = 0; i < 0x8000; i++) {
+		//	asm volatile("nop");
+		//}
+
+	}
+//------------------
+
    while(1)
    {
 #ifdef USB_DEBUG
+#error We are not supposed to use USB
       usb_task();
       device_cdc_task();
 #endif
