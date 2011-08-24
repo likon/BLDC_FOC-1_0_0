@@ -159,7 +159,7 @@ void pwm_drv_stop(void)
 /*! \name PWM Driver Update
  */
 //! @{
-void pwm_drv_duty_cycle(volatile pwm_drv_options_t * pwm_drv_options,U32 pwm0,U32 pwm1,U32 pwm2)
+void pwm_drv_duty_cycle(volatile pwm_drv_options_t * pwm_drv_options, U32 pwm0, U32 pwm1, U32 pwm2)
 //~ void pwm_drv_duty_cycle(volatile pwm_drv_options_t *pwm_drv_options,U32 pwm0,U32 pwm1,U32 pwm2,U32 pwm3,U32 pwm4,U32 pwm5) //TODO: remove
 {
   volatile avr32_pwm_t *pwm = &AVR32_PWM;

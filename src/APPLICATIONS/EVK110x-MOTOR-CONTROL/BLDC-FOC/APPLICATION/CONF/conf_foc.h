@@ -52,8 +52,6 @@
 #undef USB_DEBUG
 // #define SENSOR_TASK
 #define TICK_SPEED_FACTOR          6// Min Value = 360*Te
-#define FCPU_HZ                    32000000UL	//48000000UL
-#define FPBA_HZ                    (FCPU_HZ / 2)
 //~ #define FTICK_HZ                    20000	//Unused, Mjan 20110823
 #define    PI             3.141592	//3.141592654
 

@@ -75,23 +75,24 @@
 #include <math.h>
 
 #include "avr32/io.h"
+#include "adc.h"
 #include "board.h"
-#include "gpio.h"
-#include "flashc.h"
-#include "pm.h"
-#include "gpio.h"
+#include "compiler.h"
 #include "cycle_counter.h"
+#include "flashc.h"
+#include "gpio.h"
 #include "intc.h"
+#include "pm.h"
 #include "tc.h"
 #include "tirq.h"
-#include "adc.h"
-#include "compiler.h"
 
 #include "mc_driver.h"
 #include "mc_control.h"
 #include "conf_motor_driver.h"
 
 #include "math.h"
+
+#include "usart.h"
 
 #if __GNUC__ && __AVR32__
   #include "nlao_cpu.h"
@@ -105,6 +106,7 @@
 #include "device_cdc_task.h"
 #include "conf_foc.h"
 #include "usb_standard_request.h"
+
 
 extern volatile unsigned short tick;
 
@@ -263,11 +265,33 @@ void init_usb(void)
 }
 int main (void)
 {
+
   // Configure standard I/O streams as unbuffered.
 #if __GNUC__ && __AVR32__
   setbuf(stdin, NULL);
 #endif
-  setbuf(stdout, NULL);
+	setbuf(stdout, NULL);
+
+	#define USART_RX AVR32_USART0_RXD_0_0_PIN
+	#define USART_TX AVR32_USART0_TXD_0_0_PIN
+	volatile avr32_gpio_port_t * gpio = &AVR32_GPIO;
+	gpio->gperc = 1 << (USART_RX & 0x1f);
+	gpio->gperc = 1 << (USART_TX & 0x1f);
+
+	usart_options_t usart_opt = {
+		.charlength = 8,
+		.paritytype = USART_NO_PARITY,
+		.stopbits = USART_1_STOPBIT,
+		.channelmode = USART_NORMAL_CHMODE,
+		.baudrate = 57600
+	};
+
+	usart_init_rs232(&AVR32_USART0, &usart_opt, FPBA_HZ);
+	//~ usart_write_line(&AVR32_USART0, "Hello Kitty!");
+
+	usart_init(57600);
+	set_usart_base((void *) &AVR32_USART0);
+	printf("HERE I AM! Hello Kitty!\n");
 
 #ifdef USB_DEBUG
   init_usb();

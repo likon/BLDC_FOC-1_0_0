@@ -133,7 +133,7 @@ void m_tc_init(void)
 
 	//Configure timer, for interrupt
 	tc_init_waveform(&AVR32_TC, &waveform_opt);
-	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 59600);	//TODO: RANDOM CONSTANT!
+	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 0xf0);	//TODO: RANDOM CONSTANT!
 	//~ tc_start(&AVR32_TC, TC_CHANNEL_0);
 }
 

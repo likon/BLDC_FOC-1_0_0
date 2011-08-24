@@ -146,7 +146,7 @@ void FOC_state_machine(void)
 
     case FOC_state_ramp_up:
       if (FOC_start_motor()==1)
-        FOC_state = FOC_state_regulation;
+        //~ FOC_state = FOC_state_regulation;	//TODO: uncomment
       break;
 
     case FOC_state_regulation:

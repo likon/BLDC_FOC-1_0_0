@@ -152,7 +152,8 @@ void mc_global_init(void)
   tirq_estimator_init();
   tirq_estimator_init_interrupt();
   // --------------------- PWM Initialization ----------------------------------
-  pwm_drv_options.max_pwm_value = 1200;    // Cprd
+  #define MAX_PWM_VALUE 1200
+  pwm_drv_options.max_pwm_value = MAX_PWM_VALUE;    // Cprd	TODO: Macro
   pwm_drv_init(&pwm_drv_options);
   INTC_register_interrupt(&pwm_int_handler, AVR32_PWM_IRQ, AVR32_INTC_INT0);
 }
