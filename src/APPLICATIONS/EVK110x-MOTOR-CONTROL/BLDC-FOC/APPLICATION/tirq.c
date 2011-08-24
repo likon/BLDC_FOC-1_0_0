@@ -29,7 +29,7 @@ volatile unsigned short nieme = 0;
 volatile U32 tirq_demi_period = tirq_demi_period_init ;
 volatile unsigned short teta0 = 0;
 volatile U32 tirq_tj;
-volatile U32 tirq_ti;                //!<  last hall period value
+volatile U32 tirq_ti;                //!<  last period value
 
 void tirq_estimator_update_teta_and_speed(volatile unsigned short *teta_elec, volatile unsigned short *vitesse_elec)
 {
@@ -112,7 +112,6 @@ void tirq_int_handler(void)
 			first_interrupt=1;
 		}
 	}
-
 	//~ gpio_tgl_gpio_pin(MLED1);
 }
 
@@ -134,7 +133,7 @@ void m_tc_init(void)
 
 	//Configure timer, for interrupt
 	tc_init_waveform(&AVR32_TC, &waveform_opt);
-	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 960);	//TODO: RANDOM CONSTANT!
+	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 59600);	//TODO: RANDOM CONSTANT!
 	//~ tc_start(&AVR32_TC, TC_CHANNEL_0);
 }
 

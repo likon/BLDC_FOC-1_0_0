@@ -62,7 +62,7 @@
 #include "tirq.h"	//TODO: Rename? tirq_estimator?
 #include "CONF/conf_foc.h"
 #include "CONF/conf_motor_driver.h"
-//~ #include "CONF/mc300.h"
+//~ #include "CONF/mc300.h"	//Replaced by CONF/conf_motor_driver.h
 //_____ M A C R O S ________________________________________________________
 
 //_____ D E F I N I T I O N S ______________________________________________
@@ -136,11 +136,12 @@ void mc_global_init(void)
   // --------------------- ADC Initialization ----------------------------------
   static const gpio_map_t ADC_GPIO_MAP =
   {
-    {CURRENT_IA_ADC_PIN, CURRENT_IA_ADC_FUNCTION },
-    {CURRENT_IB_ADC_PIN, CURRENT_IB_ADC_FUNCTION },
-    {CURRENT_IC_ADC_PIN, CURRENT_IC_ADC_FUNCTION },
+    { CURRENT_IA_ADC_PIN, CURRENT_IA_ADC_FUNCTION },
+    { CURRENT_IB_ADC_PIN, CURRENT_IB_ADC_FUNCTION },
+    { CURRENT_IC_ADC_PIN, CURRENT_IC_ADC_FUNCTION },
 
   };
+
   gpio_enable_module(ADC_GPIO_MAP, sizeof(ADC_GPIO_MAP) / sizeof(ADC_GPIO_MAP[0]));
   // configure ADC
   adc_configure(adc);

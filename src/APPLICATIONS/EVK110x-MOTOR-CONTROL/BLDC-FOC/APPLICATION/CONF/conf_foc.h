@@ -52,35 +52,45 @@
 #undef USB_DEBUG
 // #define SENSOR_TASK
 #define TICK_SPEED_FACTOR          6// Min Value = 360*Te
-#define FCPU_HZ                    48000000
+#define FCPU_HZ                    32000000UL	//48000000UL
 #define FPBA_HZ                    (FCPU_HZ / 2)
-#define FTICK_HZ                    20000
+//~ #define FTICK_HZ                    20000	//Unused, Mjan 20110823
+#define    PI             3.141592	//3.141592654
 
+//zero_adc: seem to be bias value to satisfy adc_value_ia + adc_value_ib + adc_value_ic = zero_adc
 # define  zero_adc                              1680
+//erreur_max: seem to be a sqrtt iteration value
 # define  erreur_max                            300
 # define  Un_1                                  2147483648  // 2^31
+//echelle_adc and offset: Seem to be scale values, ia= (adc_value_ia-offset)*echelle_adc;
 # define  echelle_adc                           768955
 # define  offset                                560
+
+//rayon_limitation: Seem to be used at Park transformation for Vd and Vq, seem to be close to 2^31 * 1 / sqrt(8)
 # define  rayon_limitation                      751619276  // 1/sqrt8
 # define  rayon_carre_limitation                263066746  // 1/8
 # define  vitesse_inst                          864000
+
 //~ # define  pi_Fcpu                               150796447
-#define PI_X_FCPU                                 ((int)(FCPU_HZ * 3.141592654))
+#define PI_X_FCPU                                 ((int)(FCPU_HZ * PI))
 # define  tirq_demi_period_init                 300000
+//transf_v: Seem to have something to do with 2500, as 2^31/858992 = 2500.001336
 # define  transf_v                              858993
-#define    Te                                   214748    // 100 us
-#define    Fe                                   10000     // 100 us
+//Te: Seem to have something to do with 10000
+//~ #define    Te                                   214748    // 100 us
+//~ #define    Fe                                   10000     // 100 us
 #define   IQREF_RAMPUP                          89478485        //!< (Icrete*2^31)/(2E)
 #define   IQREF_REGULAR                         (IQREF_RAMPUP>>1)   //!< (Icrete*2^31)/(2E)
 //! Motor Parameters
 // !!!!!!!!! Current and Voltages are divided by 2E  !!!!!!!!
+//R is (more or less) 2^31 * 0.22
 #define    R              472446402 // R=0.22 ohms
 #define    Lc             547608    // Lc =0.5(0.51e-3).2^31;  en general Lc= Lc .2^31
 #define    Kcn            1503238   //Kcn=Kc/2E .2^31 = (0.0168/2.12).2^31
 #define    P              4
 #define    E              12
-#define    PI             3.141592
 
+//Section 4.4
 #define     Kp_speed      741092              //!< Kdv = (0.04*J*R)/(Lc)      //1778545
 #define     Ki_speed      1598                //!< Kiv = (0.01*J*R^2)/(Lc^2)  //3836
 

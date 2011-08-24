@@ -73,6 +73,7 @@ void pwm_drv_init(volatile pwm_drv_options_t *pwm_drv_options)
     {PWM_ZL_PIN_NUMBER, PWM_ZL_PWM_FUNCTION},
     //~ {PWM_ZH_PIN_NUMBER, PWM_ZH_PWM_FUNCTION}
   };
+
   // Assign GPIO to PWM.
   gpio_enable_module(PWM_GPIO_MAP, sizeof(PWM_GPIO_MAP ) / sizeof(PWM_GPIO_MAP[0]));
 
@@ -148,7 +149,7 @@ void pwm_drv_start(void)
 {
   volatile avr32_pwm_t *pwm = &AVR32_PWM;
   pwm->ier = (1<<PWM_XL_PWM_CHANNEL );
-  pwm->ena = (1<<PWM_XL_PWM_CHANNEL )|(1<<PWM_YL_PWM_CHANNEL )|(1<<PWM_ZL_PWM_CHANNEL ); // enable channel 0 to 6
+  pwm->ena = (1<<PWM_XL_PWM_CHANNEL )|(1<<PWM_YL_PWM_CHANNEL )|(1<<PWM_ZL_PWM_CHANNEL ); // enable channel 0 to 3
   //~ pwm->ena = (1<<PWM_XL_PWM_CHANNEL )|(1<<PWM_XH_PWM_CHANNEL )|(1<<PWM_YL_PWM_CHANNEL )|(1<<PWM_YH_PWM_CHANNEL )|(1<<PWM_ZL_PWM_CHANNEL )|(1<<PWM_ZH_PWM_CHANNEL ); // enable channel 0 to 6  //TODO: remove
 }
 void pwm_drv_stop(void)

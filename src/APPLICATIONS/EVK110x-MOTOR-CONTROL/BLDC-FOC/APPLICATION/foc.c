@@ -355,9 +355,9 @@ static void FOC_update_duty(void)
    }
    else
    {
-      mc_update_duty_cycle( svpwm_options.duty2,
-                            svpwm_options.duty1,
-                            svpwm_options.duty0);	//TODO: Get the numbers correct!!!
+      mc_update_duty_cycle( svpwm_options.duty1,
+                            svpwm_options.duty0,
+                            svpwm_options.duty2);	//TODO: Get the order of the numbers correct!!!
 
       //~ mc_update_duty_cycle( svpwm_options.duty2,
                             //~ svpwm_options.duty3,
@@ -391,7 +391,7 @@ static unsigned char FOC_start_motor(void)
 
     case FOC_rampup_step_alignement:
       FOC_rampup_step_alignement_counter++;
-      if (FOC_rampup_step_alignement_counter == 5000) {
+      if (FOC_rampup_step_alignement_counter == 5000) {	//TODO: replace the 5000 constant
 		  //~ TODO: Fix name
 		  tirq_estimator_init();          //~ hall_estimator_init();
           FOC_rampup_step = FOC_rampup_step_openloop;
@@ -405,11 +405,11 @@ static unsigned char FOC_start_motor(void)
       park_inv(Vdref,Vqref,MC_BLDC_motor.Tetam,&(svpwm_options.Valpha),&(svpwm_options.Vbeta));
       FOC_compute_svpwm();
       FOC_update_duty();
-      if (FOC_rampup_step_openloop_counter == 6000) {
+      if (FOC_rampup_step_openloop_counter == 6000) { //TODO: replace the 6000 constant
 		  //~ TODO: Fix better name for tirq_estimator_...
           tirq_estimator_init_teta(MC_BLDC_motor.Tetam);
           //~ hall_estimator_init_teta(MC_BLDC_motor.Tetam);
-          FOC_rampup_step_fieldreg_counter = 5000;
+          FOC_rampup_step_fieldreg_counter = 5000; //TODO: replace the 5000 constant
           FOC_Id_reg.IP_REG_discharge = 0;
           FOC_Iq_reg.IP_REG_discharge = 0;
           FOC_Iq_reg.IP_REG_lasterror=MC_BLDC_motor.Iqref-MC_BLDC_motor.Iqm;
@@ -438,7 +438,7 @@ static unsigned char FOC_start_motor(void)
       park_inv(Vdref,Vqref,MC_BLDC_motor.Tetam,&(svpwm_options.Valpha),&(svpwm_options.Vbeta));
       FOC_compute_svpwm();
       FOC_update_duty();
-      if (FOC_rampup_step_fieldreg_counter == 10000) {
+      if (FOC_rampup_step_fieldreg_counter == 10000) { //TODO: replace the constant
           MC_BLDC_motor.Iqref = IQREF_REGULAR;
           FOC_Iq_reg.IP_REG_lasterror = MC_BLDC_motor.Iqref-MC_BLDC_motor.Iqm;
           FOC_Id_reg.IP_REG_lasterror = -MC_BLDC_motor.Idm;
@@ -464,7 +464,7 @@ static unsigned char FOC_start_motor(void)
       park_inv(Vdref,Vqref,MC_BLDC_motor.Tetam,&(svpwm_options.Valpha),&(svpwm_options.Vbeta));
       FOC_compute_svpwm();
       FOC_update_duty();
-      if (FOC_rampup_step_torquereg_counter == 10000) {
+      if (FOC_rampup_step_torquereg_counter == 10000) { //TODO: replace the constant
         MC_BLDC_motor.Speedref=MC_BLDC_motor.Speedm*transf_v;
         FOC_Speed_reg.IP_REG_lasterror=0;
         FOC_Speed_reg.IP_REG_feedback=(int)(((long long int)MC_BLDC_motor.Speedref*(long long int)FOC_Speed_reg.Kp)>>31) + (MC_BLDC_motor.Iqref/104);

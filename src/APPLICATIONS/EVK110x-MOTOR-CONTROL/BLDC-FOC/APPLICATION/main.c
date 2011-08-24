@@ -297,7 +297,13 @@ int main (void)
 	gpio_enable_module_pin(PWM_YL_PIN_NUMBER, PWM_YL_PWM_FUNCTION);
 	gpio_enable_module_pin(PWM_ZL_PIN_NUMBER, PWM_ZL_PWM_FUNCTION);
 
-//-----------
+//--------
+	//~ mc_global_init();
+	//~ mc_lowlevel_start();
+	//~ while(1);
+//-----===
+
+/* /-----------
 int i;
 double phi;
 int si1,si2,si3;
@@ -310,9 +316,10 @@ int si1,si2,si3;
 	}
 
 	AVR32_PWM.ena = 0x07;	//channel 0..2 enable
-	delay_init(48000000UL);
+	//while(1);
+	delay_init(32000000UL);
 #define OFFSET 127
-#define AMP 30.0
+#define AMP 25.0
 #define DPHI 0.03
 	while(1){
 		phi+=DPHI;
@@ -329,7 +336,7 @@ int si1,si2,si3;
 
 	}
 //------------------
-
+*/
    while(1)
    {
 #ifdef USB_DEBUG
