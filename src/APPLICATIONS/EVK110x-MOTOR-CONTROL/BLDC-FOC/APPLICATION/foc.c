@@ -146,7 +146,7 @@ void FOC_state_machine(void)
 
     case FOC_state_ramp_up:
       if (FOC_start_motor()==1)
-        //~ FOC_state = FOC_state_regulation;	//TODO: uncomment
+        FOC_state = FOC_state_regulation;	//TODO: uncomment
       break;
 
     case FOC_state_regulation:
@@ -188,6 +188,7 @@ static void FOC_read_current(void)
   volatile unsigned short adc_value_ib;
   volatile unsigned short adc_value_ic;
 
+//TODO: Structure code, switch-case
   if(svpwm_options.current_to_be_measured == AB)
   {
     adc_value_ia = mc_get_ia();
@@ -240,6 +241,12 @@ static void FOC_read_current(void)
    ia= (adc_value_ia-offset)*echelle_adc;
    ib= (adc_value_ib-offset)*echelle_adc;
    ic= (adc_value_ic-offset)*echelle_adc;
+   #ifdef DEBUG
+	printf("---------------\n\r");
+	printf("ia = 0x%04x\n\r", adc_value_ia);
+	printf("ib = 0x%04x\n\r", adc_value_ib);
+	printf("ic = 0x%04x\n\r", adc_value_ic);
+	#endif
 
 }
 static void FOC_computeVdVq(void)
@@ -438,7 +445,7 @@ static unsigned char FOC_start_motor(void)
       park_inv(Vdref,Vqref,MC_BLDC_motor.Tetam,&(svpwm_options.Valpha),&(svpwm_options.Vbeta));
       FOC_compute_svpwm();
       FOC_update_duty();
-      if (FOC_rampup_step_fieldreg_counter == 10000) { //TODO: replace the constant
+      if (FOC_rampup_step_fieldreg_counter == 60000) { //TODO: replace the constant
           MC_BLDC_motor.Iqref = IQREF_REGULAR;
           FOC_Iq_reg.IP_REG_lasterror = MC_BLDC_motor.Iqref-MC_BLDC_motor.Iqm;
           FOC_Id_reg.IP_REG_lasterror = -MC_BLDC_motor.Idm;

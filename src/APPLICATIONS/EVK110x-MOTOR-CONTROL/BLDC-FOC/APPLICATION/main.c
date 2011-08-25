@@ -107,7 +107,6 @@
 #include "conf_foc.h"
 #include "usb_standard_request.h"
 
-
 extern volatile unsigned short tick;
 
 /*! \brief Initializes MCU exceptions.
@@ -283,15 +282,15 @@ int main (void)
 		.paritytype = USART_NO_PARITY,
 		.stopbits = USART_1_STOPBIT,
 		.channelmode = USART_NORMAL_CHMODE,
-		.baudrate = 57600
+		.baudrate = 115200
 	};
 
 	usart_init_rs232(&AVR32_USART0, &usart_opt, FPBA_HZ);
 	//~ usart_write_line(&AVR32_USART0, "Hello Kitty!");
 
-	usart_init(57600);
+	//~ usart_init(57600);
 	set_usart_base((void *) &AVR32_USART0);
-	printf("HERE I AM! Hello Kitty!\n");
+	//~ printf("HERE I AM! Hello Kitty!\n");
 
 #ifdef USB_DEBUG
   init_usb();
@@ -322,8 +321,8 @@ int main (void)
 	gpio_enable_module_pin(PWM_ZL_PIN_NUMBER, PWM_ZL_PWM_FUNCTION);
 
 //--------
-	//~ mc_global_init();
-	//~ mc_lowlevel_start();
+	mc_global_init();
+	mc_lowlevel_start();
 	//~ while(1);
 //-----===
 
@@ -331,6 +330,9 @@ int main (void)
 int i;
 double phi;
 int si1,si2,si3;
+volatile unsigned short adc_value_ia;
+	volatile unsigned short adc_value_ib;
+	volatile unsigned short adc_value_ic;
 
 	AVR32_PWM.mr = 1|(1<<16)|(3<<24)|(3<<8);	//clka,b ohne div, MCLK/8
 	for(i=0; i<3; i++){
@@ -353,6 +355,17 @@ int si1,si2,si3;
 		AVR32_PWM.channel[0].cdty=si1;
 		AVR32_PWM.channel[1].cdty=si2;
 		AVR32_PWM.channel[2].cdty=si3;
+		adc_value_ia = mc_get_ia();
+		adc_value_ib = mc_get_ib();
+		adc_value_ic = mc_get_ic();
+
+#ifdef DEBUG
+	printf("---------------\n\r");
+	printf("ia = 0x%04x\n\r", adc_value_ia);
+	printf("ib = 0x%04x\n\r", adc_value_ib);
+	printf("ic = 0x%04x\n\r", adc_value_ic);
+	#endif
+
 		//delay_ms(1);
 		//for(i = 0; i < 0x8000; i++) {
 		//	asm volatile("nop");
@@ -360,7 +373,9 @@ int si1,si2,si3;
 
 	}
 //------------------
-*/
+/*/
+
+
    while(1)
    {
 #ifdef USB_DEBUG

@@ -56,13 +56,15 @@
 #define    PI             3.141592	//3.141592654
 
 //zero_adc: seem to be bias value to satisfy adc_value_ia + adc_value_ib + adc_value_ic = zero_adc
-# define  zero_adc                              1680
+//~ # define  zero_adc                              1680
+#define zero_adc 0x200
 //erreur_max: seem to be a sqrtt iteration value
 # define  erreur_max                            300
 # define  Un_1                                  2147483648  // 2^31
 //echelle_adc and offset: Seem to be scale values, ia= (adc_value_ia-offset)*echelle_adc;
 # define  echelle_adc                           768955
-# define  offset                                560
+//~ # define  offset                                560
+#define offset 0x200
 
 //rayon_limitation: Seem to be used at Park transformation for Vd and Vq, seem to be close to 2^31 * 1 / sqrt(8)
 # define  rayon_limitation                      751619276  // 1/sqrt8
