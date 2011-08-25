@@ -151,14 +151,21 @@ volatile avr32_pm_t* pm = &AVR32_PM;
   /* Switch the main clock to OSC0 */
   pm_switch_to_osc0(pm, FOSC0, OSC0_STARTUP);
   /* Setup PLL0 on OSC0 */
+  //~ pm_pll_setup(pm,  // volatile avr32_pm_t* pm
+               //~ 0,   // unsigned int pll
+               //~ 7,   // unsigned int mul
+               //~ 1,   // unsigned int div, Sel Osc0/PLL0 or Osc1/Pll1
+               //~ 0,   // unsigned int osc
+               //~ 16); // unsigned int lockcount
+
   pm_pll_setup(pm,  // volatile avr32_pm_t* pm
                0,   // unsigned int pll
-               7,   // unsigned int mul
-               1,   // unsigned int div, Sel Osc0/PLL0 or Osc1/Pll1
-               0,   // unsigned int osc
+               11,   // unsigned int mul
+               1,   // unsigned int div,
+               0,   // unsigned int osc, Sel Osc0/PLL0 or Osc1/PLL1
                16); // unsigned int lockcount
 
-  pm_pll_set_option(pm, 0, 1, 1, 0);//Max 60MHz, TODO: Update FCPU_HZ in foc.h
+  pm_pll_set_option(pm, 0, 1, 1, 0);//Max 60MHz, TODO: Update FCPU_HZ in usb11.h
 
 //~ // Supported frequencies:
 //~ // Fosc0 mul div PLL div2_en cpu_f pba_f   Comment
@@ -202,6 +209,23 @@ volatile avr32_pm_t* pm = &AVR32_PM;
 								//~ unsigned int  pll_freq,
 								//~ unsigned int  pll_div2,
 								//~ unsigned int  pll_wbwdisable);
+/*!
+ * \brief This function will select all the power manager clocks.
+ * \param pm Base address of the Power Manager (i.e. &AVR32_PM)
+ * \param pbadiv Peripheral Bus A clock divisor enable
+ * \param pbasel Peripheral Bus A select
+ * \param pbbdiv Peripheral Bus B clock divisor enable
+ * \param pbbsel Peripheral Bus B select
+ * \param hsbdiv High Speed Bus clock divisor enable (CPU clock = HSB clock)
+ * \param hsbsel High Speed Bus select (CPU clock = HSB clock )
+ */
+//~ extern void pm_cksel(volatile avr32_pm_t *pm,
+								//~ unsigned int pbadiv,
+								//~ unsigned int pbasel,
+								//~ unsigned int pbbdiv,
+								//~ unsigned int pbbsel,
+								//~ unsigned int hsbdiv,
+								//~ unsigned int hsbsel);
 
   /* Enable PLL0 */
   pm_pll_enable(pm,0);
@@ -303,8 +327,17 @@ int main (void)
 
 #endif
 
+	gpio_set_gpio_pin(MOTEN);
+	gpio_set_gpio_pin(STBINV);
 	//Initialize timer interrupt
-	//~ tirq_init();
+	tirq_init();
+	tirq_estimator_start();
+	//~ tc_start(&AVR32_TC, 0);
+	while(1) {
+		//~ gpio_tgl_gpio_pin(AVR32_PIN_PB19);
+		//~ gpio_tgl_gpio_pin(AVR32_PIN_PB20);
+		//gpio_tgl_gpio_pin(AVR32_PIN_PB21);
+	}
 
    // Initialize control task
    mc_control_task_init();
@@ -321,8 +354,8 @@ int main (void)
 	gpio_enable_module_pin(PWM_ZL_PIN_NUMBER, PWM_ZL_PWM_FUNCTION);
 
 //--------
-	mc_global_init();
-	mc_lowlevel_start();
+	//~ mc_global_init();
+	//~ mc_lowlevel_start();
 	//~ while(1);
 //-----===
 

@@ -99,6 +99,9 @@ void tirq_int_handler(void)
 	sr = tc_read_sr(&AVR32_TC, TC_CHANNEL_0);
 	if(sr && (1 << AVR32_TC_CPCS)) {
 		//~ gpio_tgl_gpio_pin(MLED0);	//TODO: Remove, debug code
+		//~ gpio_tgl_gpio_pin(AVR32_PWM_0_PIN);	//TODO: Remove, debug code
+		//~ gpio_tgl_gpio_pin(AVR32_PWM_1_PIN);	//TODO: Remove, debug code
+		gpio_tgl_gpio_pin(AVR32_PWM_2_PIN);	//TODO: Remove, debug code
 		tirq_tj= Get_sys_count();
 		tirq_demi_period = tirq_tj - tirq_ti;
 		tirq_ti = tirq_tj; // arm for next period
@@ -133,7 +136,7 @@ void m_tc_init(void)
 
 	//Configure timer, for interrupt
 	tc_init_waveform(&AVR32_TC, &waveform_opt);
-	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 0x2160);	//TODO: RANDOM CONSTANT!
+	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 1875);	//TODO: CONSTANT! 1875 = 2 mS -> 500 rpm
 	//~ tc_start(&AVR32_TC, TC_CHANNEL_0);
 }
 
@@ -149,7 +152,7 @@ void tirq_init(void)
 	Disable_global_interrupt();
 	m_tc_init();
 	INTC_init_interrupts();
-	tirq_estimator_init_interrupt(); 	//~ was: INTC_register_interrupt(&tirq_int_handler, AVR32_TC_IRQ0, AVR32_INTC_INT0);
+	tirq_estimator_init_interrupt(); 	//~ was: INTC_register_interrupt( &tirq_int_handler, AVR32_TC_IRQ0, AVR32_INTC_INT0);
 	tc_configure_interrupts(&AVR32_TC, TC_CHANNEL_0, &TC_INTERRUPT_OPT);
 	Enable_global_interrupt();
 }

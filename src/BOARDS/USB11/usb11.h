@@ -26,7 +26,7 @@
 #define OSC32_STARTUP   AVR32_PM_OSCCTRL32_STARTUP_8192_RCOSC //!< Osc32 startup time: RCOsc periods.
 
 #define FOSC0           8000000UL                             //!< Osc0 frequency: Hz.
-#define FCPU_HZ        32000000UL
+#define FCPU_HZ        48000000UL                             //!< PLL frequency: Hz.
 #define FPBA_HZ        (FCPU_HZ / 2)
 
 
