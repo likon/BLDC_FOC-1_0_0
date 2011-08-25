@@ -131,12 +131,13 @@ void m_tc_init(void)
 		.cpcstop = FALSE,
 		.burst = FALSE,
 		.clki = FALSE,
-		.tcclks = TC_CLOCK_SOURCE_TC5
+		.tcclks = TC_CLOCK_SOURCE_TC2
 	};
 
 	//Configure timer, for interrupt
 	tc_init_waveform(&AVR32_TC, &waveform_opt);
-	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 1875);	//TODO: CONSTANT! 1875 = 2 mS -> 500 rpm
+	//~ tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 1875);	//TODO: CONSTANT! 1875 = 2 mS -> 500 rpm
+	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 75);	//TODO: CONSTANT! 1875 = 2 mS -> 500 rpm
 	//~ tc_start(&AVR32_TC, TC_CHANNEL_0);
 }
 

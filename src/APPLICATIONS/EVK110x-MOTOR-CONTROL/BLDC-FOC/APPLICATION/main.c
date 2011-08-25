@@ -409,6 +409,7 @@ volatile unsigned short adc_value_ia;
 /*/
 
 
+
    while(1)
    {
 #ifdef USB_DEBUG
@@ -416,6 +417,7 @@ volatile unsigned short adc_value_ia;
       usb_task();
       device_cdc_task();
 #endif
+
       mc_control_task();
    }
 }
