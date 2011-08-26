@@ -11,7 +11,7 @@
 #include "compiler.h"
 
 //Debug output on USART? remove to get rid of usart output
-#define DEBUG
+//~ #define DEBUG
 
 /*! \name Oscillator Definitions
  */
@@ -49,7 +49,11 @@
 #define MOTPWMB AVR32_PWM_0_PIN	//AVR32_PIN_PB20 for AVR32UC3A1512
 #define MOTPWMC AVR32_PWM_0_PIN	//AVR32_PIN_PB21 for AVR32UC3A1512
 
-
+/* Connectors defines used during debug */
+#define J13_10 AVR32_PIN_PA05
+#define J13_11 AVR32_PIN_PA06
+#define J13_12 AVR32_PIN_PA14
+#define J13_13 AVR32_PIN_PA13
 
 
 #endif /* __BOARD_USB11_H__ */

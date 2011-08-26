@@ -122,6 +122,8 @@ void mc_control_task()
         mc_lowlevel_start();
         mc_register_callback(FOC_state_machine);
         FOC_set_state_machine(FOC_state_ramp_up_init);
+        FOC_set_state_machine(FOC_state_regulation);
+
         MC_BLDC_motor.mc_state = RUN;
         break;
       case RUN:

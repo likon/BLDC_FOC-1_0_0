@@ -150,6 +150,7 @@ void FOC_state_machine(void)
       break;
 
     case FOC_state_regulation:
+    gpio_tgl_gpio_pin(J13_10);
       // Current Measurement
       FOC_read_current();
       // Update teta and speed values
@@ -321,7 +322,7 @@ static void FOC_regulate_torque(void)
     FOC_Speed_reg.IP_REG_mes = (MC_BLDC_motor.Speedm)*(transf_v);
     FOC_Speed_reg.IP_REG_ref = MC_BLDC_motor.Speedref;
     IP_REG_compute(&FOC_Speed_reg);
-    MC_BLDC_motor.Iqref = FOC_Speed_reg.IP_REG_output*104; //(2500/24)
+    MC_BLDC_motor.Iqref = FOC_Speed_reg.IP_REG_output*104; //(2500/24)	//TODO: Constant!
     FOC_Iq_reg.IP_REG_lasterror = MC_BLDC_motor.Iqref - MC_BLDC_motor.Iqm;
 }
 static void FOC_regulate_field(void)
@@ -362,9 +363,10 @@ static void FOC_update_duty(void)
    }
    else
    {
-      mc_update_duty_cycle( svpwm_options.duty1,
-                            svpwm_options.duty0,
-                            svpwm_options.duty2);	//TODO: Get the order of the numbers correct!!!
+	   //~ TODO: Uncomment
+      //~ mc_update_duty_cycle( svpwm_options.duty2,
+                            //~ svpwm_options.duty1,
+                            //~ svpwm_options.duty0);	//TODO: Get the order of the numbers correct!!!
 
       //~ mc_update_duty_cycle( svpwm_options.duty2,
                             //~ svpwm_options.duty3,

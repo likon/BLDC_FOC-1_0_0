@@ -340,7 +340,7 @@ endif
 program: all
 	@echo
 	@echo $(MSG_PROGRAMMING)
-	$(VERBOSE_CMD)$(PROGRAM) program $(FLASH:%=-f%) $(PROG_CLOCK:%=-c%) -e -v -R $(if $(findstring run,$(MAKECMDGOALS)),-r) $(TARGET)
+	$(VERBOSE_CMD)$(PROGRAM) program $(FLASH:%=-f%) $(PROG_CLOCK:%=-c%) -e -Rr $(if $(findstring run,$(MAKECMDGOALS)),-r) $(TARGET)
 ifeq ($(call LastWord,$(filter cpuinfo chiperase program secureflash debug readregs,$(MAKECMDGOALS))),program)
 	@echo
 endif

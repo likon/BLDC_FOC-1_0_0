@@ -57,26 +57,30 @@
 
 //zero_adc: seem to be bias value to satisfy adc_value_ia + adc_value_ib + adc_value_ic = zero_adc
 //~ # define  zero_adc                              1680
-#define zero_adc 0x200
+#define zero_adc (3 * 0x200)
+
 //erreur_max: seem to be a sqrtt iteration value
 # define  erreur_max                            300
 # define  Un_1                                  2147483648  // 2^31
+
 //echelle_adc and offset: Seem to be scale values, ia= (adc_value_ia-offset)*echelle_adc;
-# define  echelle_adc                           768955
+//TODO: The 'offset' value should be coupled to zero_adc. (zero_adc = 3 * offset) or (offset = zero_adc / 3), doesnt make sense to have them separate
+# define  echelle_adc                           768955	//echelle = scale
 //~ # define  offset                                560
 #define offset 0x200
 
 //rayon_limitation: Seem to be used at Park transformation for Vd and Vq, seem to be close to 2^31 * 1 / sqrt(8)
-# define  rayon_limitation                      751619276  // 1/sqrt8
-# define  rayon_carre_limitation                263066746  // 1/8
-# define  vitesse_inst                          864000
+# define  rayon_limitation                      751619276  // 1/sqrt8	rayon = radie
+# define  rayon_carre_limitation                263066746  // 1/8	carre = square
+# define  vitesse_inst                          864000	//vitesse = speed
 
 //~ # define  pi_Fcpu                               150796447
 #define PI_X_FCPU                                 ((int)(FCPU_HZ * PI))
-# define  tirq_demi_period_init                 300000
+//~ # define  tirq_demi_period_init                 300000
+# define  tirq_demi_period_init                 20000	//demi = half
 //transf_v: Seem to have something to do with 2500, as 2^31/858992 = 2500.001336
 # define  transf_v                              858993
-//Te: Seem to have something to do with 10000
+//Te: Seem to have something to do with 10000, not used in the code anyway
 //~ #define    Te                                   214748    // 100 us
 //~ #define    Fe                                   10000     // 100 us
 #define   IQREF_RAMPUP                          89478485        //!< (Icrete*2^31)/(2E)
@@ -88,6 +92,7 @@
 #define    Lc             547608    // Lc =0.5(0.51e-3).2^31;  en general Lc= Lc .2^31
 #define    Kcn            1503238   //Kcn=Kc/2E .2^31 = (0.0168/2.12).2^31
 #define    P              4
+
 #define    E              12
 
 //Section 4.4
@@ -99,9 +104,13 @@
 
 #define     Kp_iq         4*R                 //<!Theorical Value  : 7R
 #define     Ki_iq         (163040327>>4)      //<! Theorical Value : 4 *R^2/Lc
+
+
+
 /*! \name USART Settings
  */
 //! @{
+//These are not really used, and WHY are they defined here anyway? Should be moved. //Mjan 20110825
 #if BOARD == EVK1100
 #  define STDIO_USART               (&AVR32_USART1)
 #  define STDIO_USART_BAUDRATE      57600

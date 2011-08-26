@@ -25,7 +25,7 @@
 void tirq_int_handler(void);
 
 volatile unsigned short first_interrupt = 0;
-volatile unsigned short nieme = 0;
+volatile unsigned short nieme = 0;	//n:te
 volatile U32 tirq_demi_period = tirq_demi_period_init ;
 volatile unsigned short teta0 = 0;
 volatile U32 tirq_tj;
@@ -80,7 +80,7 @@ void tirq_estimator_start(void)
 }
 
 //------------------------------------------------------------------------------
-/*! \name Stop function
+/*! \name Stop functionechelle
  */
 //! @{
 void tirq_estimator_stop(void)
@@ -91,17 +91,20 @@ void tirq_estimator_stop(void)
 }
 //@}
 
-
+static int a = 0;
 __attribute__((__interrupt__))
 void tirq_int_handler(void)
 {
 	unsigned int sr;
 	sr = tc_read_sr(&AVR32_TC, TC_CHANNEL_0);
+	if(a++ == 0x2) {
+		a = 0;
 	if(sr && (1 << AVR32_TC_CPCS)) {
 		//~ gpio_tgl_gpio_pin(MLED0);	//TODO: Remove, debug code
 		//~ gpio_tgl_gpio_pin(AVR32_PWM_0_PIN);	//TODO: Remove, debug code
 		//~ gpio_tgl_gpio_pin(AVR32_PWM_1_PIN);	//TODO: Remove, debug code
-		gpio_tgl_gpio_pin(AVR32_PWM_2_PIN);	//TODO: Remove, debug code
+		//~ gpio_tgl_gpio_pin(AVR32_PWM_2_PIN);	//TODO: Remove, debug code
+		gpio_tgl_gpio_pin(J13_11);	//TODO: Remove, debug code
 		tirq_tj= Get_sys_count();
 		tirq_demi_period = tirq_tj - tirq_ti;
 		tirq_ti = tirq_tj; // arm for next period
@@ -116,6 +119,7 @@ void tirq_int_handler(void)
 		}
 	}
 	//~ gpio_tgl_gpio_pin(MLED1);
+	}
 }
 
 void m_tc_init(void)
@@ -131,13 +135,12 @@ void m_tc_init(void)
 		.cpcstop = FALSE,
 		.burst = FALSE,
 		.clki = FALSE,
-		.tcclks = TC_CLOCK_SOURCE_TC2
+		.tcclks = TC_CLOCK_SOURCE_TC5
 	};
 
 	//Configure timer, for interrupt
 	tc_init_waveform(&AVR32_TC, &waveform_opt);
-	//~ tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 1875);	//TODO: CONSTANT! 1875 = 2 mS -> 500 rpm
-	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 75);	//TODO: CONSTANT! 1875 = 2 mS -> 500 rpm
+	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 375);	//TODO: CONSTANT! 187.5 = 2 mS -> 500 rpm
 	//~ tc_start(&AVR32_TC, TC_CHANNEL_0);
 }
 

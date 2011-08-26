@@ -152,10 +152,10 @@ void mc_global_init(void)
   tirq_estimator_init();
   tirq_estimator_init_interrupt();
   // --------------------- PWM Initialization ----------------------------------
-  //~ #define MAX_PWM_VALUE 1200	//Original value, seem to be 26.7 kHz
-  #define MAX_PWM_VALUE 1391	//23 kHz
-  #define MAX_PWM_VALUE 1600	//20 kHz
-  pwm_drv_options.max_pwm_value = MAX_PWM_VALUE;    // Cprd	TODO: Macro
+  //~ #define MAX_PWM_VALUE 1200	//Original value, seem to be ~26.7 kHz
+  //~ #define MAX_PWM_VALUE 1391	//23 kHz
+  #define MAX_PWM_VALUE 545	//20 kHz
+  pwm_drv_options.max_pwm_value = MAX_PWM_VALUE;    // Cprd,	TODO: Macro
   pwm_drv_init(&pwm_drv_options);
   INTC_register_interrupt(&pwm_int_handler, AVR32_PWM_IRQ, AVR32_INTC_INT0);
 }
@@ -165,12 +165,12 @@ void mc_lowlevel_start(void)
   // --------------------- ADC Start ----------------------------------
   if (MC_BLDC_motor.mc_motor_direction == MC_CW)
   {
-    //~ adc_channel_ia = CURRENT_IB_ADC_CHANNEL;
+    //~ adc_channel_ia = CURRENT_IB_ADC_CHANNEL;	//TODO: Decide on the correct sequence.
     //~ adc_channel_ib = CURRENT_IC_ADC_CHANNEL;
     //~ adc_channel_ic = CURRENT_IA_ADC_CHANNEL;
-    adc_channel_ia = CURRENT_IA_ADC_CHANNEL;
-    adc_channel_ib = CURRENT_IB_ADC_CHANNEL;
-    adc_channel_ic = CURRENT_IC_ADC_CHANNEL;
+    adc_channel_ia = CURRENT_IB_ADC_CHANNEL;
+    adc_channel_ib = CURRENT_IC_ADC_CHANNEL;
+    adc_channel_ic = CURRENT_IA_ADC_CHANNEL;
   }
   else
   {
@@ -187,7 +187,7 @@ void mc_lowlevel_start(void)
   tirq_estimator_start();
   // --------------------- PWM Start ----------------------------------
   pwm_drv_start(); // Start PWM Channels
-  pwm_drv_duty_cycle(&pwm_drv_options,500,550,500);
+  pwm_drv_duty_cycle(&pwm_drv_options,500/2,550/2,600/2);	//TODO: CONSTANT!!!
   //~ pwm_drv_duty_cycle(&pwm_drv_options,500,550,500,550,500,550);
 }
 
@@ -203,7 +203,7 @@ void mc_lowlevel_stop(void)
   tirq_estimator_stop();
   // --------------------- PWM Stop ----------------------------------
   pwm_drv_stop(); // Stop PWM Channels
-  mc_update_duty_cycle((volatile U16)500, (volatile U16)550, (volatile U16)500);
+  mc_update_duty_cycle((volatile U16)500/2, (volatile U16)550/2, (volatile U16)600/2);
   //~ mc_update_duty_cycle(500,550,500,550,500,550);
 }
 //@}

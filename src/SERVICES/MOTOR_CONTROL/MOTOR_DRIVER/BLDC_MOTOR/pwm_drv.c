@@ -66,11 +66,11 @@ void pwm_drv_init(volatile pwm_drv_options_t *pwm_drv_options)
   // select GPIO alternate function
    static const gpio_map_t PWM_GPIO_MAP  =
   {
-    {PWM_XL_PIN_NUMBER, PWM_XL_PWM_FUNCTION},
+    { PWM_XL_PIN_NUMBER, PWM_XL_PWM_FUNCTION },
     //~ {PWM_XH_PIN_NUMBER, PWM_XH_PWM_FUNCTION},
-    {PWM_YL_PIN_NUMBER, PWM_YL_PWM_FUNCTION},
+    { PWM_YL_PIN_NUMBER, PWM_YL_PWM_FUNCTION },
     //~ {PWM_YH_PIN_NUMBER, PWM_YH_PWM_FUNCTION},
-    {PWM_ZL_PIN_NUMBER, PWM_ZL_PWM_FUNCTION},
+    { PWM_ZL_PIN_NUMBER, PWM_ZL_PWM_FUNCTION },
     //~ {PWM_ZH_PIN_NUMBER, PWM_ZH_PWM_FUNCTION}
   };
 

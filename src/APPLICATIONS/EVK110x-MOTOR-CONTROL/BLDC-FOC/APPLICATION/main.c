@@ -89,6 +89,7 @@
 #include "mc_driver.h"
 #include "mc_control.h"
 #include "conf_motor_driver.h"
+#include "motor_startup.h"
 
 #include "math.h"
 
@@ -106,6 +107,113 @@
 #include "device_cdc_task.h"
 #include "conf_foc.h"
 #include "usb_standard_request.h"
+
+void test_pwm(void);	//TODO: Move/remove test functions
+void test_init_motor_drive(void);
+void test_gpio(void);
+void test_usart(void);
+void test_thomas_program(void);
+
+/*! Simple test program supplied by Thomas */
+void test_thomas_program(void)
+{
+	int i;
+	double phi;
+	int si1,si2,si3;
+	volatile unsigned short adc_value_ia;
+	volatile unsigned short adc_value_ib;
+	volatile unsigned short adc_value_ic;
+
+	AVR32_PWM.mr = 1|(1<<16)|(3<<24)|(3<<8);	//clka,b ohne div, MCLK/8
+	for(i=0; i<3; i++){
+	  AVR32_PWM.channel[i].cmr= 2|(1<<8);   // Channel mode. MCLK/4 center aligned
+	  AVR32_PWM.channel[i].cdty= 50; // Duty cycle, should be < CPRD.
+	  AVR32_PWM.channel[i].cprd= 80; // Channel period.
+	}
+
+	AVR32_PWM.ena = 0x07;	//channel 0..2 enable
+	//~ delay_init(FCPU_HZ);
+	//~ #define OFFSET 127
+	#define OFFSET 40
+	#define AMP 30.0
+	#define DPHI 0.03
+	float dphi = DPHI;
+	unsigned int a = 0;
+
+	while(1){
+		phi += dphi;
+		if(a++ == 0xff) {
+			a = 0;
+			if(dphi >= 0.3) {
+
+			} else {
+				dphi += 0.001;
+			}
+			//~ printf("dphi = %e\n\r", dphi);
+		}
+		si1=OFFSET+(int)(AMP*sin(phi));
+		si2=OFFSET+(int)(AMP*sin(phi+2.0943));	//120°
+		si3=OFFSET+(int)(AMP*sin(phi+4.1888));	//240°
+		AVR32_PWM.channel[0].cdty=si1;
+		AVR32_PWM.channel[1].cdty=si2;
+		AVR32_PWM.channel[2].cdty=si3;
+		adc_value_ia = mc_get_ia();
+		adc_value_ib = mc_get_ib();
+		adc_value_ic = mc_get_ic();
+
+	//~ printf("si1 = %i\n\r", si1);
+	#ifdef DEBUG
+	//~ printf("ia = 0x%04x\n\r", adc_value_ia);
+	//~ printf("ib = 0x%04x\n\r", adc_value_ib);
+	//~ printf("ic = 0x%04x\n\r", adc_value_ic);
+	#endif
+	}
+}
+
+/*! Simple test of motor output driver */
+void test_init_motor_drive(void)
+{
+	gpio_set_gpio_pin(MOTEN);
+	gpio_set_gpio_pin(STBINV);
+	//~ gpio_tgl_gpio_pin(PWM_YL_PIN_NUMBER);
+	//~ gpio_enable_module_pin(PWM_XL_PIN_NUMBER, PWM_XL_PWM_FUNCTION);
+	//~ gpio_enable_module_pin(PWM_YL_PIN_NUMBER, PWM_YL_PWM_FUNCTION);
+	//~ gpio_enable_module_pin(PWM_ZL_PIN_NUMBER, PWM_ZL_PWM_FUNCTION);
+	mc_global_init();
+	mc_lowlevel_start();
+}
+
+/*! Simple functional test of PWM signal, for debugging */
+void pwm_test(void)
+{
+	test_init_motor_drive();
+	while(1);
+}
+
+/*! Simple test of GPIO pins, for debugging */
+void test_gpio(void)
+{
+	gpio_set_gpio_pin(MOTEN); //Activate motor driver IC output
+	gpio_set_gpio_pin(STBINV);
+	//Initialize timer interrupt
+	tirq_init();
+	tirq_estimator_start();
+	//~ tc_start(&AVR32_TC, 0);
+	while(1) {
+		gpio_tgl_gpio_pin(AVR32_PIN_PB19);
+		//~ gpio_tgl_gpio_pin(AVR32_PIN_PB20);
+		//gpio_tgl_gpio_pin(AVR32_PIN_PB21);
+	}
+}
+
+/*! Simple USART test */
+void test_usart(void)
+{
+	//Direct output
+	usart_write_line(&AVR32_USART0, "Hello serial!\n\r");
+	//Output via printf
+	printf("Hello Kitty!\n\r");
+}
 
 extern volatile unsigned short tick;
 
@@ -151,16 +259,9 @@ volatile avr32_pm_t* pm = &AVR32_PM;
   /* Switch the main clock to OSC0 */
   pm_switch_to_osc0(pm, FOSC0, OSC0_STARTUP);
   /* Setup PLL0 on OSC0 */
-  //~ pm_pll_setup(pm,  // volatile avr32_pm_t* pm
-               //~ 0,   // unsigned int pll
-               //~ 7,   // unsigned int mul
-               //~ 1,   // unsigned int div, Sel Osc0/PLL0 or Osc1/Pll1
-               //~ 0,   // unsigned int osc
-               //~ 16); // unsigned int lockcount
-
   pm_pll_setup(pm,  // volatile avr32_pm_t* pm
                0,   // unsigned int pll
-               11,   // unsigned int mul
+               11,  // unsigned int mul
                1,   // unsigned int div,
                0,   // unsigned int osc, Sel Osc0/PLL0 or Osc1/PLL1
                16); // unsigned int lockcount
@@ -310,11 +411,9 @@ int main (void)
 	};
 
 	usart_init_rs232(&AVR32_USART0, &usart_opt, FPBA_HZ);
-	//~ usart_write_line(&AVR32_USART0, "Hello Kitty!");
-
+	test_usart();
 	//~ usart_init(57600);
 	set_usart_base((void *) &AVR32_USART0);
-	//~ printf("HERE I AM! Hello Kitty!\n");
 
 #ifdef USB_DEBUG
   init_usb();
@@ -327,24 +426,6 @@ int main (void)
 
 #endif
 
-	gpio_set_gpio_pin(MOTEN);
-	gpio_set_gpio_pin(STBINV);
-	//Initialize timer interrupt
-	tirq_init();
-	tirq_estimator_start();
-	//~ tc_start(&AVR32_TC, 0);
-	while(1) {
-		//~ gpio_tgl_gpio_pin(AVR32_PIN_PB19);
-		//~ gpio_tgl_gpio_pin(AVR32_PIN_PB20);
-		//gpio_tgl_gpio_pin(AVR32_PIN_PB21);
-	}
-
-   // Initialize control task
-   mc_control_task_init();
-
-   // Initialize direction
-   mc_set_motor_direction(MC_CW);
-
 	//Enable the motor driver circuit
 	gpio_set_gpio_pin(MOTEN);
 	gpio_set_gpio_pin(STBINV);
@@ -354,61 +435,25 @@ int main (void)
 	gpio_enable_module_pin(PWM_ZL_PIN_NUMBER, PWM_ZL_PWM_FUNCTION);
 
 //--------
-	//~ mc_global_init();
-	//~ mc_lowlevel_start();
+	mc_global_init();
+	mc_lowlevel_start();
 	//~ while(1);
 //-----===
 
-/* /-----------
-int i;
-double phi;
-int si1,si2,si3;
-volatile unsigned short adc_value_ia;
-	volatile unsigned short adc_value_ib;
-	volatile unsigned short adc_value_ic;
 
-	AVR32_PWM.mr = 1|(1<<16)|(3<<24)|(3<<8);	//clka,b ohne div, MCLK/8
-	for(i=0; i<3; i++){
-	  AVR32_PWM.channel[i].cmr= 2|(1<<8);   // Channel mode. MCLK/4 center aligned
-	  AVR32_PWM.channel[i].cdty= 180; // Duty cycle, should be < CPRD.
-	  AVR32_PWM.channel[i].cprd= 256; // Channel period.
-	}
+   // Initialize control task
+   mc_control_task_init();
 
-	AVR32_PWM.ena = 0x07;	//channel 0..2 enable
-	//while(1);
-	delay_init(32000000UL);
-#define OFFSET 127
-#define AMP 25.0
-#define DPHI 0.03
-	while(1){
-		phi+=DPHI;
-		si1=OFFSET+(int)(AMP*sin(phi));
-		si2=OFFSET+(int)(AMP*sin(phi+2.0943));	//120°
-		si3=OFFSET+(int)(AMP*sin(phi+4.1888));	//240°
-		AVR32_PWM.channel[0].cdty=si1;
-		AVR32_PWM.channel[1].cdty=si2;
-		AVR32_PWM.channel[2].cdty=si3;
-		adc_value_ia = mc_get_ia();
-		adc_value_ib = mc_get_ib();
-		adc_value_ic = mc_get_ic();
+   // Initialize direction
+   mc_set_motor_direction(MC_CW);
 
-#ifdef DEBUG
-	printf("---------------\n\r");
-	printf("ia = 0x%04x\n\r", adc_value_ia);
-	printf("ib = 0x%04x\n\r", adc_value_ib);
-	printf("ic = 0x%04x\n\r", adc_value_ic);
-	#endif
+	//~ motor_startup();
+	//~ pwm_test();
 
-		//delay_ms(1);
-		//for(i = 0; i < 0x8000; i++) {
-		//	asm volatile("nop");
-		//}
-
-	}
-//------------------
-/*/
-
-
+	gpio_enable_pin_pull_up(J13_10);
+	gpio_enable_pin_pull_up(J13_11);
+	gpio_enable_pin_pull_up(J13_12);
+	gpio_enable_pin_pull_up(J13_13);
 
    while(1)
    {
@@ -418,7 +463,8 @@ volatile unsigned short adc_value_ia;
       device_cdc_task();
 #endif
 
+	if(gpio_get_pin_value(J13_13) != 0) {
       mc_control_task();
+	}
    }
 }
-
