@@ -49,8 +49,7 @@
 void concordia(int ia, int ib, int ic, int *ialpha ,int *ibeta)
 {
   int ibc;
-  
-  
+
   // ialpha=sqrt(2/3)(ia-0.5ib-0.5ic)
   //ibeta=1/sqrt(2) (ib-ic)
   ibc=ib-ic;

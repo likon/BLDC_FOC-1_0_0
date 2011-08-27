@@ -131,6 +131,7 @@ void FOC_set_state_machine(FOC_STATE_t FOC_state_p) { FOC_state = FOC_state_p;}
 //!
 void FOC_state_machine(void)
 {
+
   switch(FOC_state)
   {
     case FOC_state_ramp_up_init:
@@ -146,11 +147,11 @@ void FOC_state_machine(void)
 
     case FOC_state_ramp_up:
       if (FOC_start_motor()==1)
-        FOC_state = FOC_state_regulation;	//TODO: uncomment
+        //~ FOC_state = FOC_state_regulation;	//TODO: uncomment
       break;
 
     case FOC_state_regulation:
-    gpio_tgl_gpio_pin(J13_10);
+		//~ gpio_tgl_gpio_pin(J13_10);	//TODO: Remove debug code
       // Current Measurement
       FOC_read_current();
       // Update teta and speed values
@@ -244,9 +245,9 @@ static void FOC_read_current(void)
    ic= (adc_value_ic-offset)*echelle_adc;
    #ifdef DEBUG
 	printf("---------------\n\r");
-	printf("ia = 0x%04x\n\r", adc_value_ia);
-	printf("ib = 0x%04x\n\r", adc_value_ib);
-	printf("ic = 0x%04x\n\r", adc_value_ic);
+	printf("ia = 0x%04x, %i\n\r", adc_value_ia, ia);
+	printf("ib = 0x%04x, %i\n\r", adc_value_ib, ib);
+	printf("ic = 0x%04x, %i\n\r", adc_value_ic, ic);
 	#endif
 
 }
@@ -408,9 +409,11 @@ static unsigned char FOC_start_motor(void)
       break;
 
     case FOC_rampup_step_openloop:
+		gpio_tgl_gpio_pin(J13_10);
+		return 0;
       FOC_rampup_step_openloop_counter++;
       FOC_update_teta_speed();
-      MC_BLDC_motor.Tetam=(unsigned short)(FOC_rampup_step_openloop_counter-360*(int)(FOC_rampup_step_openloop_counter/360));
+      MC_BLDC_motor.Tetam=(unsigned short)(FOC_rampup_step_openloop_counter - 360 * (int)(FOC_rampup_step_openloop_counter / 360));
       park_inv(Vdref,Vqref,MC_BLDC_motor.Tetam,&(svpwm_options.Valpha),&(svpwm_options.Vbeta));
       FOC_compute_svpwm();
       FOC_update_duty();
@@ -423,7 +426,7 @@ static unsigned char FOC_start_motor(void)
           FOC_Iq_reg.IP_REG_discharge = 0;
           FOC_Iq_reg.IP_REG_lasterror=MC_BLDC_motor.Iqref-MC_BLDC_motor.Iqm;
           FOC_Id_reg.IP_REG_lasterror=-MC_BLDC_motor.Idm;
-          FOC_rampup_step = FOC_rampup_step_fieldreg_loop;
+          //~ FOC_rampup_step = FOC_rampup_step_fieldreg_loop;
       }
       break;
 
@@ -437,12 +440,12 @@ static unsigned char FOC_start_motor(void)
       // REgulate Id
       FOC_Id_reg.IP_REG_mes = MC_BLDC_motor.Idm;
       FOC_Id_reg.IP_REG_ref = MC_BLDC_motor.Idref;
-      IP_REG_compute(&FOC_Id_reg);
+      //~ IP_REG_compute(&FOC_Id_reg);
       Vdref = FOC_Id_reg.IP_REG_output;
       // REgulate Iq
       FOC_Iq_reg.IP_REG_mes = MC_BLDC_motor.Iqref;
       FOC_Iq_reg.IP_REG_ref = MC_BLDC_motor.Iqref;
-      IP_REG_compute(&FOC_Iq_reg);
+      //~ IP_REG_compute(&FOC_Iq_reg);
       Vq = FOC_Iq_reg.IP_REG_output;
       park_inv(Vdref,Vqref,MC_BLDC_motor.Tetam,&(svpwm_options.Valpha),&(svpwm_options.Vbeta));
       FOC_compute_svpwm();
@@ -457,7 +460,7 @@ static unsigned char FOC_start_motor(void)
           FOC_Speed_reg.IP_REG_discharge = 0;
           FOC_Iq_reg.Ki = (163040327>>5);
           FOC_Id_reg.Ki = (163040327>>5);
-          FOC_rampup_step = FOC_rampup_step_torquereg_loop;
+          //~ FOC_rampup_step = FOC_rampup_step_torquereg_loop;
       }
     break;
 

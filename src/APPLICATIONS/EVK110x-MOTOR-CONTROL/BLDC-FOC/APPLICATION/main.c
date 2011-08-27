@@ -389,15 +389,16 @@ void init_usb(void)
 }
 int main (void)
 {
-
   // Configure standard I/O streams as unbuffered.
-#if __GNUC__ && __AVR32__
-  setbuf(stdin, NULL);
-#endif
+	#if __GNUC__ && __AVR32__
+	setbuf(stdin, NULL);
+	#endif
 	setbuf(stdout, NULL);
 
-	#define USART_RX AVR32_USART0_RXD_0_0_PIN
-	#define USART_TX AVR32_USART0_TXD_0_0_PIN
+	/* Set up USART for debug output */
+	#define USART_RX STDIO_USART_RX_PIN	//AVR32_USART0_RXD_0_0_PIN
+	#define USART_TX STDIO_USART_TX_PIN	//AVR32_USART0_TXD_0_0_PIN
+
 	volatile avr32_gpio_port_t * gpio = &AVR32_GPIO;
 	gpio->gperc = 1 << (USART_RX & 0x1f);
 	gpio->gperc = 1 << (USART_TX & 0x1f);
@@ -407,12 +408,10 @@ int main (void)
 		.paritytype = USART_NO_PARITY,
 		.stopbits = USART_1_STOPBIT,
 		.channelmode = USART_NORMAL_CHMODE,
-		.baudrate = 115200
+		.baudrate = STDIO_USART_BAUDRATE
 	};
 
 	usart_init_rs232(&AVR32_USART0, &usart_opt, FPBA_HZ);
-	test_usart();
-	//~ usart_init(57600);
 	set_usart_base((void *) &AVR32_USART0);
 
 #ifdef USB_DEBUG
@@ -434,7 +433,7 @@ int main (void)
 	gpio_enable_module_pin(PWM_YL_PIN_NUMBER, PWM_YL_PWM_FUNCTION);
 	gpio_enable_module_pin(PWM_ZL_PIN_NUMBER, PWM_ZL_PWM_FUNCTION);
 
-//--------
+//-----===
 	mc_global_init();
 	mc_lowlevel_start();
 	//~ while(1);
@@ -463,8 +462,8 @@ int main (void)
       device_cdc_task();
 #endif
 
-	if(gpio_get_pin_value(J13_13) != 0) {
+	//~ if(gpio_get_pin_value(J13_13) != 0) {
       mc_control_task();
-	}
+	//~ }
    }
 }

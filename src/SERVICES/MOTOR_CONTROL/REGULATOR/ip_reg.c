@@ -50,8 +50,8 @@
 
 //_____ P R I V A T E   D E C L A R A T I O N S ____________________________
 
-//! @brief This function executes I.P Regulator 
-//! Theory : 
+//! @brief This function executes I.P Regulator
+//! Theory :
 //!        Feedback=Feedback-Discharge+Ki.Te.Error
 //!        Output=Feedback-Kd.Mes
 //!        Error=Ref-Mes

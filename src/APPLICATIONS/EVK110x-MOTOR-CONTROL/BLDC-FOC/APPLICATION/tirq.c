@@ -9,23 +9,11 @@
 
 #include "tirq.h"
 
-#define TC_CHANNEL_0 0
-
-//TODO: Remove MLED and BUT definitions and relevant debug code
-//~ #define MLED0 AVR32_PIN_PB27
-//~ #define MLED1 AVR32_PIN_PB28
-//~ #define MLED2 AVR32_PIN_PB29
-//~ #define MLED3 AVR32_PIN_PB30
-//~
-//~ #define BUT0 AVR32_PIN_PX16
-//~ #define BUT1 AVR32_PIN_PX19
-//~ #define BUT2 AVR32_PIN_PX22
-
 //TODO: move away
 void tirq_int_handler(void);
 
 volatile unsigned short first_interrupt = 0;
-volatile unsigned short nieme = 0;	//n:te
+volatile unsigned short nieme = 0;    //n:te
 volatile U32 tirq_demi_period = tirq_demi_period_init ;
 volatile unsigned short teta0 = 0;
 volatile U32 tirq_tj;
@@ -40,7 +28,7 @@ void tirq_estimator_update_teta_and_speed(volatile unsigned short *teta_elec, vo
     *teta_elec = 360;
     nieme = 0;
   }
-  *vitesse_elec = PI_X_FCPU / tirq_demi_period;  //pi*Fcpu  (Fcpu=48Mhz)
+  *vitesse_elec = PI_X_FCPU / tirq_demi_period;  //pi * Fcpu  (Fcpu=48Mhz)
 }
 
 void tirq_estimator_init_teta(volatile unsigned short teta)
@@ -72,7 +60,7 @@ void tirq_estimator_init_interrupt(void)
 //! @{
 void tirq_estimator_start(void)
 {
-	tc_start(&AVR32_TC, TC_CHANNEL_0);
+	//~ tc_start(&AVR32_TC, TC_CHANNEL_0);
     //~ gpio_enable_pin_pull_up(HALL_1_PIN );	// HALL_1_PIN
     //~ gpio_enable_pin_interrupt(HALL_1_PIN , GPIO_PIN_CHANGE);	// HALL_1_PIN
     tirq_ti = Get_sys_count();
@@ -140,7 +128,7 @@ void m_tc_init(void)
 
 	//Configure timer, for interrupt
 	tc_init_waveform(&AVR32_TC, &waveform_opt);
-	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 375);	//TODO: CONSTANT! 187.5 = 2 mS -> 500 rpm
+	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 8375);	//TODO: CONSTANT! 187.5 = 2 mS -> 500 rpm
 	//~ tc_start(&AVR32_TC, TC_CHANNEL_0);
 }
 

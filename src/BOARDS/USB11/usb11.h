@@ -11,7 +11,7 @@
 #include "compiler.h"
 
 //Debug output on USART? remove to get rid of usart output
-//~ #define DEBUG
+#define DEBUG
 
 /*! \name Oscillator Definitions
  */
@@ -42,6 +42,17 @@
 //~ #define MOTEN AVR32_PIN_PA11
 //~ #define POWER_DOWN_INT AVR32_PIN_PB01
 
+#define TC_CHANNEL_0 0
+
+//TODO: Remove MLED and BUT definitions and relevant debug code
+//~ #define MLED0 AVR32_PIN_PB27
+//~ #define MLED1 AVR32_PIN_PB28
+//~ #define MLED2 AVR32_PIN_PB29
+//~ #define MLED3 AVR32_PIN_PB30
+//~
+//~ #define BUT0 AVR32_PIN_PX16
+//~ #define BUT1 AVR32_PIN_PX19
+//~ #define BUT2 AVR32_PIN_PX22
 //! @}
 
 /* TODO: Not used yet. Remove if still unused at end of project. */
@@ -54,6 +65,14 @@
 #define J13_11 AVR32_PIN_PA06
 #define J13_12 AVR32_PIN_PA14
 #define J13_13 AVR32_PIN_PA13
+
+/* Usart definitions */
+#define STDIO_USART               (&AVR32_USART0)
+#define STDIO_USART_BAUDRATE      115200	//57600
+#define STDIO_USART_RX_PIN        AVR32_USART0_RXD_0_0_PIN
+#define STDIO_USART_RX_FUNCTION   AVR32_USART0_RXD_0_0_FUNCTION
+#define STDIO_USART_TX_PIN        AVR32_USART0_TXD_0_0_PIN
+#define STDIO_USART_TX_FUNCTION   AVR32_USART0_TXD_0_0_FUNCTION
 
 
 #endif /* __BOARD_USB11_H__ */

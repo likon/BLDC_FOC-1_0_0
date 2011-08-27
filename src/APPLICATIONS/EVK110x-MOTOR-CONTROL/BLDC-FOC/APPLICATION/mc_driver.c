@@ -187,7 +187,7 @@ void mc_lowlevel_start(void)
   tirq_estimator_start();
   // --------------------- PWM Start ----------------------------------
   pwm_drv_start(); // Start PWM Channels
-  pwm_drv_duty_cycle(&pwm_drv_options,500/2,550/2,600/2);	//TODO: CONSTANT!!!
+  pwm_drv_duty_cycle_do(&pwm_drv_options,500/2,550/2,600/2);	//TODO: CONSTANT!!!
   //~ pwm_drv_duty_cycle(&pwm_drv_options,500,550,500,550,500,550);
 }
 
@@ -236,6 +236,9 @@ void mc_update_duty_cycle( volatile U16 mc_duty0,
                            volatile U16 mc_duty1,
                            volatile U16 mc_duty2)
 {
+	#ifdef DEBUG
+	printf("mc_update_duty_cycle\n\r");
+	#endif
      pwm_drv_duty_cycle(&pwm_drv_options,
                           mc_duty0,
                           mc_duty1,

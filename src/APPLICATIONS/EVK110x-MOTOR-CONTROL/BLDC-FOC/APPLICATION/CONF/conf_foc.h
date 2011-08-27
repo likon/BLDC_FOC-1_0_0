@@ -65,14 +65,14 @@
 
 //echelle_adc and offset: Seem to be scale values, ia= (adc_value_ia-offset)*echelle_adc;
 //TODO: The 'offset' value should be coupled to zero_adc. (zero_adc = 3 * offset) or (offset = zero_adc / 3), doesnt make sense to have them separate
-# define  echelle_adc                           768955	//echelle = scale
+# define  echelle_adc                           768955      //echelle = scale
 //~ # define  offset                                560
 #define offset 0x200
 
 //rayon_limitation: Seem to be used at Park transformation for Vd and Vq, seem to be close to 2^31 * 1 / sqrt(8)
-# define  rayon_limitation                      751619276  // 1/sqrt8	rayon = radie
-# define  rayon_carre_limitation                263066746  // 1/8	carre = square
-# define  vitesse_inst                          864000	//vitesse = speed
+# define  rayon_limitation                      751619276   // 1/sqrt8  rayon = radius
+# define  rayon_carre_limitation                263066746   // 1/8      carre = square
+# define  vitesse_inst                          864000      //          vitesse = speed
 
 //~ # define  pi_Fcpu                               150796447
 #define PI_X_FCPU                                 ((int)(FCPU_HZ * PI))
@@ -83,6 +83,7 @@
 //Te: Seem to have something to do with 10000, not used in the code anyway
 //~ #define    Te                                   214748    // 100 us
 //~ #define    Fe                                   10000     // 100 us
+//E seem to be 12, Icrete seem to be 1
 #define   IQREF_RAMPUP                          89478485        //!< (Icrete*2^31)/(2E)
 #define   IQREF_REGULAR                         (IQREF_RAMPUP>>1)   //!< (Icrete*2^31)/(2E)
 //! Motor Parameters
@@ -110,7 +111,7 @@
 /*! \name USART Settings
  */
 //! @{
-//These are not really used, and WHY are they defined here anyway? Should be moved. //Mjan 20110825
+//These are not really used, and WHY are they defined here anyway? Should be (re)moved. //Mjan 20110825
 #if BOARD == EVK1100
 #  define STDIO_USART               (&AVR32_USART1)
 #  define STDIO_USART_BAUDRATE      57600
@@ -119,13 +120,6 @@
 #  define STDIO_USART_TX_PIN        AVR32_USART1_TXD_0_0_PIN
 #  define STDIO_USART_TX_FUNCTION   AVR32_USART1_TXD_0_0_FUNCTION
 #elif BOARD == EVK1101
-#  define STDIO_USART               (&AVR32_USART1)
-#  define STDIO_USART_BAUDRATE      57600
-#  define STDIO_USART_RX_PIN        AVR32_USART1_RXD_0_0_PIN
-#  define STDIO_USART_RX_FUNCTION   AVR32_USART1_RXD_0_0_FUNCTION
-#  define STDIO_USART_TX_PIN        AVR32_USART1_TXD_0_0_PIN
-#  define STDIO_USART_TX_FUNCTION   AVR32_USART1_TXD_0_0_FUNCTION
-#elif BOARD == USB11
 #  define STDIO_USART               (&AVR32_USART1)
 #  define STDIO_USART_BAUDRATE      57600
 #  define STDIO_USART_RX_PIN        AVR32_USART1_RXD_0_0_PIN
