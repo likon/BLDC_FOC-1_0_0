@@ -59,8 +59,9 @@
 //~ # define  zero_adc                              1680
 #define zero_adc (3 * 0x200)
 
-//erreur_max: seem to be a sqrtt iteration value
+//erreur_max: seem to be a sqrtt iteration stop value, use a better name
 # define  erreur_max                            300
+#define  SQRT_ERROR_MAX                         300
 # define  Un_1                                  2147483648  // 2^31
 
 //echelle_adc and offset: Seem to be scale values, ia= (adc_value_ia-offset)*echelle_adc;
@@ -91,7 +92,7 @@
 // !!!!!!!!! Current and Voltages are divided by 2E  !!!!!!!!
 //R is (more or less) 2^31 * 0.22
 #define    R              472446402 // R=0.22 ohms
-//~ #define    R              (2147483647) // R=1 ohms?????
+//~ #define    R              (3*2147483647) // R=1 ohms?????
 #define    Lc             547608    // Lc =0.5(0.51e-3).2^31;  en general Lc= Lc .2^31
 #define    Kcn            1503238   //Kcn=Kc/2E .2^31 = (0.0168/2.12).2^31
 #define    P              4

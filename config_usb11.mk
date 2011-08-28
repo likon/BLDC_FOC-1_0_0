@@ -40,7 +40,7 @@ COMP_PATH = $(PRJ_PATH)/COMPONENTS
 DRVR_PATH = $(PRJ_PATH)/DRIVERS
 SERV_PATH = $(PRJ_PATH)/SERVICES
 UTIL_PATH = $(PRJ_PATH)/UTILS
-
+PIC_PATH = pic
 
 # CPU architecture: {ap|ucr1|ucr2}
 ARCH = ucr2
@@ -74,6 +74,7 @@ INC_PATH = \
   $(SERV_PATH)/USB/CLASS/DFU/EXAMPLES/ISP/BOOT/ \
   $(UTIL_PATH)/LIBS/NEWLIB_ADDONS/INCLUDE/ \
   $(UTIL_PATH)/LIBS/DRIVERS/AT32UC3A/INCLUDE/ \
+  $(UTIL_PATH)/LIBS/DSPLIB/AT32UCR2/INCLUDE \
   $(UTIL_PATH)/DEBUG/ \
   $(DRVR_PATH)/USBB/ \
   $(DRVR_PATH)/USBB/ENUM/ \
@@ -89,6 +90,7 @@ INC_PATH = \
   $(MAIN_PATH)/CONF/ \
   $(MAIN_PATH)/ENUM \
   $(MAIN_PATH)/ \
+  $(PIC_PATH)
 #  ../../../ \
 #  ../../
 
@@ -117,6 +119,8 @@ CSRCS = \
   $(MAIN_PATH)/util.c \
   $(MAIN_PATH)/tirq.c \
   $(MAIN_PATH)/usart.c \
+  $(PIC_PATH)/PMSM.c \
+  $(PIC_PATH)/smcpos.c \
   #~ $(MAIN_PATH)/motor_startup.c
 
 # Assembler source files
@@ -127,7 +131,8 @@ ASSRCS = \
 # Library path
 LIB_PATH = \
    $(UTIL_PATH)/LIBS/DRIVERS/AT32UC3A/GCC/ \
-   $(UTIL_PATH)/LIBS/NEWLIB_ADDONS/AT32UCR2/
+   $(UTIL_PATH)/LIBS/NEWLIB_ADDONS/AT32UCR2/ \
+   $(UTIL_PATH)/LIBS/DSPLIB/AT32UCR2/GCC
 
 # Libraries to link with the project
 LIBS = \

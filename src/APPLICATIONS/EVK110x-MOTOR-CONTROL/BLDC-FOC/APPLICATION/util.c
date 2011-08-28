@@ -44,10 +44,11 @@
 
 #include <avr32/io.h>
 #include "compiler.h"
+#include "util.h"
 
 int sqrtt(int x,int err)
 {
-  int xg=0; 
+  int xg=0;
   int xd=(x>>1);
   long long int xcarre=x;
   int xm=0;
@@ -64,7 +65,7 @@ int sqrtt(int x,int err)
 
   }
    // transforamtion vers la virgule fixe. xm=xm*2^15.5
-   return ((xm<<15)-(xm<<11)+(xm<<14)-(xm<<9)-(xm<<8)); 
+   return ((xm<<15)-(xm<<11)+(xm<<14)-(xm<<9)-(xm<<8));
 }
 
 //@}

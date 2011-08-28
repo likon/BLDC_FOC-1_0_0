@@ -92,7 +92,6 @@
 #include "motor_startup.h"
 
 #include "math.h"
-
 #include "usart.h"
 
 #if __GNUC__ && __AVR32__
@@ -108,6 +107,7 @@
 #include "conf_foc.h"
 #include "usb_standard_request.h"
 
+int pic_main ( void );
 void test_pwm(void);	//TODO: Move/remove test functions
 void test_init_motor_drive(void);
 void test_gpio(void);
@@ -399,7 +399,8 @@ int main (void)
 	#define USART_RX STDIO_USART_RX_PIN	//AVR32_USART0_RXD_0_0_PIN
 	#define USART_TX STDIO_USART_TX_PIN	//AVR32_USART0_TXD_0_0_PIN
 
-	volatile avr32_gpio_port_t * gpio = &AVR32_GPIO;
+	volatile avr32_gpio_port_t * gpio;
+	gpio = (avr32_gpio_port_t *)&AVR32_GPIO;
 	gpio->gperc = 1 << (USART_RX & 0x1f);
 	gpio->gperc = 1 << (USART_TX & 0x1f);
 
@@ -413,6 +414,9 @@ int main (void)
 
 	usart_init_rs232(&AVR32_USART0, &usart_opt, FPBA_HZ);
 	set_usart_base((void *) &AVR32_USART0);
+
+	pic_main();
+	while(1);
 
 #ifdef USB_DEBUG
   init_usb();

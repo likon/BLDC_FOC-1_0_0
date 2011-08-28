@@ -45,7 +45,8 @@
 
 #ifndef _PWM_DRV_H_
 #define _PWM_DRV_H_
-
+extern void __attribute__((interrupt)) pwm_interrupt_pic(void);
+__attribute__((__interrupt__)) void pwm_int_handler( void );
 //! Input parameters.
 typedef struct
 {

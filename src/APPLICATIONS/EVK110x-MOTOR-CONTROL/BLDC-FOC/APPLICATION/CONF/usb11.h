@@ -45,7 +45,7 @@
 #define MOTPWMB AVR32_PWM_0_PIN	//AVR32_PIN_PB20 for AVR32UC3A1512
 #define MOTPWMC AVR32_PWM_0_PIN	//AVR32_PIN_PB21 for AVR32UC3A1512
 */
-
+//TODO: Order of channels?
 //PB19 - MOTPWMA - J1-2
 #define PWM_XL_PIN_NUMBER           AVR32_PWM_0_PIN
 #define PWM_XL                      (PWM_XL_PIN_NUMBER - PWM_PORT_NUMBER * 0x20)
@@ -95,7 +95,6 @@
 #define CURRENT_IC_ADC_FUNCTION     AVR32_ADC_AD_2_FUNCTION
 
 //! @}
-
 
 #else
 #  error Wrong extension board. Try USB11 instead.

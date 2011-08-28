@@ -47,6 +47,7 @@
 #define _MC_DRIVER_H_
 #include "compiler.h"
 
+
 /*! \brief Low Level Motor Initialize
  */
 extern void mc_global_init(void);
