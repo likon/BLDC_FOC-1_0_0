@@ -170,7 +170,7 @@ include $(MAKECFG)
 # Default goal: build the project.
 ifeq ($(TGTTYPE),.a)
 .PHONY: all
-all: ccversion a lss sym sizes
+all: clean a lss sym sizes
 else
 ifeq ($(TGTTYPE),.elf)
 .PHONY: all

@@ -23,12 +23,18 @@ void tirq_estimator_update_teta_and_speed(volatile unsigned short *teta_elec, vo
 {
    nieme++;
    // 180*Fcpu*100e-6
+
   *teta_elec = (unsigned short)((U32)(vitesse_inst * 1 * nieme) / (U32)tirq_demi_period);
+  //~ printf("%i, %i\n\r", tirq_demi_period, *teta_elec);
   if(*teta_elec > 360) {
     *teta_elec = 360;
     nieme = 0;
   }
   *vitesse_elec = PI_X_FCPU / tirq_demi_period;  //pi * Fcpu  (Fcpu=48Mhz)
+  //~ printf("%i \n\r", vitesse_elec);
+  //~ if(tirq_demi_period > 2000) {
+	  //~ tirq_demi_period--;
+  //~ }
 }
 
 void tirq_estimator_init_teta(volatile unsigned short teta)
@@ -79,22 +85,18 @@ void tirq_estimator_stop(void)
 }
 //@}
 
-static int a = 0;
 __attribute__((__interrupt__))
 void tirq_int_handler(void)
 {
 	unsigned int sr;
+
 	sr = tc_read_sr(&AVR32_TC, TC_CHANNEL_0);
-	if(a++ == 0x2) {
-		a = 0;
 	if(sr && (1 << AVR32_TC_CPCS)) {
-		//~ gpio_tgl_gpio_pin(MLED0);	//TODO: Remove, debug code
-		//~ gpio_tgl_gpio_pin(AVR32_PWM_0_PIN);	//TODO: Remove, debug code
-		//~ gpio_tgl_gpio_pin(AVR32_PWM_1_PIN);	//TODO: Remove, debug code
-		//~ gpio_tgl_gpio_pin(AVR32_PWM_2_PIN);	//TODO: Remove, debug code
 		gpio_tgl_gpio_pin(J13_11);	//TODO: Remove, debug code
 		tirq_tj= Get_sys_count();
 		tirq_demi_period = tirq_tj - tirq_ti;
+		//~ printf("%i, %i\n\r", tirq_demi_period, 0);
+		//while(1);
 		tirq_ti = tirq_tj; // arm for next period
 		//~ gpio_clear_pin_interrupt_flag(HALL_1_PIN);   //PB0
 
@@ -105,8 +107,6 @@ void tirq_int_handler(void)
 		} else {
 			first_interrupt=1;
 		}
-	}
-	//~ gpio_tgl_gpio_pin(MLED1);
 	}
 }
 
@@ -128,7 +128,7 @@ void m_tc_init(void)
 
 	//Configure timer, for interrupt
 	tc_init_waveform(&AVR32_TC, &waveform_opt);
-	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 8375);	//TODO: CONSTANT! 187.5 = 2 mS -> 500 rpm
+	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 5000);	//TODO: CONSTANT! 187.5 = 2 mS -> 500 rpm
 	//~ tc_start(&AVR32_TC, TC_CHANNEL_0);
 }
 
@@ -143,7 +143,7 @@ void tirq_init(void)
 
 	Disable_global_interrupt();
 	m_tc_init();
-	INTC_init_interrupts();
+	//~ INTC_init_interrupts();
 	tirq_estimator_init_interrupt(); 	//~ was: INTC_register_interrupt( &tirq_int_handler, AVR32_TC_IRQ0, AVR32_INTC_INT0);
 	tc_configure_interrupts(&AVR32_TC, TC_CHANNEL_0, &TC_INTERRUPT_OPT);
 	Enable_global_interrupt();

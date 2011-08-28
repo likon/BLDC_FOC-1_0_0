@@ -11,7 +11,7 @@
 #include "compiler.h"
 
 //Debug output on USART? remove to get rid of usart output
-#define DEBUG
+//~ #define DEBUG
 
 /*! \name Oscillator Definitions
  */

@@ -193,14 +193,14 @@ void pwm_test(void)
 /*! Simple test of GPIO pins, for debugging */
 void test_gpio(void)
 {
-	gpio_set_gpio_pin(MOTEN); //Activate motor driver IC output
-	gpio_set_gpio_pin(STBINV);
+	//~ gpio_set_gpio_pin(MOTEN); //Activate motor driver IC output
+	//~ gpio_set_gpio_pin(STBINV);
 	//Initialize timer interrupt
 	tirq_init();
 	tirq_estimator_start();
-	//~ tc_start(&AVR32_TC, 0);
+	//~ tc_start(&AVR32_TC, TC_CHANNEL_0);
 	while(1) {
-		gpio_tgl_gpio_pin(AVR32_PIN_PB19);
+		//~ gpio_tgl_gpio_pin(AVR32_PIN_PB19);
 		//~ gpio_tgl_gpio_pin(AVR32_PIN_PB20);
 		//gpio_tgl_gpio_pin(AVR32_PIN_PB21);
 	}
@@ -450,9 +450,13 @@ int main (void)
 	//~ pwm_test();
 
 	gpio_enable_pin_pull_up(J13_10);
-	gpio_enable_pin_pull_up(J13_11);
+	//~ gpio_enable_pin_pull_up(J13_11);
 	gpio_enable_pin_pull_up(J13_12);
 	gpio_enable_pin_pull_up(J13_13);
+	gpio_tgl_gpio_pin(J13_11);
+	gpio_tgl_gpio_pin(J13_11);
+
+	tirq_init();
 
    while(1)
    {
@@ -464,6 +468,7 @@ int main (void)
 
 	//~ if(gpio_get_pin_value(J13_13) != 0) {
       mc_control_task();
+
 	//~ }
    }
 }

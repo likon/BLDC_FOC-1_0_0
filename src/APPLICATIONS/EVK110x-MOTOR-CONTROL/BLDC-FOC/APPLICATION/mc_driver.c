@@ -152,9 +152,12 @@ void mc_global_init(void)
   tirq_estimator_init();
   tirq_estimator_init_interrupt();
   // --------------------- PWM Initialization ----------------------------------
-  //~ #define MAX_PWM_VALUE 1200	//Original value, seem to be ~26.7 kHz
-  //~ #define MAX_PWM_VALUE 1391	//23 kHz
-  #define MAX_PWM_VALUE 545	//20 kHz
+  //~ #define MAX_PWM_VALUE 1200	//Original value, seem to have been be ~26.7 kHz
+  //~ #define MAX_PWM_VALUE 500	//24 kHz (=12e6/24e3)
+  //~ #define MAX_PWM_VALUE 521	//23 kHz
+  //~ #define MAX_PWM_VALUE 545	//22 kHz
+  #define MAX_PWM_VALUE 571	//21 kHz
+  //~ #define MAX_PWM_VALUE 600	//20 kHz
   pwm_drv_options.max_pwm_value = MAX_PWM_VALUE;    // Cprd,	TODO: Macro
   pwm_drv_init(&pwm_drv_options);
   INTC_register_interrupt(&pwm_int_handler, AVR32_PWM_IRQ, AVR32_INTC_INT0);
@@ -168,9 +171,13 @@ void mc_lowlevel_start(void)
     //~ adc_channel_ia = CURRENT_IB_ADC_CHANNEL;	//TODO: Decide on the correct sequence.
     //~ adc_channel_ib = CURRENT_IC_ADC_CHANNEL;
     //~ adc_channel_ic = CURRENT_IA_ADC_CHANNEL;
+
     adc_channel_ia = CURRENT_IB_ADC_CHANNEL;
     adc_channel_ib = CURRENT_IC_ADC_CHANNEL;
     adc_channel_ic = CURRENT_IA_ADC_CHANNEL;
+    //~ adc_channel_ia = CURRENT_IA_ADC_CHANNEL;
+    //~ adc_channel_ib = CURRENT_IB_ADC_CHANNEL;
+    //~ adc_channel_ic = CURRENT_IC_ADC_CHANNEL;
   }
   else
   {
@@ -179,15 +186,15 @@ void mc_lowlevel_start(void)
     adc_channel_ic = CURRENT_IA_ADC_CHANNEL;
   }
   // Enable the ADC channels.
-  adc_enable(adc,adc_channel_ia);
-  adc_enable(adc,adc_channel_ib);
-  adc_enable(adc,adc_channel_ic);
+  adc_enable(adc, adc_channel_ia);
+  adc_enable(adc, adc_channel_ib);
+  adc_enable(adc, adc_channel_ic);
   // --------------------- Hall Sensors Start -------------------------
   //~ hall_estimator_start();	//TODO: remove
   tirq_estimator_start();
   // --------------------- PWM Start ----------------------------------
   pwm_drv_start(); // Start PWM Channels
-  pwm_drv_duty_cycle_do(&pwm_drv_options,500/2,550/2,600/2);	//TODO: CONSTANT!!!
+  pwm_drv_duty_cycle(&pwm_drv_options,500/2,550/2,600/2);	//TODO: CONSTANT!!!
   //~ pwm_drv_duty_cycle(&pwm_drv_options,500,550,500,550,500,550);
 }
 
@@ -195,9 +202,9 @@ void mc_lowlevel_stop(void)
 {
   // --------------------- ADC Stop ----------------------------------
   // Disable the ADC channels.
-  adc_disable(adc,adc_channel_ia);
-  adc_disable(adc,adc_channel_ib);
-  adc_disable(adc,adc_channel_ic);
+  adc_disable(adc, adc_channel_ia);
+  adc_disable(adc, adc_channel_ib);
+  adc_disable(adc, adc_channel_ic);
   // --------------------- Hall Sensors Stop -------------------------
   //~ hall_estimator_stop();
   tirq_estimator_stop();
@@ -237,7 +244,7 @@ void mc_update_duty_cycle( volatile U16 mc_duty0,
                            volatile U16 mc_duty2)
 {
 	#ifdef DEBUG
-	printf("mc_update_duty_cycle\n\r");
+	//~ printf("mc_update_duty_cycle\n\r");
 	#endif
      pwm_drv_duty_cycle(&pwm_drv_options,
                           mc_duty0,

@@ -51,7 +51,7 @@
 //#define USB_DEBUG
 #undef USB_DEBUG
 // #define SENSOR_TASK
-#define TICK_SPEED_FACTOR          6// Min Value = 360*Te
+#define TICK_SPEED_FACTOR          6// Min Value = 360*Te Decides how often FOC_regulate_torque(); will run
 //~ #define FTICK_HZ                    20000	//Unused, Mjan 20110823
 #define    PI             3.141592	//3.141592654
 
@@ -65,6 +65,7 @@
 
 //echelle_adc and offset: Seem to be scale values, ia= (adc_value_ia-offset)*echelle_adc;
 //TODO: The 'offset' value should be coupled to zero_adc. (zero_adc = 3 * offset) or (offset = zero_adc / 3), doesnt make sense to have them separate
+//~ # define  echelle_adc                           768955      //echelle = scale
 # define  echelle_adc                           768955      //echelle = scale
 //~ # define  offset                                560
 #define offset 0x200
@@ -75,21 +76,22 @@
 # define  vitesse_inst                          864000      //          vitesse = speed
 
 //~ # define  pi_Fcpu                               150796447
-#define PI_X_FCPU                                 ((int)(FCPU_HZ * PI))
+#define PI_X_FCPU                                 ((FCPU_HZ * PI))
 //~ # define  tirq_demi_period_init                 300000
-# define  tirq_demi_period_init                 20000	//demi = half
+# define  tirq_demi_period_init                30000	//demi = half
 //transf_v: Seem to have something to do with 2500, as 2^31/858992 = 2500.001336
 # define  transf_v                              858993
 //Te: Seem to have something to do with 10000, not used in the code anyway
 //~ #define    Te                                   214748    // 100 us
 //~ #define    Fe                                   10000     // 100 us
-//E seem to be 12, Icrete seem to be 1
-#define   IQREF_RAMPUP                          89478485        //!< (Icrete*2^31)/(2E)
+//E seem to be 12 (defined below!), Icrete seem to be 1
+#define   IQREF_RAMPUP                          (89478485)       //!< (Icrete*2^31)/(2E)
 #define   IQREF_REGULAR                         (IQREF_RAMPUP>>1)   //!< (Icrete*2^31)/(2E)
 //! Motor Parameters
 // !!!!!!!!! Current and Voltages are divided by 2E  !!!!!!!!
 //R is (more or less) 2^31 * 0.22
 #define    R              472446402 // R=0.22 ohms
+//~ #define    R              (2147483647) // R=1 ohms?????
 #define    Lc             547608    // Lc =0.5(0.51e-3).2^31;  en general Lc= Lc .2^31
 #define    Kcn            1503238   //Kcn=Kc/2E .2^31 = (0.0168/2.12).2^31
 #define    P              4

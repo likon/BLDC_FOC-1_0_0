@@ -198,11 +198,11 @@ void svpwm(volatile svpwm_options_t *svpwm_options)
    }
 
   svpwm_options->duty0 = (tempsr0>>20) - (tempsr0>>22) - (tempsr0>>23) - (tempsr0>>25) - (tempsr0>>26)-10;
-  //~ svpwm_options->duty1 = svpwm_options->duty0+20;
-   svpwm_options->duty1 = (tempsr2>>20) - (tempsr2>>22) - (tempsr2>>23) - (tempsr2>>25) - (tempsr2>>26)-10;
+  svpwm_options->duty1 = (tempsr2>>20) - (tempsr2>>22) - (tempsr2>>23) - (tempsr2>>25) - (tempsr2>>26)-10;
   svpwm_options->duty2 = (tempsr4>>20) - (tempsr4>>22) - (tempsr4>>23) - (tempsr4>>25) - (tempsr4>>26)-10;
 
   //TODO: Remove
+  //~ svpwm_options->duty1 = svpwm_options->duty0+20;
   //~ svpwm_options->duty3 = svpwm_options->duty2+20;
   //~ svpwm_options->duty4 = (tempsr4>>20) - (tempsr4>>22) - (tempsr4>>23) - (tempsr4>>25) - (tempsr4>>26)-10;
   //~ svpwm_options->duty5 = svpwm_options->duty4+20;

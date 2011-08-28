@@ -162,13 +162,14 @@ void pwm_drv_stop(void)
 void pwm_drv_duty_cycle(volatile pwm_drv_options_t * pwm_drv_options, U32 pwm0, U32 pwm1, U32 pwm2)
 //~ void pwm_drv_duty_cycle(volatile pwm_drv_options_t *pwm_drv_options,U32 pwm0,U32 pwm1,U32 pwm2,U32 pwm3,U32 pwm4,U32 pwm5) //TODO: remove
 {
-	#ifdef DEBUG
-	printf("%i, %i, %i\n\r", pwm0, pwm1, pwm2);
-	#endif
+	pwm0 /= 3*1;
+	pwm1 /= 3*1;
+	pwm2 /= 3*1;
+
+#ifdef DEBUG
+	//~ printf("%i, %i, %i\n\r", pwm0, pwm1, pwm2);
+#endif
 	//return; //TODO: REMOVE!!!!
-	pwm0 /= 4;
-	pwm1 /= 4;
-	pwm2 /= 4;
   volatile avr32_pwm_t *pwm = &AVR32_PWM;
 
   //~ pwm->channel[PWM_XH_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm0; //TODO: remove comment
@@ -179,17 +180,5 @@ void pwm_drv_duty_cycle(volatile pwm_drv_options_t * pwm_drv_options, U32 pwm0, 
   pwm->channel[PWM_ZL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm2;	//was -pwm5
 }
 
-//TODO: REMOVE
-void pwm_drv_duty_cycle_do(volatile pwm_drv_options_t * pwm_drv_options, U32 pwm0, U32 pwm1, U32 pwm2)
-{
-  volatile avr32_pwm_t *pwm = &AVR32_PWM;
-
-  //~ pwm->channel[PWM_XH_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm0; //TODO: remove comment
-  pwm->channel[PWM_XL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm0;	//was -pwm1
-  //~ pwm->channel[PWM_YH_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm2; //TODO: remove comment
-  pwm->channel[PWM_YL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm1;	//was -pwm3
-  //~ pwm->channel[PWM_ZH_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm4; //TODO: remove comment
-  pwm->channel[PWM_ZL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm2;	//was -pwm5
-}
 //@}
 
