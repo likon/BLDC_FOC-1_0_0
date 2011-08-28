@@ -138,6 +138,7 @@ LIB_PATH = \
 LIBS = \
   drivers-at32uc3a-speed_opt \
   newlib_addons-at32ucr2-speed_opt \
+  libdsp-at32ucr2-dspaccandsize_opt \
   m
 
 # Linker script file if any
