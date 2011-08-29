@@ -15,7 +15,7 @@ void tirq_int_handler(void);
 volatile unsigned short first_interrupt = 0;
 volatile unsigned short nieme = 0;    //n:te
 volatile U32 tirq_demi_period = tirq_demi_period_init ;
-volatile unsigned short teta0 = 0;
+//~ volatile unsigned short teta0 = 0;
 volatile U32 tirq_tj;
 volatile U32 tirq_ti;                //!<  last period value
 
@@ -32,9 +32,9 @@ void tirq_estimator_update_teta_and_speed(volatile unsigned short *teta_elec, vo
   }
   *vitesse_elec = PI_X_FCPU / tirq_demi_period;  //pi * Fcpu  (Fcpu=48Mhz)
   //~ printf("%i \n\r", vitesse_elec);
-  if(tirq_demi_period > 350000) {	//190000 is close to max speed
-	  tirq_demi_period -= 1;
-  }
+  //~ if(tirq_demi_period >= 250000) {	//190000 is close to max speed
+	  //~ tirq_demi_period -= 1;
+  //~ }
 }
 
 void tirq_estimator_init_teta(volatile unsigned short teta)

@@ -3326,7 +3326,7 @@ typedef struct
   //! The number of channels.
   int nb_channels;
   //! If a clean link between to output buffer is required.
-  bool link_required;
+//  bool link_required;
   //! Context of the process
   dsp_resampling_context_t *context;
 } dsp_resampling_t;
@@ -3424,7 +3424,7 @@ void dsp16_resampling_compute(dsp_resampling_t *dsp_resampling, dsp16_t *output,
  * \return \b true if the process succeed, \b false otherwise. A process can fail
  *         only if the preliminary conditions are not respected.
  */
-bool dsp16_resampling_link(dsp_resampling_t *dsp_resampling_output, dsp_resampling_t *dsp_resampling_input);
+//bool dsp16_resampling_link(dsp_resampling_t *dsp_resampling_output, dsp_resampling_t *dsp_resampling_input);
 
 #endif // __AVR32_ABI_COMPILER__
 #endif //__DSP_RESAMPLING_H__

@@ -86,7 +86,7 @@ extern volatile unsigned char msg_rdy;
 extern volatile unsigned char msg_sent;
 
 //!< Local Function to Display messages
-static void mc_output_messages(void);
+//~ static void mc_output_messages(void);
 
 void mc_control_task_init()
 {
@@ -173,61 +173,61 @@ mc_motor_direction_t mc_get_motor_direction(void)
   return MC_BLDC_motor.mc_motor_direction;
 }
 //------------------------------------------------------------------------------
-/*! \name Output Messages Function
- */
-//! @{
-static void mc_output_messages(void)
-{
-     //Message IDM
-     msg_idm.data[0] = MC_BLDC_motor.Idm&0x000000FF;
-     msg_idm.data[1] = MC_BLDC_motor.Idm>>8;
-     msg_idm.data[2] = MC_BLDC_motor.Idm>>16;
-     msg_idm.data[3] = MC_BLDC_motor.Idm>>24;
-     //Message IDREF
-     msg_idref.data[0] = MC_BLDC_motor.Idref&0x000000FF;
-     msg_idref.data[1] = MC_BLDC_motor.Idref>>8;
-     msg_idref.data[2] = MC_BLDC_motor.Idref>>16;
-     msg_idref.data[3] = MC_BLDC_motor.Idref>>24;
-     //Message IQM
-     msg_iqm.data[0] = MC_BLDC_motor.Iqm&0x000000FF;
-     msg_iqm.data[1] = MC_BLDC_motor.Iqm>>8;
-     msg_iqm.data[2] = MC_BLDC_motor.Iqm>>16;
-     msg_iqm.data[3] = MC_BLDC_motor.Iqm>>24;
-     //Message IQREF
-     msg_iqref.data[0] = MC_BLDC_motor.Iqref&0x000000FF;
-     msg_iqref.data[1] = MC_BLDC_motor.Iqref>>8;
-     msg_iqref.data[2] = MC_BLDC_motor.Iqref>>16;
-     msg_iqref.data[3] = MC_BLDC_motor.Iqref>>24;
-     //Message VM
-     msg_vm.data[0] = MC_BLDC_motor.Speedm&0x000000FF;
-     msg_vm.data[1] = MC_BLDC_motor.Speedm>>8;
-     msg_vm.data[2] = MC_BLDC_motor.Speedm>>16;
-     msg_vm.data[3] = MC_BLDC_motor.Speedm>>24;
-     //Message VREF
-     msg_vref.data[0] = (MC_BLDC_motor.Speedref/transf_v)&0x000000FF;
-     msg_vref.data[1] = (MC_BLDC_motor.Speedref/transf_v)>>8;
-     msg_vref.data[2] = (MC_BLDC_motor.Speedref/transf_v)>>16;
-     msg_vref.data[3] = (MC_BLDC_motor.Speedref/transf_v)>>24;
-     //Message SPEEDM
-     msg_speedm.data[0] = MC_BLDC_motor.Speedm&0x000000FF;
-     msg_speedm.data[1] = MC_BLDC_motor.Speedm>>8;
-     msg_speedm.data[2] = MC_BLDC_motor.Speedm>>16;
-     msg_speedm.data[3] = MC_BLDC_motor.Speedm>>24;
-     //Message SPEEDEST
-     msg_speedest.data[0] = MC_BLDC_motor.SpeedEst&0x000000FF;
-     msg_speedest.data[1] = MC_BLDC_motor.SpeedEst>>8;
-     msg_speedest.data[2] = MC_BLDC_motor.SpeedEst>>16;
-     msg_speedest.data[3] = MC_BLDC_motor.SpeedEst>>24;
-     //Message TETAM
-     msg_tetam.data[0] = MC_BLDC_motor.Tetam&0x000000FF;
-     msg_tetam.data[1] = MC_BLDC_motor.Tetam>>8;
-     msg_tetam.data[2] = MC_BLDC_motor.Tetam>>16;
-     msg_tetam.data[3] = MC_BLDC_motor.Tetam>>24;
-     //Message TETAEST
-     msg_tetaest.data[0] = MC_BLDC_motor.TetaEst&0x000000FF;
-     msg_tetaest.data[1] = MC_BLDC_motor.TetaEst>>8;
-     msg_tetaest.data[2] = MC_BLDC_motor.TetaEst>>16;
-     msg_tetaest.data[3] = MC_BLDC_motor.TetaEst>>24;
-     msg_sent = 0;
-     msg_rdy  = 1;
-}
+//~ /*! \name Output Messages Function
+ //~ */
+//~ //! @{
+//~ static void mc_output_messages(void)
+//~ {
+     //~ //Message IDM
+     //~ msg_idm.data[0] = MC_BLDC_motor.Idm&0x000000FF;
+     //~ msg_idm.data[1] = MC_BLDC_motor.Idm>>8;
+     //~ msg_idm.data[2] = MC_BLDC_motor.Idm>>16;
+     //~ msg_idm.data[3] = MC_BLDC_motor.Idm>>24;
+     //~ //Message IDREF
+     //~ msg_idref.data[0] = MC_BLDC_motor.Idref&0x000000FF;
+     //~ msg_idref.data[1] = MC_BLDC_motor.Idref>>8;
+     //~ msg_idref.data[2] = MC_BLDC_motor.Idref>>16;
+     //~ msg_idref.data[3] = MC_BLDC_motor.Idref>>24;
+     //~ //Message IQM
+     //~ msg_iqm.data[0] = MC_BLDC_motor.Iqm&0x000000FF;
+     //~ msg_iqm.data[1] = MC_BLDC_motor.Iqm>>8;
+     //~ msg_iqm.data[2] = MC_BLDC_motor.Iqm>>16;
+     //~ msg_iqm.data[3] = MC_BLDC_motor.Iqm>>24;
+     //~ //Message IQREF
+     //~ msg_iqref.data[0] = MC_BLDC_motor.Iqref&0x000000FF;
+     //~ msg_iqref.data[1] = MC_BLDC_motor.Iqref>>8;
+     //~ msg_iqref.data[2] = MC_BLDC_motor.Iqref>>16;
+     //~ msg_iqref.data[3] = MC_BLDC_motor.Iqref>>24;
+     //~ //Message VM
+     //~ msg_vm.data[0] = MC_BLDC_motor.Speedm&0x000000FF;
+     //~ msg_vm.data[1] = MC_BLDC_motor.Speedm>>8;
+     //~ msg_vm.data[2] = MC_BLDC_motor.Speedm>>16;
+     //~ msg_vm.data[3] = MC_BLDC_motor.Speedm>>24;
+     //~ //Message VREF
+     //~ msg_vref.data[0] = (MC_BLDC_motor.Speedref/transf_v)&0x000000FF;
+     //~ msg_vref.data[1] = (MC_BLDC_motor.Speedref/transf_v)>>8;
+     //~ msg_vref.data[2] = (MC_BLDC_motor.Speedref/transf_v)>>16;
+     //~ msg_vref.data[3] = (MC_BLDC_motor.Speedref/transf_v)>>24;
+     //~ //Message SPEEDM
+     //~ msg_speedm.data[0] = MC_BLDC_motor.Speedm&0x000000FF;
+     //~ msg_speedm.data[1] = MC_BLDC_motor.Speedm>>8;
+     //~ msg_speedm.data[2] = MC_BLDC_motor.Speedm>>16;
+     //~ msg_speedm.data[3] = MC_BLDC_motor.Speedm>>24;
+     //~ //Message SPEEDEST
+     //~ msg_speedest.data[0] = MC_BLDC_motor.SpeedEst&0x000000FF;
+     //~ msg_speedest.data[1] = MC_BLDC_motor.SpeedEst>>8;
+     //~ msg_speedest.data[2] = MC_BLDC_motor.SpeedEst>>16;
+     //~ msg_speedest.data[3] = MC_BLDC_motor.SpeedEst>>24;
+     //~ //Message TETAM
+     //~ msg_tetam.data[0] = MC_BLDC_motor.Tetam&0x000000FF;
+     //~ msg_tetam.data[1] = MC_BLDC_motor.Tetam>>8;
+     //~ msg_tetam.data[2] = MC_BLDC_motor.Tetam>>16;
+     //~ msg_tetam.data[3] = MC_BLDC_motor.Tetam>>24;
+     //~ //Message TETAEST
+     //~ msg_tetaest.data[0] = MC_BLDC_motor.TetaEst&0x000000FF;
+     //~ msg_tetaest.data[1] = MC_BLDC_motor.TetaEst>>8;
+     //~ msg_tetaest.data[2] = MC_BLDC_motor.TetaEst>>16;
+     //~ msg_tetaest.data[3] = MC_BLDC_motor.TetaEst>>24;
+     //~ msg_sent = 0;
+     //~ msg_rdy  = 1;
+//~ }

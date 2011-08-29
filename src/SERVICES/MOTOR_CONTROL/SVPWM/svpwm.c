@@ -60,8 +60,8 @@
 // Valpha et Vbeta are divided by 2E
 void svpwm(volatile svpwm_options_t *svpwm_options)
 {
-   int tempsr0, tempsr2, tempsr4;
-   int delta_i, delta_2i, delta_z;
+   unsigned int tempsr0, tempsr2, tempsr4;
+   unsigned int delta_i, delta_2i, delta_z;
    int Vb_M_Va, Vb_P_Va, Va_P_Vb, Va_M_Vb;
 
    //******************************************************************

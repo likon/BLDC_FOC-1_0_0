@@ -164,9 +164,9 @@ void pwm_drv_stop(void)
 void pwm_drv_duty_cycle(volatile pwm_drv_options_t * pwm_drv_options, U32 pwm0, U32 pwm1, U32 pwm2)
 //~ void pwm_drv_duty_cycle(volatile pwm_drv_options_t *pwm_drv_options,U32 pwm0,U32 pwm1,U32 pwm2,U32 pwm3,U32 pwm4,U32 pwm5) //TODO: remove
 {
-	pwm0 /= 4*1;
-	pwm1 /= 4*1;
-	pwm2 /= 4*1;
+	pwm0 /= 3*1;
+	pwm1 /= 3*1;
+	pwm2 /= 3*1;
 
 #ifdef DEBUG
 	//~ printf("%i, %i, %i\n\r", pwm0, pwm1, pwm2);

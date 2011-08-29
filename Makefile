@@ -170,11 +170,11 @@ include $(MAKECFG)
 # Default goal: build the project.
 ifeq ($(TGTTYPE),.a)
 .PHONY: all
-all: clean a lss sym sizes
+all: info a lss sym sizes
 else
 ifeq ($(TGTTYPE),.elf)
-.PHONY: clean all
-all: info elf lss sym hex bin sizes
+.PHONY: all
+all: elf lss sym hex bin
 else
 $(error $(ERR_TARGET_TYPE))
 endif
@@ -378,6 +378,9 @@ debug:
 ifeq ($(call LastWord,$(filter cpuinfo halt chiperase erase program secureflash reset debug run readregs,$(MAKECMDGOALS))),debug)
 	@echo
 endif
+.PHONY: gdb
+gdb:
+	avr32gdbproxy -k -a localhost:4711 -cUSB -eavrdragon
 
 # Start CPU execution.
 .PHONY: run

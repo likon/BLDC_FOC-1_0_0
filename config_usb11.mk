@@ -116,7 +116,6 @@ CSRCS = \
   $(MAIN_PATH)/mc_driver.c \
   $(MAIN_PATH)/foc.c \
   $(MAIN_PATH)/uart_usb_lib.c \
-  $(MAIN_PATH)/util.c \
   $(MAIN_PATH)/tirq.c \
   $(MAIN_PATH)/usart.c
 #~ ifdef NOPIC
@@ -126,6 +125,7 @@ CSRCS = \
   #~ $(PIC_PATH)/FdWeak.c
 #~ endif
   #~ $(MAIN_PATH)/motor_startup.c
+#~ $(MAIN_PATH)/util.c \	//Removed mjan 20110829
 
 # Assembler source files
 ASSRCS = \

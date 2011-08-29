@@ -387,7 +387,7 @@ void init_usb(void)
   device_cdc_task_init();
 
 }
-int main (void)
+int main(void)
 {
   // Configure standard I/O streams as unbuffered.
 	#if __GNUC__ && __AVR32__
@@ -414,6 +414,7 @@ int main (void)
 
 	usart_init_rs232(&AVR32_USART0, &usart_opt, FPBA_HZ);
 	set_usart_base((void *) &AVR32_USART0);
+	printf("Hello Kitty!\n\r");
 
 #ifdef USB_DEBUG
   init_usb();
@@ -461,7 +462,10 @@ int main (void)
 	//~ while(1);
 
 	//~ tirq_init();
-
+	mc_control_task();
+	mc_control_task();
+	mc_control_task();
+	mc_control_task();
    while(1)
    {
 #ifdef USB_DEBUG

@@ -91,7 +91,7 @@ static struct
 };
 
 extern volatile MC_BLDC_motor_t MC_BLDC_motor;
-extern volatile unsigned short FOC_tick_speed;
+volatile unsigned short FOC_tick_speed;
 
 volatile int g_mc_tick=0;
 /*! \name Tick Handler
@@ -142,36 +142,6 @@ __interrupt void pwm_int_handler( void )
     // Clear Interrupt Handler
     AVR32_PWM.isr;
 
-    //~ if( uGF.RunMotor )
-    //~ {
-
-
-            //~ // Calculate qIa,qIb
-            //~ MeasCompCurr();
-
-            // Calculate commutation angle using estimator
-            //~ CalculateParkAngle();
-
-            // Calculate qId,qIq from qSin,qCos,qIa,qIb
-            //~ ClarkePark();
-
-            // Calculate control values
-            //~ DoControl();
-
-            // Calculate qSin,qCos from qAngle
-            //~ SinCos();
-
-            // Calculate qValpha, qVbeta from qSin,qCos,qVd,qVq
-            //~ InvPark();
-
-            // Calculate Vr1,Vr2,Vr3 from qValpha, qVbeta
-            //~ CalcRefVec();
-
-            // Calculate and set PWM duty cycles from Vr1,Vr2,Vr3
-            //~ CalcSVGen();
-
-    //~ }
-
     if (motor_control_params.motor_appli_callback!=NULL){
         if (MC_BLDC_motor.mc_state == RUN)
         {
@@ -220,13 +190,6 @@ void mc_global_init(void)
   tirq_estimator_init();
   tirq_estimator_init_interrupt();
   // --------------------- PWM Initialization ----------------------------------
-  //~ #define MAX_PWM_VALUE 1200	//Original value, seem to have been be ~26.7 kHz
-  //~ #define MAX_PWM_VALUE 500	//24 kHz (=12e6/24e3)
-  //~ #define MAX_PWM_VALUE 521	//23 kHz
-  //~ #define MAX_PWM_VALUE 545	//22 kHz
-  //~ #define MAX_PWM_VALUE 571	//21 kHz
-  #define MAX_PWM_VALUE 600	//20 kHz
-  //~ #define MAX_PWM_VALUE (571)	//21 kHz
   pwm_drv_options.max_pwm_value = MAX_PWM_VALUE;    // Cprd,	TODO: Macro
   pwm_drv_init(&pwm_drv_options);
   INTC_register_interrupt(&pwm_int_handler, AVR32_PWM_IRQ, AVR32_INTC_INT0);
@@ -242,12 +205,12 @@ void mc_lowlevel_start(void)
     //~ adc_channel_ib = CURRENT_IC_ADC_CHANNEL;
     //~ adc_channel_ic = CURRENT_IA_ADC_CHANNEL;
 
-    adc_channel_ia = CURRENT_IB_ADC_CHANNEL;
-    adc_channel_ib = CURRENT_IC_ADC_CHANNEL;
-    adc_channel_ic = CURRENT_IA_ADC_CHANNEL;
-    //~ adc_channel_ia = CURRENT_IA_ADC_CHANNEL;
-    //~ adc_channel_ib = CURRENT_IB_ADC_CHANNEL;
-    //~ adc_channel_ic = CURRENT_IC_ADC_CHANNEL;
+    //~ adc_channel_ia = CURRENT_IB_ADC_CHANNEL;
+    //~ adc_channel_ib = CURRENT_IC_ADC_CHANNEL;
+    //~ adc_channel_ic = CURRENT_IA_ADC_CHANNEL;
+    adc_channel_ia = CURRENT_IA_ADC_CHANNEL;
+    adc_channel_ib = CURRENT_IB_ADC_CHANNEL;
+    adc_channel_ic = CURRENT_IC_ADC_CHANNEL;
   }
   else
   {
