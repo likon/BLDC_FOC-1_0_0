@@ -64,12 +64,12 @@
 
 //_____ D E F I N I T I O N S ______________________________________________
 
-int Vd=0;
-int Vq=0;
-int ialpha=0;
-int ibeta=0;
-int Vdref=0;
-int Vqref=0;
+volatile int Vd=0;
+volatile int Vq=0;
+volatile int ialpha=0;
+volatile int ibeta=0;
+volatile int Vdref=0;
+volatile int Vqref=0;
 
 //_____ P R I V A T E   D E C L A R A T I O N S ____________________________
 //!< Current svpwm value
@@ -77,11 +77,11 @@ volatile svpwm_options_t svpwm_options;
 //!< Tick reference for Speed Regulation
 volatile unsigned short FOC_tick_speed = 0;
 //!< Current IA value
-int ia = 0;
+volatile int ia = 0;
 //!< Current IB value
-int ib = 0;
+volatile int ib = 0;
 //!< Current IC value
-int ic = 0;
+volatile int ic = 0;
 //!< Id structure for regulation.
 volatile IP_REG_variables_t FOC_Id_reg;
 //!< Iq structure for regulation.
@@ -153,7 +153,7 @@ void FOC_state_machine(void)
       break;
 
     case FOC_state_regulation:
-		gpio_tgl_gpio_pin(J13_10);	//TODO: Remove debug code
+		gpio_set_gpio_pin(J13_10);	//TODO: Remove debug code
       // Current Measurement
       FOC_read_current();
       // Update teta and speed values
@@ -176,6 +176,7 @@ void FOC_state_machine(void)
       FOC_compute_svpwm();
       // Update Duty Cycle
       FOC_update_duty();
+      gpio_clr_gpio_pin(J13_10);
       break;
   }
 }

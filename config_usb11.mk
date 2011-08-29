@@ -158,7 +158,7 @@ DEBUG = -g
 
 # Options that control optimization: [-O[0|1|2|3|s]]...
 # For further details, refer to the chapter "GCC Command Options" of the GCC manual.
-OPTIMIZATION = -O0 -fno-strict-aliasing -ffunction-sections -fdata-sections
+OPTIMIZATION = -Os -fno-strict-aliasing -ffunction-sections -fdata-sections
 
 # Extra flags to use when preprocessing
 CPP_EXTRA_FLAGS =

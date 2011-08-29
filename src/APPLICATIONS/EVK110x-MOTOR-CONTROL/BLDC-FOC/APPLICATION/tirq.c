@@ -32,8 +32,8 @@ void tirq_estimator_update_teta_and_speed(volatile unsigned short *teta_elec, vo
   }
   *vitesse_elec = PI_X_FCPU / tirq_demi_period;  //pi * Fcpu  (Fcpu=48Mhz)
   //~ printf("%i \n\r", vitesse_elec);
-  if(tirq_demi_period > 190000) {
-	  tirq_demi_period -= 2;
+  if(tirq_demi_period > 350000) {	//190000 is close to max speed
+	  tirq_demi_period -= 1;
   }
 }
 
@@ -92,7 +92,7 @@ void tirq_int_handler(void)
 
 	sr = tc_read_sr(&AVR32_TC, TC_CHANNEL_0);
 	if(sr && (1 << AVR32_TC_CPCS)) {
-		gpio_tgl_gpio_pin(J13_12);	//TODO: Remove, debug code
+		gpio_tgl_gpio_pin(J13_11);	//TODO: Remove, debug code
 		tirq_tj= Get_sys_count();
 		tirq_demi_period = tirq_tj - tirq_ti;
 		//~ printf("%i, %i\n\r", tirq_demi_period, 0);

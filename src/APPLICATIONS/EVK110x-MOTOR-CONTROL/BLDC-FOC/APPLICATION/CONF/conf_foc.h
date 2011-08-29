@@ -74,7 +74,7 @@
 //rayon_limitation: Seem to be used at Park transformation for Vd and Vq, seem to be close to 2^31 * 1 / sqrt(8)
 # define  rayon_limitation                      751619276   // 1/sqrt8  rayon = radius
 # define  rayon_carre_limitation                263066746   // 1/8      carre = square
-# define  vitesse_inst                          (864000)      //          vitesse = speed
+# define  vitesse_inst                          (864000)    //          vitesse = speed
 
 //~ # define  pi_Fcpu                               150796447
 #define PI_X_FCPU                                 ((FCPU_HZ * PI))
@@ -90,13 +90,14 @@
 #define   IQREF_REGULAR                         (IQREF_RAMPUP>>1)   //!< (Icrete*2^31)/(2E)
 //! Motor Parameters
 // !!!!!!!!! Current and Voltages are divided by 2E  !!!!!!!!
+//*
 //R is (more or less) 2^31 * 0.22
 //~ #define    R              472446402 // R=0.22 ohms
 #define    R              (2147483647/12) // R=1 ohms?????
 #define    Lc             547608    // Lc =0.5(0.51e-3).2^31;  en general Lc= Lc .2^31
 #define    Kcn            1503238   //Kcn=Kc/2E .2^31 = (0.0168/2.12).2^31
 //~ #define    P              4
-#define    P              50
+#define    P              4
 
 #define    E              12
 
@@ -109,8 +110,12 @@
 
 #define     Kp_iq         4*R                 //<!Theorical Value  : 7R
 #define     Ki_iq         (163040327>>4)      //<! Theorical Value : 4 *R^2/Lc
-
-
+//*/
+/*
+#define R	(0.22 * Un_1)	//???
+#define Lc (0.5 * 0.00051 * Un_1)	//???
+#define Kcn (
+*/
 
 /*! \name USART Settings
  */

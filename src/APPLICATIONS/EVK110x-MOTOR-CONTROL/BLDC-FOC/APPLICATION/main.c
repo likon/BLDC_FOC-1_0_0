@@ -451,16 +451,16 @@ int main (void)
 	//~ pwm_test();
 
 	gpio_enable_pin_pull_up(J13_10);
-	//~ gpio_enable_pin_pull_up(J13_11);
+	gpio_enable_pin_pull_up(J13_11);
 	gpio_enable_pin_pull_up(J13_12);
 	gpio_enable_pin_pull_up(J13_13);
-	gpio_tgl_gpio_pin(J13_11);
-	gpio_tgl_gpio_pin(J13_11);
+	//~ gpio_tgl_gpio_pin(J13_11);
+	//~ gpio_tgl_gpio_pin(J13_11);
 
 	//~ pic_main();
 	//~ while(1);
 
-	tirq_init();
+	//~ tirq_init();
 
    while(1)
    {
@@ -471,7 +471,9 @@ int main (void)
 #endif
 
 	//~ if(gpio_get_pin_value(J13_13) != 0) {
-      mc_control_task();
+		gpio_set_gpio_pin(J13_12);
+		mc_control_task();
+		gpio_clr_gpio_pin(J13_12);
 
 	//~ }
    }

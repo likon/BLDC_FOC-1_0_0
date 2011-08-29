@@ -224,8 +224,9 @@ void mc_global_init(void)
   //~ #define MAX_PWM_VALUE 500	//24 kHz (=12e6/24e3)
   //~ #define MAX_PWM_VALUE 521	//23 kHz
   //~ #define MAX_PWM_VALUE 545	//22 kHz
-  #define MAX_PWM_VALUE 571	//21 kHz
-  //~ #define MAX_PWM_VALUE 600	//20 kHz
+  //~ #define MAX_PWM_VALUE 571	//21 kHz
+  #define MAX_PWM_VALUE 600	//20 kHz
+  //~ #define MAX_PWM_VALUE (571)	//21 kHz
   pwm_drv_options.max_pwm_value = MAX_PWM_VALUE;    // Cprd,	TODO: Macro
   pwm_drv_init(&pwm_drv_options);
   INTC_register_interrupt(&pwm_int_handler, AVR32_PWM_IRQ, AVR32_INTC_INT0);
