@@ -67,19 +67,19 @@
 //echelle_adc and offset: Seem to be scale values, ia= (adc_value_ia-offset)*echelle_adc;
 //TODO: The 'offset' value should be coupled to zero_adc. (zero_adc = 3 * offset) or (offset = zero_adc / 3), doesnt make sense to have them separate
 //~ # define  echelle_adc                           768955      //echelle = scale
-# define  echelle_adc                           768955      //echelle = scale
+# define  echelle_adc                           (768955/2)      //echelle = scale
 //~ # define  offset                                560
 #define offset 0x200
 
 //rayon_limitation: Seem to be used at Park transformation for Vd and Vq, seem to be close to 2^31 * 1 / sqrt(8)
 # define  rayon_limitation                      751619276   // 1/sqrt8  rayon = radius
 # define  rayon_carre_limitation                263066746   // 1/8      carre = square
-# define  vitesse_inst                          864000      //          vitesse = speed
+# define  vitesse_inst                          (864000)      //          vitesse = speed
 
 //~ # define  pi_Fcpu                               150796447
 #define PI_X_FCPU                                 ((FCPU_HZ * PI))
 //~ # define  tirq_demi_period_init                 300000
-# define  tirq_demi_period_init                30000	//demi = half
+# define  tirq_demi_period_init                400000	//demi = half
 //transf_v: Seem to have something to do with 2500, as 2^31/858992 = 2500.001336
 # define  transf_v                              858993
 //Te: Seem to have something to do with 10000, not used in the code anyway
@@ -91,11 +91,12 @@
 //! Motor Parameters
 // !!!!!!!!! Current and Voltages are divided by 2E  !!!!!!!!
 //R is (more or less) 2^31 * 0.22
-#define    R              472446402 // R=0.22 ohms
-//~ #define    R              (3*2147483647) // R=1 ohms?????
+//~ #define    R              472446402 // R=0.22 ohms
+#define    R              (2147483647/12) // R=1 ohms?????
 #define    Lc             547608    // Lc =0.5(0.51e-3).2^31;  en general Lc= Lc .2^31
 #define    Kcn            1503238   //Kcn=Kc/2E .2^31 = (0.0168/2.12).2^31
-#define    P              4
+//~ #define    P              4
+#define    P              50
 
 #define    E              12
 

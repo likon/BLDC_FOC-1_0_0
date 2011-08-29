@@ -94,7 +94,95 @@ extern volatile MC_BLDC_motor_t MC_BLDC_motor;
 extern volatile unsigned short FOC_tick_speed;
 
 volatile int g_mc_tick=0;
+/*! \name Tick Handler
+ */
+void __attribute__((interrupt)) pwm_interrupt(void)
+{
+    //~ IFS0bits.AD1IF = 0;
 
+    // Increment count variable that controls execution
+    // of display and button functions.
+//    iADCisrCnt++;
+
+    //~ if( uGF.bit.RunMotor )
+    //~ {
+            //~ // Calculate qIa,qIb
+            //~ MeasCompCurr();
+
+            // Calculate commutation angle using estimator
+            //~ CalculateParkAngle();
+
+            // Calculate qId,qIq from qSin,qCos,qIa,qIb
+            //~ ClarkePark();
+
+            // Calculate control values
+            //~ DoControl();
+
+            // Calculate qSin,qCos from qAngle
+            //~ SinCos();
+
+            // Calculate qValpha, qVbeta from qSin,qCos,qVd,qVq
+            //~ InvPark();
+
+            // Calculate Vr1,Vr2,Vr3 from qValpha, qVbeta
+            //~ CalcRefVec();
+
+            // Calculate and set PWM duty cycles from Vr1,Vr2,Vr3
+            //~ CalcSVGen();
+    //~ }
+	//~ return;
+}
+
+#if __GNUC__
+__attribute__((__interrupt__)) void pwm_int_handler( void )
+#elif __ICCAVR32__
+__interrupt void pwm_int_handler( void )
+#endif
+{
+    // Clear Interrupt Handler
+    AVR32_PWM.isr;
+
+    //~ if( uGF.RunMotor )
+    //~ {
+
+
+            //~ // Calculate qIa,qIb
+            //~ MeasCompCurr();
+
+            // Calculate commutation angle using estimator
+            //~ CalculateParkAngle();
+
+            // Calculate qId,qIq from qSin,qCos,qIa,qIb
+            //~ ClarkePark();
+
+            // Calculate control values
+            //~ DoControl();
+
+            // Calculate qSin,qCos from qAngle
+            //~ SinCos();
+
+            // Calculate qValpha, qVbeta from qSin,qCos,qVd,qVq
+            //~ InvPark();
+
+            // Calculate Vr1,Vr2,Vr3 from qValpha, qVbeta
+            //~ CalcRefVec();
+
+            // Calculate and set PWM duty cycles from Vr1,Vr2,Vr3
+            //~ CalcSVGen();
+
+    //~ }
+
+    if (motor_control_params.motor_appli_callback!=NULL){
+        if (MC_BLDC_motor.mc_state == RUN)
+        {
+          // Call application
+          motor_control_params.motor_appli_callback();
+          g_mc_tick++;
+          if (g_mc_tick == TICK_SPEED_FACTOR) { g_mc_tick = 0 ; FOC_tick_speed = 1; }
+          else FOC_tick_speed = 0;
+        }
+    }
+}
 //------------------------------------------------------------------------------
 
 // Register Motor Control Application
@@ -140,8 +228,8 @@ void mc_global_init(void)
   //~ #define MAX_PWM_VALUE 600	//20 kHz
   pwm_drv_options.max_pwm_value = MAX_PWM_VALUE;    // Cprd,	TODO: Macro
   pwm_drv_init(&pwm_drv_options);
-  //~ INTC_register_interrupt(&pwm_int_handler, AVR32_PWM_IRQ, AVR32_INTC_INT0);
-  INTC_register_interrupt(&pwm_interrupt_pic, AVR32_PWM_IRQ, AVR32_INTC_INT0);
+  INTC_register_interrupt(&pwm_int_handler, AVR32_PWM_IRQ, AVR32_INTC_INT0);
+  //~ INTC_register_interrupt(&pwm_interrupt_pic, AVR32_PWM_IRQ, AVR32_INTC_INT0);
 }
 
 void mc_lowlevel_start(void)

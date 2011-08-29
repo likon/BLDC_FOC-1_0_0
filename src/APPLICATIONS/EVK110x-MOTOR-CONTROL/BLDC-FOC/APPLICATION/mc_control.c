@@ -125,7 +125,7 @@ void mc_control_task()
         MC_BLDC_motor.mc_state = RUN;
         break;
       case RUN:
-		while(1);
+		//~ while(1);
         if (msg_sent==1) { mc_output_messages(); }
         break;
    }

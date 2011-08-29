@@ -74,7 +74,7 @@ INC_PATH = \
   $(SERV_PATH)/USB/CLASS/DFU/EXAMPLES/ISP/BOOT/ \
   $(UTIL_PATH)/LIBS/NEWLIB_ADDONS/INCLUDE/ \
   $(UTIL_PATH)/LIBS/DRIVERS/AT32UC3A/INCLUDE/ \
-  $(UTIL_PATH)/LIBS/DSPLIB/AT32UCR2/INCLUDE \
+  $(UTIL_PATH)/LIBS/DSPLIB/INCLUDE \
   $(UTIL_PATH)/DEBUG/ \
   $(DRVR_PATH)/USBB/ \
   $(DRVR_PATH)/USBB/ENUM/ \
@@ -118,9 +118,13 @@ CSRCS = \
   $(MAIN_PATH)/uart_usb_lib.c \
   $(MAIN_PATH)/util.c \
   $(MAIN_PATH)/tirq.c \
-  $(MAIN_PATH)/usart.c \
-  $(PIC_PATH)/PMSM.c \
-  $(PIC_PATH)/smcpos.c \
+  $(MAIN_PATH)/usart.c
+#~ ifdef NOPIC
+  #~ CSRCS += $(PIC_PATH)/PMSM.c \
+  #~ $(PIC_PATH)/smcpos.c \
+  #~ $(PIC_PATH)/FdWeak.c \
+  #~ $(PIC_PATH)/FdWeak.c
+#~ endif
   #~ $(MAIN_PATH)/motor_startup.c
 
 # Assembler source files
@@ -138,7 +142,7 @@ LIB_PATH = \
 LIBS = \
   drivers-at32uc3a-speed_opt \
   newlib_addons-at32ucr2-speed_opt \
-  libdsp-at32ucr2-dspaccandsize_opt \
+  dsp-at32ucr2-dspaccandsize_opt \
   m
 
 # Linker script file if any

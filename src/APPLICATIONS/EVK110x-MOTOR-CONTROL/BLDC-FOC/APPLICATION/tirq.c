@@ -32,9 +32,9 @@ void tirq_estimator_update_teta_and_speed(volatile unsigned short *teta_elec, vo
   }
   *vitesse_elec = PI_X_FCPU / tirq_demi_period;  //pi * Fcpu  (Fcpu=48Mhz)
   //~ printf("%i \n\r", vitesse_elec);
-  //~ if(tirq_demi_period > 2000) {
-	  //~ tirq_demi_period--;
-  //~ }
+  if(tirq_demi_period > 190000) {
+	  tirq_demi_period -= 2;
+  }
 }
 
 void tirq_estimator_init_teta(volatile unsigned short teta)
@@ -92,7 +92,7 @@ void tirq_int_handler(void)
 
 	sr = tc_read_sr(&AVR32_TC, TC_CHANNEL_0);
 	if(sr && (1 << AVR32_TC_CPCS)) {
-		gpio_tgl_gpio_pin(J13_11);	//TODO: Remove, debug code
+		gpio_tgl_gpio_pin(J13_12);	//TODO: Remove, debug code
 		tirq_tj= Get_sys_count();
 		tirq_demi_period = tirq_tj - tirq_ti;
 		//~ printf("%i, %i\n\r", tirq_demi_period, 0);
@@ -128,7 +128,7 @@ void m_tc_init(void)
 
 	//Configure timer, for interrupt
 	tc_init_waveform(&AVR32_TC, &waveform_opt);
-	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 5000);	//TODO: CONSTANT! 187.5 = 2 mS -> 500 rpm
+	tc_write_rc(&AVR32_TC, TC_CHANNEL_0, 50000);	//TODO: CONSTANT! 187.5 = 2 mS -> 500 rpm
 	//~ tc_start(&AVR32_TC, TC_CHANNEL_0);
 }
 

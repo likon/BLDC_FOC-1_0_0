@@ -153,13 +153,6 @@ void FOC_state_machine(void)
       break;
 
     case FOC_state_regulation:
-		//~ if(delay-- == 0) {
-			//~ delay = 10000;
-			//~ if(speed > 10000) {
-				//~ tc_write_rc(&AVR32_TC, TC_CHANNEL_0, speed);
-				//~ speed--;
-			//~ }
-		//~ }
 		gpio_tgl_gpio_pin(J13_10);	//TODO: Remove debug code
       // Current Measurement
       FOC_read_current();
@@ -252,9 +245,9 @@ static void FOC_read_current(void)
    ib= (adc_value_ib-offset)*echelle_adc;
    ic= (adc_value_ic-offset)*echelle_adc;
    #ifdef DEBUG
-	//~ printf("ia = 0x%04x, %i\n\r", adc_value_ia, ia);
-	//~ printf("ib = 0x%04x, %i\n\r", adc_value_ib, ib);
-	//~ printf("ic = 0x%04x, %i\n\r", adc_value_ic, ic);
+	printf("ia = 0x%04x, %i\n\r", adc_value_ia, ia);
+	printf("ib = 0x%04x, %i\n\r", adc_value_ib, ib);
+	printf("ic = 0x%04x, %i\n\r", adc_value_ic, ic);
 	#endif
 
 }
@@ -295,7 +288,7 @@ static void FOC_computeVdVq(void)
     {
       //*Vq=sqrt( 268435456- *Vd^2 );
       //test=268435456- Vdcarre;
-      test=rayon_carre_limitation- Vdcarre;
+      test=rayon_carre_limitation- Vdcarre;	//carre = kvadrat
       Vq=sqrtt(test,erreur_max);
     }
     else //*Vq= -sqrt( 268435456- *Vd^2 );
@@ -400,7 +393,7 @@ static unsigned char FOC_start_motor(void)
         FOC_rampup_step_torquereg_counter  = 0;
         MC_BLDC_motor.Idref = 0;
         MC_BLDC_motor.Iqref = IQREF_RAMPUP;
-        Vqref=(int)((R*(long long int)MC_BLDC_motor.Iqref)>>31)+(187904750*2);	//was: +(187904750*2)
+        Vqref=(int)((R*(long long int)MC_BLDC_motor.Iqref)>>31)+(187904750*2);	//was: +(187904750*2) TODO:!!!
         park_inv(Vdref,Vqref,2,&(svpwm_options.Valpha),&(svpwm_options.Vbeta));
         FOC_compute_svpwm();
         FOC_update_duty();
@@ -421,7 +414,7 @@ static unsigned char FOC_start_motor(void)
       //~ if(t++ == 15000) { if(a < 2) { a++; t = 0; }}
 
       FOC_update_teta_speed();
-      MC_BLDC_motor.Tetam=(FOC_rampup_step_openloop_counter)%360;
+      MC_BLDC_motor.Tetam=(FOC_rampup_step_openloop_counter*1)%360;
       //(unsigned short)(FOC_rampup_step_openloop_counter-360*(int)(FOC_rampup_step_openloop_counter/360));
       //~ MC_BLDC_motor.Tetam=(unsigned short)(FOC_rampup_step_openloop_counter%360);
       park_inv(Vdref,Vqref,MC_BLDC_motor.Tetam,&(svpwm_options.Valpha),&(svpwm_options.Vbeta));
@@ -432,8 +425,8 @@ static unsigned char FOC_start_motor(void)
 		//~ printf("Vdref=%i, Vqref=%i", Vdref, Vqref);//0, 395494766
 		//~ printf("Valpha=%i, Vbeta=%i ", svpwm_options.Valpha, svpwm_options.Vbeta);
 		//~ printf("speedm = %i\n\r", MC_BLDC_motor.Speedm);
-/*
-      if (FOC_rampup_step_openloop_counter == 60000) { //TODO: replace the 6000 constant
+//*
+      if (FOC_rampup_step_openloop_counter == 25000) { //TODO: replace the 6000 constant
 		  //~ TODO: Fix better name for tirq_estimator_...
           tirq_estimator_init_teta(MC_BLDC_motor.Tetam);
           //~ //hall_estimator_init_teta(MC_BLDC_motor.Tetam);
@@ -445,12 +438,11 @@ static unsigned char FOC_start_motor(void)
           //~ FOC_rampup_step = FOC_rampup_step_fieldreg_loop;
           FOC_rampup_step = FOC_rampup_step_torquereg_loop;
       }
-//
-*/
+//*/
       break;
 
     case FOC_rampup_step_fieldreg_loop:	//Locks with high pitch motor noice
-		gpio_tgl_gpio_pin(J13_10);
+
       FOC_rampup_step_fieldreg_counter++;
       Vqref=(int)((R*(long long int)MC_BLDC_motor.Iqref)>>31)+(187904750>>1);	//22.85
       //~ printf("%i\n\r", Vqref);
@@ -486,8 +478,6 @@ static unsigned char FOC_start_motor(void)
           FOC_Id_reg.Ki = (163040327>>5);
           FOC_rampup_step = FOC_rampup_step_torquereg_loop;
       }
-
-	//~ FOC_rampup_step = FOC_rampup_step_torquereg_loop;
     break;
 
 
@@ -502,7 +492,7 @@ static unsigned char FOC_start_motor(void)
       park_inv(Vdref,Vqref,MC_BLDC_motor.Tetam,&(svpwm_options.Valpha),&(svpwm_options.Vbeta));
       FOC_compute_svpwm();
       FOC_update_duty();
-      if (FOC_rampup_step_torquereg_counter == 100) { //TODO: replace the constant
+      if (FOC_rampup_step_torquereg_counter == 10000) { //TODO: replace the constant
         MC_BLDC_motor.Speedref=MC_BLDC_motor.Speedm*transf_v;
         FOC_Speed_reg.IP_REG_lasterror=0;
         FOC_Speed_reg.IP_REG_feedback=(int)(((long long int)MC_BLDC_motor.Speedref*(long long int)FOC_Speed_reg.Kp)>>31) + (MC_BLDC_motor.Iqref/104);	//TODO: Constants!
@@ -510,6 +500,5 @@ static unsigned char FOC_start_motor(void)
       }
     break;
   }
-  //~ return 1;
   return (0);
 }

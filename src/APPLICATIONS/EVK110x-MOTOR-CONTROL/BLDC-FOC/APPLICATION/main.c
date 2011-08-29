@@ -415,9 +415,6 @@ int main (void)
 	usart_init_rs232(&AVR32_USART0, &usart_opt, FPBA_HZ);
 	set_usart_base((void *) &AVR32_USART0);
 
-	pic_main();
-	while(1);
-
 #ifdef USB_DEBUG
   init_usb();
 
@@ -459,6 +456,9 @@ int main (void)
 	gpio_enable_pin_pull_up(J13_13);
 	gpio_tgl_gpio_pin(J13_11);
 	gpio_tgl_gpio_pin(J13_11);
+
+	//~ pic_main();
+	//~ while(1);
 
 	tirq_init();
 

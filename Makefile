@@ -173,7 +173,7 @@ ifeq ($(TGTTYPE),.a)
 all: clean a lss sym sizes
 else
 ifeq ($(TGTTYPE),.elf)
-.PHONY: all
+.PHONY: clean all
 all: info elf lss sym hex bin sizes
 else
 $(error $(ERR_TARGET_TYPE))
