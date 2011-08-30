@@ -92,7 +92,7 @@ void tirq_int_handler(void)
 
 	sr = tc_read_sr(&AVR32_TC, TC_CHANNEL_0);
 	if(sr && (1 << AVR32_TC_CPCS)) {
-		gpio_tgl_gpio_pin(J13_11);	//TODO: Remove, debug code
+		gpio_tgl_gpio_pin(J13_13);	//TODO: Remove, debug code
 		tirq_tj= Get_sys_count();
 		tirq_demi_period = tirq_tj - tirq_ti;
 		//~ printf("%i, %i\n\r", tirq_demi_period, 0);

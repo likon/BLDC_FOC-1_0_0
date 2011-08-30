@@ -475,10 +475,8 @@ int main(void)
 #endif
 
 	//~ if(gpio_get_pin_value(J13_13) != 0) {
-		gpio_set_gpio_pin(J13_12);
+		gpio_tgl_gpio_pin(J13_10);
 		mc_control_task();
-		gpio_clr_gpio_pin(J13_12);
-
 	//~ }
    }
 }

@@ -158,7 +158,7 @@ void FOC_state_machine(void)
 		break;
 
     case FOC_state_regulation:
-
+	gpio_set_gpio_pin(J13_11);
       // Current Measurement
       FOC_read_current();
       // Update teta and speed values
@@ -169,14 +169,14 @@ void FOC_state_machine(void)
       FOC_compute_park();
       // In case of speed regulation: regulate torque
 
-      if(FOC_tick_speed) {
-		gpio_tgl_gpio_pin(J13_10);
-		if(a++ == 20) {
+      //~ if(FOC_tick_speed) {
+
+		if(a++ == 1) {
 			a = 0;
-			if(tirq_demi_period >= 150000) {	//190000 is close to max speed
-				tirq_demi_period -= 1;
+			if(tirq_demi_period >= 158000) {	//190000 is close to max speed
+				tirq_demi_period -= 4;
 			}
-		}
+		//~ }
         // Regulate Torque value
         FOC_regulate_torque();
       }
@@ -191,7 +191,7 @@ void FOC_state_machine(void)
       FOC_compute_svpwm();
       // Update Duty Cycle
       FOC_update_duty();
-		gpio_tgl_gpio_pin(J13_11);
+	gpio_clr_gpio_pin(J13_11);
       break;
   }
 
@@ -481,7 +481,7 @@ static unsigned char FOC_start_motor(void)
       FOC_compute_svpwm();
       FOC_update_duty();
 
-      if (FOC_rampup_step_fieldreg_counter >= 6000) { //TODO: replace the constant
+      if (FOC_rampup_step_fieldreg_counter >= 5000) { //TODO: replace the constant
           MC_BLDC_motor.Iqref = IQREF_REGULAR;
           FOC_Iq_reg.IP_REG_lasterror = MC_BLDC_motor.Iqref-MC_BLDC_motor.Iqm;
           FOC_Id_reg.IP_REG_lasterror = -MC_BLDC_motor.Idm;

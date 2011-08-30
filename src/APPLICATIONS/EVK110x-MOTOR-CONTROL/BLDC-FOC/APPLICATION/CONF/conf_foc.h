@@ -71,7 +71,7 @@
 
 
 // #define SENSOR_TASK
-#define TICK_SPEED_FACTOR          2// Min Value = 360*Te, Te is a time variable. TICK_SPEED_FACTOR Decides how often FOC_regulate_torque(); will run
+#define TICK_SPEED_FACTOR          1// Min Value = 360*Te, Te is a time variable. TICK_SPEED_FACTOR Decides how often FOC_regulate_torque(); will run
 
 //zero_adc: seem to be bias value to satisfy adc_value_ia + adc_value_ib + adc_value_ic = zero_adc
 //~ # define  zero_adc                              1680
@@ -84,7 +84,7 @@
 //echelle_adc and offset: Seem to be scale values, ia= (adc_value_ia-offset)*echelle_adc;
 //TODO: The 'offset' value should be coupled to zero_adc. (zero_adc = 3 * offset) or (offset = zero_adc / 3), doesnt make sense to have them separate
 //~ # define  echelle_adc                           768955      //echelle = scale
-# define  echelle_adc                           (768955*2)      //echelle = scale
+# define  echelle_adc                           (768955*1)      //echelle = scale
 //~ # define  offset                                560
 #define offset 0x200
 
@@ -108,8 +108,11 @@
 //R is (more or less) 2^31 * 0.22
 //~ #define    R              472446402 // R=0.22 ohms
 #define    R              (Un_1/10) // R=1 ohms?????
-#define    Lc             547608    // Lc =0.5(0.51e-3).2^31;  en general Lc= Lc .2^31
-#define    Kcn            1503238   //Kcn=Kc/2E .2^31 = (0.0168/2.12).2^31
+//~ #define    Lc             547608    // Lc =0.5(0.51e-3).2^31;  en general Lc= Lc .2^31
+//~ #define    Kcn            1503238   //Kcn=Kc/2E .2^31 = (0.0168/2.12).2^31
+
+//~ #define Lc 100
+//~ #define Kcn 1000
 //~ #define    P              4
 #define    P              50
 
@@ -127,11 +130,14 @@
 //~ #define     Kp_iq         (4*R)               //<!Theorical Value  : 7R	//Proportional constant
 //~ #define     Ki_iq         (163040327>>4)      //<! Theorical Value : 4 *R^2/Lc //Integral constant
 
-#define     Kp_id         10000//(2*R)               //<!Theorical Value  : 7R //Proportional constant
-#define     Ki_id         1//(163040327>>4)      //<! Theorical Value : 4 *R^2/Lc	//Integral constant
+#define     Kp_id         60000000//(2*R)               //<!Theorical Value  : 7R //Proportional constant
+#define     Ki_id         1000000//(163040327>>4)      //<! Theorical Value : 4 *R^2/Lc	//Integral constant
 
-#define     Kp_iq         10000//(2*R)               //<!Theorical Value  : 7R	//Proportional constant
-#define     Ki_iq         1//(163040327>>4)      //<! Theorical Value : 4 *R^2/Lc //Integral constant
+#define     Kp_iq         60000000//(2*R)               //<!Theorical Value  : 7R	//Proportional constant
+#define     Ki_iq         1000000//(163040327>>4)      //<! Theorical Value : 4 *R^2/Lc //Integral constant
+#define Lc 500000
+#define Kcn Ki_iq
+
 //*/
 /*
 #define R	(0.22 * Un_1)	//???
