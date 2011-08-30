@@ -100,14 +100,18 @@
 //transf_v: Seem to have something to do with 2500, as 2^31/858992 = 2500.001336, and with speedm
 # define  transf_v                              858993
 
-#define   IQREF_RAMPUP                          (89478485)       //!< (Icrete*2^31)/(2E)
-#define   IQREF_REGULAR                         (IQREF_RAMPUP>>1)   //!< (Icrete*2^31)/(2E)
+/* Section 5.9: Limitations of the sensor field oriented control algorithm:
+ * For example, when computing current regulation, every ADC samples are scaled by a variable named E. This variable matches a ratio of the bus voltage. In the current implementation, this variable has been fixed to half of the nominal voltage of the motor. In that case, the nominal speed is equal to 2000 rpm. */
+#define    E              12
+
+#define   IQREF_RAMPUP    (int)((0.4 * Un_1) / (2*E)) // was: (89478485*24)       //!< (Icrete*2^31)/(2E)
+#define   IQREF_REGULAR   (IQREF_RAMPUP>>1)   //!< (Icrete*2^31)/(2E)
 //! Motor Parameters
-// !!!!!!!!! Current and Voltages are divided by 2E  !!!!!!!!//E seem to be 12 (defined below!), Icrete seem to be 1
+// !!!!!!!!! Current and Voltages are divided by 2E  !!!!!!!!//E seem to be 12, Icrete seem to be 1
 //*
 //R is (more or less) 2^31 * 0.22
 //~ #define    R              472446402 // R=0.22 ohms
-#define    R              (Un_1/10) // R=1 ohms?????
+#define    R              (int)(0.099*Un_1/1) // R=1 ohms?????
 //~ #define    Lc             547608    // Lc =0.5(0.51e-3).2^31;  en general Lc= Lc .2^31
 //~ #define    Kcn            1503238   //Kcn=Kc/2E .2^31 = (0.0168/2.12).2^31
 
@@ -115,10 +119,6 @@
 //~ #define Kcn 1000
 //~ #define    P              4
 #define    P              50
-
-/* Section 5.9: Limitations of the sensor field oriented control algorithm:
- * For example, when computing current regulation, every ADC samples are scaled by a variable named E. This variable matches a ratio of the bus voltage. In the current implementation, this variable has been fixed to half of the nominal voltage of the motor. In that case, the nominal speed is equal to 2000 rpm. */
-#define    E              12
 
 //Section 4.4
 #define     Kp_speed      0//741092              //!< Kdv = (0.04*J*R)/(Lc)      //1778545
@@ -130,11 +130,11 @@
 //~ #define     Kp_iq         (4*R)               //<!Theorical Value  : 7R	//Proportional constant
 //~ #define     Ki_iq         (163040327>>4)      //<! Theorical Value : 4 *R^2/Lc //Integral constant
 
-#define     Kp_id         60000000//(2*R)               //<!Theorical Value  : 7R //Proportional constant
-#define     Ki_id         1000000//(163040327>>4)      //<! Theorical Value : 4 *R^2/Lc	//Integral constant
+#define     Kp_id         600000//(2*R)               //<!Theorical Value  : 7R //Proportional constant
+#define     Ki_id         100000//(163040327>>4)      //<! Theorical Value : 4 *R^2/Lc	//Integral constant
 
-#define     Kp_iq         60000000//(2*R)               //<!Theorical Value  : 7R	//Proportional constant
-#define     Ki_iq         1000000//(163040327>>4)      //<! Theorical Value : 4 *R^2/Lc //Integral constant
+#define     Kp_iq         600000//(2*R)               //<!Theorical Value  : 7R	//Proportional constant
+#define     Ki_iq         100000//(163040327>>4)      //<! Theorical Value : 4 *R^2/Lc //Integral constant
 #define Lc 500000
 #define Kcn Ki_iq
 
@@ -145,26 +145,7 @@
 #define Kcn (
 */
 
-/*! \name USART Settings
- */
-//! @{
-//These are not really used, and WHY are they defined here anyway? Should be (re)moved. //Mjan 20110825
-#if BOARD == EVK1100
-#  define STDIO_USART               (&AVR32_USART1)
-#  define STDIO_USART_BAUDRATE      57600
-#  define STDIO_USART_RX_PIN        AVR32_USART1_RXD_0_0_PIN
-#  define STDIO_USART_RX_FUNCTION   AVR32_USART1_RXD_0_0_FUNCTION
-#  define STDIO_USART_TX_PIN        AVR32_USART1_TXD_0_0_PIN
-#  define STDIO_USART_TX_FUNCTION   AVR32_USART1_TXD_0_0_FUNCTION
-#elif BOARD == EVK1101
-#  define STDIO_USART               (&AVR32_USART1)
-#  define STDIO_USART_BAUDRATE      57600
-#  define STDIO_USART_RX_PIN        AVR32_USART1_RXD_0_0_PIN
-#  define STDIO_USART_RX_FUNCTION   AVR32_USART1_RXD_0_0_FUNCTION
-#  define STDIO_USART_TX_PIN        AVR32_USART1_TXD_0_0_PIN
-#  define STDIO_USART_TX_FUNCTION   AVR32_USART1_TXD_0_0_FUNCTION
-#endif
-//! @}
+
 
 
 #endif  // _CONF_FOC_H_

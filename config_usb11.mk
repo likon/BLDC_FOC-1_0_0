@@ -91,8 +91,6 @@ INC_PATH = \
   $(MAIN_PATH)/ENUM \
   $(MAIN_PATH)/ \
   $(PIC_PATH)
-#  ../../../ \
-#  ../../
 
 # C source files
 CSRCS = \
@@ -103,12 +101,12 @@ CSRCS = \
   $(DRVR_PATH)/USBB/ENUM/DEVICE/usb_standard_request.c \
   $(MAIN_PATH)/ENUM/usb_descriptors.c \
   $(MAIN_PATH)/ENUM/usb_specific_request.c \
-    $(SERV_PATH)/MOTOR_CONTROL/CONCORDIA/concordia.c \
-    $(SERV_PATH)/MOTOR_CONTROL/HALL_ESTIMATOR/hall_estimator.c \
-    $(SERV_PATH)/MOTOR_CONTROL/MOTOR_DRIVER/BLDC_MOTOR/pwm_drv.c \
-    $(SERV_PATH)/MOTOR_CONTROL/PARK/park.c \
-    $(SERV_PATH)/MOTOR_CONTROL/REGULATOR/ip_reg.c \
-    $(SERV_PATH)/MOTOR_CONTROL/SVPWM/svpwm.c \
+  $(SERV_PATH)/MOTOR_CONTROL/CONCORDIA/concordia.c \
+  $(SERV_PATH)/MOTOR_CONTROL/HALL_ESTIMATOR/hall_estimator.c \
+  $(SERV_PATH)/MOTOR_CONTROL/MOTOR_DRIVER/BLDC_MOTOR/pwm_drv.c \
+  $(SERV_PATH)/MOTOR_CONTROL/PARK/park.c \
+  $(SERV_PATH)/MOTOR_CONTROL/REGULATOR/ip_reg.c \
+  $(SERV_PATH)/MOTOR_CONTROL/SVPWM/svpwm.c \
   $(MAIN_PATH)/delay.c \
   $(MAIN_PATH)/device_cdc_task.c \
   $(MAIN_PATH)/main.c \
@@ -118,14 +116,6 @@ CSRCS = \
   $(MAIN_PATH)/uart_usb_lib.c \
   $(MAIN_PATH)/tirq.c \
   $(MAIN_PATH)/usart.c
-#~ ifdef NOPIC
-  #~ CSRCS += $(PIC_PATH)/PMSM.c \
-  #~ $(PIC_PATH)/smcpos.c \
-  #~ $(PIC_PATH)/FdWeak.c \
-  #~ $(PIC_PATH)/FdWeak.c
-#~ endif
-  #~ $(MAIN_PATH)/motor_startup.c
-#~ $(MAIN_PATH)/util.c \	//Removed mjan 20110829
 
 # Assembler source files
 ASSRCS = \

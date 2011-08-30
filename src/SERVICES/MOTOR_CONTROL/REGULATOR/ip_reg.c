@@ -58,7 +58,7 @@
 //!
 void IP_REG_compute(IP_REG_variables_t* IP_reg)
 {
-     IP_reg->IP_REG_feedback=IP_reg->IP_REG_feedback-IP_reg->IP_REG_discharge+(int)(((long long int)IP_reg->Ki *(long long int)IP_reg->IP_REG_lasterror)>>31);
+     IP_reg->IP_REG_feedback=IP_reg->IP_REG_feedback-IP_reg->IP_REG_discharge+(int)(((long long int)IP_reg->Ki * (long long int)IP_reg->IP_REG_lasterror)>>31);
      IP_reg->IP_REG_output=IP_reg->IP_REG_feedback-(int)(((long long int)IP_reg->Kp *(long long int)IP_reg->IP_REG_mes)>>31);
      IP_reg->IP_REG_lasterror=IP_reg->IP_REG_ref-IP_reg->IP_REG_mes;
 }

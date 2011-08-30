@@ -99,17 +99,35 @@
   #include "EXT1102/ext1102.h"
 #elif EXT_BOARD == MC300
   #include "MC300/mc300.h"
-#elif EXT_BOARD == EXT_USB11	//TODO: If not used anywhere, remove.
-	#include "USB11/usb11.h"	//TODO: Redundant with BOARD == USB11
+//~ #elif EXT_BOARD == EXT_USB11	//TODO: If not used anywhere, remove.
+	//~ #include "USB11/usb11.h"	//TODO: Redundant with BOARD == USB11
 #elif EXT_BOARD == USER_EXT_BOARD
   // User-reserved area: #include the header file of your extension board here
   // (if any).
 #endif
 
-
 #ifndef FRCOSC
   #define FRCOSC    AVR32_PM_RCOSC_FREQUENCY  //!< Default RCOsc frequency.
 #endif
 
+/*! \name USART Settings
+ */
+//! @{
+#if BOARD == EVK1100
+#  define STDIO_USART               (&AVR32_USART1)
+#  define STDIO_USART_BAUDRATE      57600
+#  define STDIO_USART_RX_PIN        AVR32_USART1_RXD_0_0_PIN
+#  define STDIO_USART_RX_FUNCTION   AVR32_USART1_RXD_0_0_FUNCTION
+#  define STDIO_USART_TX_PIN        AVR32_USART1_TXD_0_0_PIN
+#  define STDIO_USART_TX_FUNCTION   AVR32_USART1_TXD_0_0_FUNCTION
+#elif BOARD == EVK1101
+#  define STDIO_USART               (&AVR32_USART1)
+#  define STDIO_USART_BAUDRATE      57600
+#  define STDIO_USART_RX_PIN        AVR32_USART1_RXD_0_0_PIN
+#  define STDIO_USART_RX_FUNCTION   AVR32_USART1_RXD_0_0_FUNCTION
+#  define STDIO_USART_TX_PIN        AVR32_USART1_TXD_0_0_PIN
+#  define STDIO_USART_TX_FUNCTION   AVR32_USART1_TXD_0_0_FUNCTION
+#endif
+//! @}
 
 #endif  // _BOARD_H_

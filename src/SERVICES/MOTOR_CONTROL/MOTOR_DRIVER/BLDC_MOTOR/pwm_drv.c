@@ -152,7 +152,6 @@ void pwm_drv_start(void)
   volatile avr32_pwm_t *pwm = &AVR32_PWM;
   pwm->ier = (1<<PWM_XL_PWM_CHANNEL );
   pwm->ena = (1<<PWM_XL_PWM_CHANNEL )|(1<<PWM_YL_PWM_CHANNEL )|(1<<PWM_ZL_PWM_CHANNEL ); // enable channel 0 to 3
-  //~ pwm->ena = (1<<PWM_XL_PWM_CHANNEL )|(1<<PWM_XH_PWM_CHANNEL )|(1<<PWM_YL_PWM_CHANNEL )|(1<<PWM_YH_PWM_CHANNEL )|(1<<PWM_ZL_PWM_CHANNEL )|(1<<PWM_ZH_PWM_CHANNEL ); // enable channel 0 to 6  //TODO: remove
 }
 void pwm_drv_stop(void)
 {
@@ -162,12 +161,17 @@ void pwm_drv_stop(void)
  */
 //! @{
 void pwm_drv_duty_cycle(volatile pwm_drv_options_t * pwm_drv_options, U32 pwm0, U32 pwm1, U32 pwm2)
-//~ void pwm_drv_duty_cycle(volatile pwm_drv_options_t *pwm_drv_options,U32 pwm0,U32 pwm1,U32 pwm2,U32 pwm3,U32 pwm4,U32 pwm5) //TODO: remove
 {
-	pwm0 /= 3*1;
-	pwm1 /= 3*1;
-	pwm2 /= 3*1;
-
+	pwm0 /= 2*1;
+	pwm1 /= 2*1;
+	pwm2 /= 2*1;
+	pwm0 |=1;
+	pwm1 |=1;
+	pwm2 |=1;
+	#define MAX 598
+	if(pwm0 > MAX)  { pwm0 = MAX; }
+	if(pwm1 > MAX)  { pwm1 = MAX; }
+	if(pwm2 > MAX)  { pwm2 = MAX; }
 #ifdef DEBUG
 	//~ printf("%i, %i, %i\n\r", pwm0, pwm1, pwm2);
 #endif

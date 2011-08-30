@@ -187,13 +187,12 @@ void mc_global_init(void)
   //~ hall_estimator_init();	//TODO: remove
   //~ hall_estimator_init_interrupt();	//TODO: remove
   //~ TODO: Better name?
-  tirq_estimator_init();
-  tirq_estimator_init_interrupt();
+  //~ tirq_estimator_init();
+  //~ tirq_estimator_init_interrupt();
   // --------------------- PWM Initialization ----------------------------------
   pwm_drv_options.max_pwm_value = MAX_PWM_VALUE;    // Cprd,	TODO: Macro
   pwm_drv_init(&pwm_drv_options);
-  INTC_register_interrupt(&pwm_int_handler, AVR32_PWM_IRQ, AVR32_INTC_INT0);
-  //~ INTC_register_interrupt(&pwm_interrupt_pic, AVR32_PWM_IRQ, AVR32_INTC_INT0);
+  INTC_register_interrupt(&pwm_int_handler, AVR32_PWM_IRQ, AVR32_INTC_INT2);
 }
 
 void mc_lowlevel_start(void)

@@ -462,10 +462,6 @@ int main(void)
 	//~ while(1);
 
 	//~ tirq_init();
-	mc_control_task();
-	mc_control_task();
-	mc_control_task();
-	mc_control_task();
    while(1)
    {
 #ifdef USB_DEBUG
