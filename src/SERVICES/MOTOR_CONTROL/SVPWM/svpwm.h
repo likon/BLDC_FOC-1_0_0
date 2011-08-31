@@ -73,9 +73,6 @@ typedef struct
   int duty0;
   int duty1;
   int duty2;
-  //~ int duty3;
-  //~ int duty4;
-  //~ int duty5;
 } svpwm_options_t;
 //------------------------------------------------------------------------------
 /*! \name Initialization Functions

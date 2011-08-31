@@ -118,7 +118,7 @@ void test_thomas_program(void);
 void test_thomas_program(void)
 {
 	int i;
-	double phi;
+	double phi = 0;
 	int si1,si2,si3;
 	volatile unsigned short adc_value_ia;
 	volatile unsigned short adc_value_ib;
@@ -211,8 +211,6 @@ void test_usart(void)
 {
 	//Direct output
 	usart_write_line(&AVR32_USART0, "Hello serial!\n\r");
-	//Output via printf
-	printf("Hello Kitty!\n\r");
 }
 
 extern volatile unsigned short tick;
@@ -266,68 +264,7 @@ volatile avr32_pm_t* pm = &AVR32_PM;
                0,   // unsigned int osc, Sel Osc0/PLL0 or Osc1/PLL1
                16); // unsigned int lockcount
 
-  pm_pll_set_option(pm, 0, 1, 1, 0);//Max 60MHz, TODO: Update FCPU_HZ in usb11.h
-
-//~ // Supported frequencies:
-//~ // Fosc0 mul div PLL div2_en cpu_f pba_f   Comment
-//~ //  12   15   1  192     1     12    12
-//~ //  12    9   3   40     1     20    20    PLL out of spec
-//~ //  12   15   1  192     1     24    12
-//~ //  12    9   1  120     1     30    15
-//~ //  12    9   3   40     0     40    20    PLL out of spec
-//~ //  12   15   1  192     1     48    12
-//~ //  12   15   1  192     1     48    24
-//~ //  12    8   1  108     1     54    27
-//~ //  12    9   1  120     1     60    15   <--- We set up PLL0 according to this, mjan 20101228
-//~ //  12    9   1  120     1     60    30
-//~ //  12   10   1  132     1     66    16.5
-//~ /*!
- //~ * \brief This function will setup a PLL.
- //~ * \param pm Base address of the Power Manager (i.e. &AVR32_PM)
- //~ * \param pll PLL number(0 for PLL0, 1 for PLL1)
- //~ * \param mul PLL MUL in the PLL formula
- //~ * \param div PLL DIV in the PLL formula
- //~ * \param osc OSC number (0 for osc0, 1 for osc1)
- //~ * \param lockcount PLL lockount
- //~ */
-//~ extern void pm_pll_setup(volatile avr32_pm_t *pm,
-//~ unsigned int pll,
-//~ unsigned int mul,
-//~ unsigned int div,
-//~ unsigned int osc,
-//~ unsigned int lockcount);
-
-/*!
- //~ * \brief This function will set a PLL option.
- //~ * \param pm Base address of the Power Manager (i.e. &AVR32_PM)
- //~ * \param pll PLL number(0 for PLL0, 1 for PLL1)
- //~ * \param pll_freq Set to 1 for VCO frequency range 80-180MHz, set to 0 for VCO frequency range 160-240Mhz.
- //~ * \param pll_div2 Divide the PLL output frequency by 2 (this settings does not change the FVCO value)
- //~ * \param pll_wbwdisable 1 Disable the Wide-Bandith Mode (Wide-Bandwith mode allow a faster startup time and out-of-lock time). 0 to enable the Wide-Bandith Mode.
- //~ */
-//~ extern void pm_pll_set_option(volatile avr32_pm_t *pm,
-								//~ unsigned int pll,
-								//~ unsigned int  pll_freq,
-								//~ unsigned int  pll_div2,
-								//~ unsigned int  pll_wbwdisable);
-/*!
- * \brief This function will select all the power manager clocks.
- * \param pm Base address of the Power Manager (i.e. &AVR32_PM)
- * \param pbadiv Peripheral Bus A clock divisor enable
- * \param pbasel Peripheral Bus A select
- * \param pbbdiv Peripheral Bus B clock divisor enable
- * \param pbbsel Peripheral Bus B select
- * \param hsbdiv High Speed Bus clock divisor enable (CPU clock = HSB clock)
- * \param hsbsel High Speed Bus select (CPU clock = HSB clock )
- */
-//~ extern void pm_cksel(volatile avr32_pm_t *pm,
-								//~ unsigned int pbadiv,
-								//~ unsigned int pbasel,
-								//~ unsigned int pbbdiv,
-								//~ unsigned int pbbsel,
-								//~ unsigned int hsbdiv,
-								//~ unsigned int hsbsel);
-
+  pm_pll_set_option(pm, 0, 1, 1, 0);	//Max 60MHz, TODO: Update FCPU_HZ in usb11.h
   /* Enable PLL0 */
   pm_pll_enable(pm,0);
   /* Wait for PLL0 locked */
@@ -375,29 +312,12 @@ int __low_level_init(void)
   return 1;
 }
 
-void init_usb(void)
+/*! Initialize debug USART */
+void m_usart_init(void)
 {
-  // Initialize USB clock
-  pm_configure_usb_clock();
-
-  // Initialize USB task
-  usb_task_init();
-
-  // Initialize device CDC USB task
-  device_cdc_task_init();
-
-}
-int main(void)
-{
-  // Configure standard I/O streams as unbuffered.
-	#if __GNUC__ && __AVR32__
-	setbuf(stdin, NULL);
-	#endif
-	setbuf(stdout, NULL);
-
 	/* Set up USART for debug output */
-	#define USART_RX STDIO_USART_RX_PIN	//AVR32_USART0_RXD_0_0_PIN
-	#define USART_TX STDIO_USART_TX_PIN	//AVR32_USART0_TXD_0_0_PIN
+	#define USART_RX STDIO_USART_RX_PIN
+	#define USART_TX STDIO_USART_TX_PIN
 
 	volatile avr32_gpio_port_t * gpio;
 	gpio = (avr32_gpio_port_t *)&AVR32_GPIO;
@@ -412,20 +332,19 @@ int main(void)
 		.baudrate = STDIO_USART_BAUDRATE
 	};
 
-	usart_init_rs232(&AVR32_USART0, &usart_opt, FPBA_HZ);
+	usart_init_rs232(&AVR32_USART0, &usart_opt, 2 * FPBA_HZ);
 	set_usart_base((void *) &AVR32_USART0);
-	printf("Hello Kitty!\n\r");
+	printf("Usart initialized!\n\r");
+}
 
-#ifdef USB_DEBUG
-  init_usb();
-
-   // Wait enumeration
-   do
-   {
-     usb_task();
-   }while(!Is_device_enumerated());
-
-#endif
+int main(void)
+{
+  // Configure standard I/O streams as unbuffered.
+	#if __GNUC__ && __AVR32__
+	setbuf(stdin, NULL);
+	#endif
+	setbuf(stdout, NULL);
+	m_usart_init();	//TODO: REMOVE
 
 	//Enable the motor driver circuit
 	gpio_set_gpio_pin(MOTEN);
@@ -464,12 +383,6 @@ int main(void)
 	//~ tirq_init();
    while(1)
    {
-#ifdef USB_DEBUG
-#error We are not supposed to use USB
-      usb_task();
-      device_cdc_task();
-#endif
-
 	//~ if(gpio_get_pin_value(J13_13) != 0) {
 		gpio_tgl_gpio_pin(J13_10);
 		mc_control_task();

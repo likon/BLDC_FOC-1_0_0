@@ -27,20 +27,12 @@
 
 #define FOSC0           8000000UL                             //!< Osc0 frequency: Hz.
 #define FCPU_HZ        48000000UL                             //!< PLL frequency: Hz.
-#define FPBA_HZ        (FCPU_HZ / 2)
+#define FPBA_HZ        (FCPU_HZ / 4)
 
 
 #define OSC0_STARTUP    AVR32_PM_OSCCTRL0_STARTUP_2048_RCOSC  //!< Osc0 startup time: RCOsc periods.
 
 //! @}
-
-/*! \name USB11 pin definitions
- */
-//! @{
-//These are found in the file:
-// /BLDC_FOC-1_0_0/src/APPLICATIONS/EVK110x-MOTOR-CONTROL/BLDC-FOC/APPLICATION/CONF/usb11.h
-//~ #define MOTEN AVR32_PIN_PA11
-//~ #define POWER_DOWN_INT AVR32_PIN_PB01
 
 #define TC_CHANNEL_0 0
 

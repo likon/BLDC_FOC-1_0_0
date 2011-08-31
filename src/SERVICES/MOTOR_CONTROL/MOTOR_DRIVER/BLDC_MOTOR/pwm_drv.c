@@ -50,6 +50,7 @@
 #include "gpio.h"
 #include "pwm_drv.h"
 #include "CONF/conf_motor_driver.h"
+#include "CONF/conf_foc.h"
 //~ #include "CONF/mc300.h"	//TODO: Remove
 
 //_____ M A C R O S ________________________________________________________
@@ -69,11 +70,8 @@ void pwm_drv_init(volatile pwm_drv_options_t *pwm_drv_options)
    static const gpio_map_t PWM_GPIO_MAP  =
   {
     { PWM_XL_PIN_NUMBER, PWM_XL_PWM_FUNCTION },
-    //~ {PWM_XH_PIN_NUMBER, PWM_XH_PWM_FUNCTION},
     { PWM_YL_PIN_NUMBER, PWM_YL_PWM_FUNCTION },
-    //~ {PWM_YH_PIN_NUMBER, PWM_YH_PWM_FUNCTION},
     { PWM_ZL_PIN_NUMBER, PWM_ZL_PWM_FUNCTION },
-    //~ {PWM_ZH_PIN_NUMBER, PWM_ZH_PWM_FUNCTION}
   };
 
   // Assign GPIO to PWM.
@@ -86,16 +84,6 @@ void pwm_drv_init(volatile pwm_drv_options_t *pwm_drv_options)
     (0<<AVR32_PWM_PREA) |
     (0<<AVR32_PWM_PREB) ;
 
-  // channel XH_PWM_CHANNEL	//TODO: remove
-  //~ pwm->channel[PWM_XH_PWM_CHANNEL].cmr=
-    //~ (0<<AVR32_PWM_CMR_CPRE) | // MCK % 1
-    //~ (1<<AVR32_PWM_CMR_CALG) | // center aligned
-    //~ (0<<AVR32_PWM_CMR_CPOL) | // start with 0
-    //~ (0<<AVR32_PWM_CMR_CPD)
-    //~ ;   // channel mode
-  //~ pwm->channel[PWM_XH_PWM_CHANNEL].cprd= pwm_drv_options->max_pwm_value; // channel period
-  //~ pwm->channel[PWM_XH_PWM_CHANNEL].cdty= pwm_drv_options->max_pwm_value - 10; // duty cycle, should be < CPRD
-
   // channel XL_PWM_CHANNEL
   pwm->channel[PWM_XL_PWM_CHANNEL].cmr=
     (0<<AVR32_PWM_CMR_CPRE) | // MCK % 1
@@ -104,17 +92,7 @@ void pwm_drv_init(volatile pwm_drv_options_t *pwm_drv_options)
     (0<<AVR32_PWM_CMR_CPD)
     ;   // channel mode
   pwm->channel[PWM_XL_PWM_CHANNEL].cprd= pwm_drv_options->max_pwm_value; // channel period
-  pwm->channel[PWM_XL_PWM_CHANNEL].cdty= pwm_drv_options->max_pwm_value - 10; // duty cycle, should be < CPRD
-
-  // channel YH_PWM_CHANNEL //TODO: remove
-  //~ pwm->channel[PWM_YH_PWM_CHANNEL].cmr=
-    //~ (0<<AVR32_PWM_CMR_CPRE) | // MCK % 1
-    //~ (1<<AVR32_PWM_CMR_CALG) | // center aligned
-    //~ (0<<AVR32_PWM_CMR_CPOL) | // start with 0
-    //~ (0<<AVR32_PWM_CMR_CPD)
-    //~ ;   // channel mode
-  //~ pwm->channel[PWM_YH_PWM_CHANNEL].cprd= pwm_drv_options->max_pwm_value; // channel period
-  //~ pwm->channel[PWM_YH_PWM_CHANNEL].cdty= pwm_drv_options->max_pwm_value - 10; // duty cycle, should be < CPRD
+  pwm->channel[PWM_XL_PWM_CHANNEL].cdty= pwm_drv_options->max_pwm_value - 10; // duty cycle, should be < CPRD //~ TODO: -10 is a random value. Should be changed to something more descriptive.
 
   // channel YL_PWM_CHANNEL
   pwm->channel[PWM_YL_PWM_CHANNEL].cmr=
@@ -125,16 +103,6 @@ void pwm_drv_init(volatile pwm_drv_options_t *pwm_drv_options)
     ;   // channel mode
   pwm->channel[PWM_YL_PWM_CHANNEL].cprd= pwm_drv_options->max_pwm_value; // channel period
   pwm->channel[PWM_YL_PWM_CHANNEL].cdty= pwm_drv_options->max_pwm_value - 10; // duty cycle, should be < CPRD
-
-  // channel ZH_PWM_CHANNEL //TODO: remove
-  //~ pwm->channel[PWM_ZH_PWM_CHANNEL].cmr=
-    //~ (0<<AVR32_PWM_CMR_CPRE) | // MCK % 1
-    //~ (1<<AVR32_PWM_CMR_CALG) | // center aligned
-    //~ (0<<AVR32_PWM_CMR_CPOL) | // start with 0
-    //~ (0<<AVR32_PWM_CMR_CPD)
-    //~ ;   // channel mode
-  //~ pwm->channel[PWM_ZH_PWM_CHANNEL].cprd= pwm_drv_options->max_pwm_value; // channel period
-  //~ pwm->channel[PWM_ZH_PWM_CHANNEL].cdty= pwm_drv_options->max_pwm_value - 10; // duty cycle, should be < CPRD
 
   // channel ZL_PWM_CHANNEL
   pwm->channel[PWM_ZL_PWM_CHANNEL].cmr=
@@ -153,37 +121,41 @@ void pwm_drv_start(void)
   pwm->ier = (1<<PWM_XL_PWM_CHANNEL );
   pwm->ena = (1<<PWM_XL_PWM_CHANNEL )|(1<<PWM_YL_PWM_CHANNEL )|(1<<PWM_ZL_PWM_CHANNEL ); // enable channel 0 to 3
 }
+
 void pwm_drv_stop(void)
 {
 }
+
 //------------------------------------------------------------------------------
 /*! \name PWM Driver Update
  */
 //! @{
 void pwm_drv_duty_cycle(volatile pwm_drv_options_t * pwm_drv_options, U32 pwm0, U32 pwm1, U32 pwm2)
 {
-	pwm0 /= 2*1;
-	pwm1 /= 2*1;
-	pwm2 /= 2*1;
+	//TODO: This code should be looked over together with the code in svpwm.c
+	#define MAX PWM_PERIOD
+	//Divide to get into PWM period range
+	pwm0 /= 2;
+	pwm1 /= 2;
+	pwm2 /= 2;
+	//Make sure we dont write 0 or MAX value into the register, just as a precaution to avoid potential problems. Should be removed later.
 	pwm0 |=1;
 	pwm1 |=1;
 	pwm2 |=1;
-	#define MAX 598
-	if(pwm0 > MAX)  { pwm0 = MAX; }
-	if(pwm1 > MAX)  { pwm1 = MAX; }
-	if(pwm2 > MAX)  { pwm2 = MAX; }
+	if(pwm0 > MAX)  { pwm0 = MAX-1; }
+	if(pwm1 > MAX)  { pwm1 = MAX-1; }
+	if(pwm2 > MAX)  { pwm2 = MAX-1; }
+
 #ifdef DEBUG
 	//~ printf("%i, %i, %i\n\r", pwm0, pwm1, pwm2);
+	//return; //TODO: REMOVE!!!! Debug code
 #endif
-	//return; //TODO: REMOVE!!!!
+
   volatile avr32_pwm_t *pwm = &AVR32_PWM;
 
-  //~ pwm->channel[PWM_XH_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm0; //TODO: remove comment
-  pwm->channel[PWM_XL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm0;	//was -pwm1
-  //~ pwm->channel[PWM_YH_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm2; //TODO: remove comment
-  pwm->channel[PWM_YL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm1;	//was -pwm3
-  //~ pwm->channel[PWM_ZH_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm4; //TODO: remove comment
-  pwm->channel[PWM_ZL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm2;	//was -pwm5
+  pwm->channel[PWM_XL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm0;
+  pwm->channel[PWM_YL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm1;
+  pwm->channel[PWM_ZL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm2;
 }
 
 //@}

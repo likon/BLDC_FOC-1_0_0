@@ -52,17 +52,11 @@
 #undef USB_DEBUG
 
 #define Un_1                                  2147483648  // 2^31
-#define PI                                    3.141592    //3.141592654
-#define PWM_HZ                                20000
-#define MAX_PWM_VALUE (FPBA_HZ / (2 * PWM_HZ))
-//PWM register values for various periods
-//~ #define MAX_PWM_VALUE 1200	//Original value, seem to have been be ~26.7 kHz
-//~ #define MAX_PWM_VALUE 500	//24 kHz (=12e6/24e3)
-//~ #define MAX_PWM_VALUE 521	//23 kHz
-//~ #define MAX_PWM_VALUE 545	//22 kHz
-//~ #define MAX_PWM_VALUE 571	//21 kHz
-//~ #define MAX_PWM_VALUE 600	//20 kHz
-//~ #define MAX_PWM_VALUE (571)	//21 kHz
+#define PI                                    3.141592    //3.141592654...
+#define PWM_HZ                                22000
+#define PWM_PERIOD (FPBA_HZ / PWM_HZ)
+//~ #define MAX_PWM_VALUE 1200	//Original value. Now called PWM_PERIOD instead, Mjan
+
 //Te: Seem to have something to do with 10000, not used in the code anyway, well, it is the PWM period
 #define    Te                                   	(Un_1 * (1 / PWM_HZ))    // PWM_HZ = 20kHz = 50 us -> 107374
 //~ #define    Te                                   214748    // 100 us
@@ -71,81 +65,68 @@
 
 
 // #define SENSOR_TASK
-#define TICK_SPEED_FACTOR          1// Min Value = 360*Te, Te is a time variable. TICK_SPEED_FACTOR Decides how often FOC_regulate_torque(); will run
+//TICK_SPEED_FACTOR Decides how often FOC_regulate_torque(); will run in the PWM interrupt. Te is a time variable.
+#define TICK_SPEED_FACTOR          1// Min Value = 360*Te,
 
 //zero_adc: seem to be bias value to satisfy adc_value_ia + adc_value_ib + adc_value_ic = zero_adc
+//TODO: ZERO_ADC should be used, and something descriptive as 'adc_sum_zero' should be defined to (3 * ZERO_ADC)
 //~ # define  zero_adc                              1680
-#define zero_adc (3 * 0x200)
-
-//erreur_max: seem to be a sqrtt iteration stop value, use a better name
-//~ # define  erreur_max                            300	//Removed, mjan 20110829
-//~ #define  SQRT_ERROR_MAX                         300	//Removed, mjan
+#define ZERO_ADC 0x200
+#define zero_adc (3 * ZERO_ADC)
 
 //echelle_adc and offset: Seem to be scale values, ia= (adc_value_ia-offset)*echelle_adc;
 //TODO: The 'offset' value should be coupled to zero_adc. (zero_adc = 3 * offset) or (offset = zero_adc / 3), doesnt make sense to have them separate
 //~ # define  echelle_adc                           768955      //echelle = scale
 # define  echelle_adc                           (768955*1)      //echelle = scale
 //~ # define  offset                                560
-#define offset 0x200
+#define offset ZERO_ADC
+
+
+/* Section 5.9: Limitations of the sensor field oriented control algorithm:
+ * For example, when computing current regulation, every ADC samples are scaled by a variable named E. This variable matches a ratio of the bus voltage. In the current implementation, this variable has been fixed to half of the nominal voltage of the motor. In that case, the nominal speed is equal to 2000 rpm. */
+#define    E                                    12
 
 //rayon_limitation: Seem to be used at Park transformation for Vd and Vq, seem to be close to 2^31 * 1 / sqrt(8)
 # define  rayon_limitation                      751619276   // 1/sqrt8  rayon = radius
 # define  rayon_carre_limitation                263066746   // 1/8      carre = square
+//~ # define  rayon_limitation                      (1753413056/ (2 * E))//751619276   // sqrt(2/3)	//1/sqrt8  rayon = radius
+//~ # define  rayon_carre_limitation                (1431655765 / (2 * E))//263066746   // 2/3      carre = square
 # define  vitesse_inst                          (864000)    //          vitesse = speed
 
 //~ # define  pi_Fcpu                               150796447	//This value is used only once. shouldnt be defined here, but in the .h of that file using it.
 #define PI_X_FCPU                                 ((FCPU_HZ * PI))
 //~ # define  tirq_demi_period_init                 300000
 # define  tirq_demi_period_init                     350000	//demi = half
-//transf_v: Seem to have something to do with 2500, as 2^31/858992 = 2500.001336, and with speedm
+//transf_v: Seem to have something to do with 2500, as 2^31/858992 = 2500.001336, and with speedm.
 # define  transf_v                              858993
 
-/* Section 5.9: Limitations of the sensor field oriented control algorithm:
- * For example, when computing current regulation, every ADC samples are scaled by a variable named E. This variable matches a ratio of the bus voltage. In the current implementation, this variable has been fixed to half of the nominal voltage of the motor. In that case, the nominal speed is equal to 2000 rpm. */
-#define    E              12
-
-#define   IQREF_RAMPUP    (int)((0.4 * Un_1) / (2*E)) // was: (89478485*24)       //!< (Icrete*2^31)/(2E)
+#define   IQREF_RAMPUP    ((int)((0.4 * Un_1) / (2*E))) // was: (89478485*24)       //!< (Icrete*2^31)/(2E)
 #define   IQREF_REGULAR   (IQREF_RAMPUP>>1)   //!< (Icrete*2^31)/(2E)
 //! Motor Parameters
 // !!!!!!!!! Current and Voltages are divided by 2E  !!!!!!!!//E seem to be 12, Icrete seem to be 1
 //*
-//R is (more or less) 2^31 * 0.22
+//R is 2^31 * 0.22
 //~ #define    R              472446402 // R=0.22 ohms
-#define    R              (int)(0.099*Un_1/1) // R=1 ohms?????
+#define    R                  ((int)(0.99 * Un_1)) // R=1 ohms?????
 //~ #define    Lc             547608    // Lc =0.5(0.51e-3).2^31;  en general Lc= Lc .2^31
 //~ #define    Kcn            1503238   //Kcn=Kc/2E .2^31 = (0.0168/2.12).2^31
 
 //~ #define Lc 100
 //~ #define Kcn 1000
 //~ #define    P              4
-#define    P              50
+#define    P                  50	//Is this really the nr of pole pairs?
 
-//Section 4.4
-#define     Kp_speed      0//741092              //!< Kdv = (0.04*J*R)/(Lc)      //1778545
-#define     Ki_speed      0//1598                //!< Kiv = (0.01*J*R^2)/(Lc^2)  //3836
+//Section 4.4, AVR32723 appnote.
+#define     Kp_speed      741092              //!< Kdv = (0.04*J*R)/(Lc)      //1778545 //Change this, make motor spin faster
+#define     Ki_speed      1598                //!< Kiv = (0.01*J*R^2)/(Lc^2)  //3836
 
-//~ #define     Kp_id         (4*R)               //<!Theorical Value  : 7R //Proportional constant
-//~ #define     Ki_id         (163040327>>4)      //<! Theorical Value : 4 *R^2/Lc	//Integral constant
+#define     Kp_id         ((int)(0.01 * Un_1))//(2*R)               //<!Theorical Value  : 7R //Proportional constant
+#define     Ki_id         ((int)(0.005 * Un_1))//(163040327>>4)      //<! Theorical Value : 4 *R^2/Lc	//Integral constant
 
-//~ #define     Kp_iq         (4*R)               //<!Theorical Value  : 7R	//Proportional constant
-//~ #define     Ki_iq         (163040327>>4)      //<! Theorical Value : 4 *R^2/Lc //Integral constant
-
-#define     Kp_id         600000//(2*R)               //<!Theorical Value  : 7R //Proportional constant
-#define     Ki_id         100000//(163040327>>4)      //<! Theorical Value : 4 *R^2/Lc	//Integral constant
-
-#define     Kp_iq         600000//(2*R)               //<!Theorical Value  : 7R	//Proportional constant
-#define     Ki_iq         100000//(163040327>>4)      //<! Theorical Value : 4 *R^2/Lc //Integral constant
-#define Lc 500000
+#define     Kp_iq         ((int)(0.01 * Un_1))//(2*R)               //<!Theorical Value  : 7R	//Proportional constant
+#define     Ki_iq         ((int)(0.005 * Un_1))//(163040327>>4)      //<! Theorical Value : 4 *R^2/Lc //Integral constant
+#define Lc ((int)(0.0051 * Un_1) / 2)
+//~ #define Lc (21904333 / 1000)
 #define Kcn Ki_iq
-
-//*/
-/*
-#define R	(0.22 * Un_1)	//???
-#define Lc (0.5 * 0.00051 * Un_1)	//???
-#define Kcn (
-*/
-
-
-
 
 #endif  // _CONF_FOC_H_

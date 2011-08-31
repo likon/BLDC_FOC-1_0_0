@@ -55,7 +55,8 @@
 //~ #include "RTDM.h"
 
 #include "conf_foc.h"
-#include "util.h"
+#include "dsp.h"
+//~ #include "util.h"
 
 
 /******************************************************************************/
@@ -111,21 +112,21 @@ unsigned int Startup_Lock = 0;	/* This is a counter that is incremented in
 union   {
         struct
             {
-            unsigned int OpenLoop;	// Indicates if motor is running in open or closed loop
-            unsigned int RunMotor;	// If motor is running, or stopped.
-			unsigned int EnTorqueMod;	// This bit enables Torque mode when running closed loop
-			unsigned int EnVoltRipCo;	// Bit that enables Voltage Ripple Compensation
-            unsigned int Btn1Pressed;	// Button 1 has been pressed.
-            unsigned int Btn2Pressed;	// Button 2 has been pressed.
-            unsigned int ChangeMode;	// This flag indicates that a transition from open to closed
+            unsigned OpenLoop:1;	// Indicates if motor is running in open or closed loop
+            unsigned RunMotor:1;	// If motor is running, or stopped.
+			unsigned EnTorqueMod:1;	// This bit enables Torque mode when running closed loop
+			unsigned EnVoltRipCo:1;	// Bit that enables Voltage Ripple Compensation
+            unsigned Btn1Pressed:1;	// Button 1 has been pressed.
+            unsigned Btn2Pressed:1;	// Button 2 has been pressed.
+            unsigned ChangeMode:1;	// This flag indicates that a transition from open to closed
 									// loop, or closed to open loop has happened. This
 									// causes DoControl subroutine to initialize some variables
 									// before executing open or closed loop for the first time
-            unsigned int ChangeSpeed;	// This flag indicates a step command in speed reference.
+            unsigned ChangeSpeed:1;	// This flag indicates a step command in speed reference.
 									// This is mainly used to analyze step response
-            //~ unsigned    int nothing;
+            unsigned    :8;
             }bit;
-        unsigned int Word[8];
+        WORD Word;
         } uGF;
 
 tPIParm     PIParmD;	// Structure definition for Flux component of current, or Id
@@ -196,11 +197,11 @@ int pic_main ( void )
 	//~ // Wait for PLL to lock
 	//~ while(OSCCONbits.LOCK != 1);
 
-	//~ SMCInit(&smc1);
+	SMCInit(&smc1);
     //~ SetupPorts();
    	SetupControlParameters();
-	//~ FWInit();
-    //~ uGF.Word = 0;                   // clear flags
+	FWInit();
+    uGF.Word = 0;                   // clear flags
 
     while(1)
     {
@@ -229,15 +230,15 @@ int pic_main ( void )
         //~ IFS0bits.AD1IF = 0;
         //~ IEC0bits.AD1IE = 1;
 
-        //~ if(!uGF.bit.RunMotor)
-        //~ {
+        if(!uGF.bit.RunMotor)
+        {
             // Initialize current offset compensation
             //~ while(!pinButton1);                  //wait here until button 1 is pressed
             //~ while(pinButton1);                  //when button 1 is released
 
 			SetupParm();
-            //~ uGF.bit.RunMotor = (int)1;               //then start motor
-        //~ }
+            uGF.bit.RunMotor = 1;               //then start motor
+        }
 
         // Run the motor
         uGF.bit.ChangeMode = 1;	// Ensure variable initialization when open loop is
@@ -478,7 +479,7 @@ void DoControl( void )
 		// let NOMINALSPEEDINRPM be equal to FIELDWEAKSPEEDRPM in
 		// UserParms.h
 		//~ CtrlParm.qVdRef = FieldWeakening(_Q15abs(CtrlParm.qVelRef));
-		CtrlParm.qVdRef = FieldWeakening(abs(CtrlParm.qVelRef));
+		CtrlParm.qVdRef = FieldWeakening(dsp16_op_abs(CtrlParm.qVelRef));
 
         // PI control for D
         PIParmD.qInMeas = ParkParm.qId;
@@ -509,8 +510,10 @@ void DoControl( void )
 		// Vq = SQRT(0.95^2 - Vd^2)
 		//~ qVdSquared = FracMpy(ParkParm.qVd, ParkParm.qVd);
        	//~ PIParmQ.qOutMax = _Q15sqrt(Q15(0.95*0.95) - qVdSquared);
-		qVdSquared = ParkParm.qVd * ParkParm.qVd;
-		PIParmQ.qOutMax = sqrtt(Q15(0.95*0.95) - qVdSquared, SQRT_ERROR_MAX);
+		//~ qVdSquared = ParkParm.qVd * ParkParm.qVd;
+		//~ PIParmQ.qOutMax = sqrtt(Q15(0.95*0.95) - qVdSquared, SQRT_ERROR_MAX);
+		qVdSquared = dsp16_op_mul(ParkParm.qVd, ParkParm.qVd);
+		PIParmQ.qOutMax = dsp16_op_sqrt(Q15(0.95*0.95) - qVdSquared);
 		PIParmQ.qOutMin = -PIParmQ.qOutMax;
 
         // PI control for Q
@@ -747,7 +750,7 @@ void CalculateParkAngle(void)
 		// than 0.05 degrees.
 		ParkParm.qAngle = smc1.Theta + Theta_error;
 		//~ if (_Q15abs(Theta_error) > _0_05DEG)
-		if(abs(Theta_error) > _0_05DEG)
+		if(dsp16_op_abs(Theta_error) > _0_05DEG)
 		{
 			if (Theta_error < 0)
 				Theta_error += _0_05DEG;
@@ -768,7 +771,9 @@ void SetupControlParameters(void)
     PIParmD.qOutMax = DOUTMAX;
     PIParmD.qOutMin = -PIParmD.qOutMax;
 
-    InitPI(&PIParmD);
+	PIParmD.qdSum = 0;
+	PIParmD.qOut = 0;
+    //~ InitPI(&PIParmD);
 
 // ============= PI Q Term ===============
     PIParmQ.qKp = QKP;
@@ -777,7 +782,9 @@ void SetupControlParameters(void)
     PIParmQ.qOutMax = QOUTMAX;
     PIParmQ.qOutMin = -PIParmQ.qOutMax;
 
-    InitPI(&PIParmQ);
+	PIParmQ.qdSum = 0;
+	PIParmQ.qOut = 0;
+    //~ InitPI(&PIParmQ);
 
 // ============= PI W Term ===============
     PIParmW.qKp = WKP;
@@ -786,7 +793,9 @@ void SetupControlParameters(void)
     PIParmW.qOutMax = WOUTMAX;
     PIParmW.qOutMin = -PIParmW.qOutMax;
 
-    InitPI(&PIParmW);
+	PIParmW.qdSum = 0;
+	PIParmW.qOut = 0;
+    //~ InitPI(&PIParmW);
 	return;
 }
 

@@ -78,12 +78,4 @@ extern void mc_update_duty_cycle( volatile U16 mc_duty0,
                                   volatile U16 mc_duty1,
                                   volatile U16 mc_duty2);
 
-//~ extern void mc_update_duty_cycle( volatile U16 mc_duty0,
-                                  //~ volatile U16 mc_duty1,
-                                  //~ volatile U16 mc_duty2,
-                                  //~ volatile U16 mc_duty3,
-                                  //~ volatile U16 mc_duty4,
-                                  //~ volatile U16 mc_duty5);
-
-
 #endif // _MC_DRIVER_H_

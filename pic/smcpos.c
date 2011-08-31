@@ -40,13 +40,15 @@
 
 #include "general.h"
 #include "smcpos.h"
+#include "dsp.h"
+#include <math.h>
 
 void SMC_Position_Estimation (SMC *s)
 {
-	PUSHCORCON();
-	CORCONbits.SATA = 1;
-	CORCONbits.SATB = 1;
-	CORCONbits.ACCSAT = 1;
+	//~ PUSHCORCON();
+	//~ CORCONbits.SATA = 1;
+	//~ CORCONbits.SATB = 1;
+	//~ CORCONbits.ACCSAT = 1;
 
 	CalcEstI();
 
@@ -54,7 +56,8 @@ void SMC_Position_Estimation (SMC *s)
 
 	// Sliding control calculator
 
-	if (_Q15abs(s->IalphaError) < s->MaxSMCError)
+	//~ if (_Q15abs(s->IalphaError) < s->MaxSMCError)
+	if (dsp16_op_abs(s->IalphaError) < s->MaxSMCError)
 	{
 		// s->Zalpha = (s->Kslide * s->IalphaError) / s->MaxSMCError
 		// If we are in the linear range of the slide mode controller,
@@ -67,7 +70,7 @@ void SMC_Position_Estimation (SMC *s)
 	else
 		s->Zalpha = -s->Kslide;
 
-	if (_Q15abs(s->IbetaError) < s->MaxSMCError)
+	if (dsp16_op_abs(s->IbetaError) < s->MaxSMCError)
 	{
 		// s->Zbeta = (s->Kslide * s->IbetaError) / s->MaxSMCError
 		// If we are in the linear range of the slide mode controller,
@@ -92,12 +95,18 @@ void SMC_Position_Estimation (SMC *s)
 	CalcBEMF();
 
 	// Rotor angle calculator -> Theta = atan(-EalphaFinal,EbetaFinal)
-
-	s->Theta = atan2CORDIC(-s->EalphaFinal,s->EbetaFinal);
-
+	//~ s->Theta = atan2CORDIC(-s->EalphaFinal,s->EbetaFinal);
+	float f;
+	f = atan2(-s->EalphaFinal, s->EbetaFinal);
+	s->Theta = (int)(f * (1<<15) + (f >= 0 ? 0.5 : -0.5));
+/*
+//~ #define Q15(Float_Value)	\
+        //~ ((Float_Value < 0.0) ? (SFRAC16)(32768 * (Float_Value) - 0.5) \
+        //~ : (SFRAC16)(32767 * (Float_Value) + 0.5))
+*/
 	AccumTheta += s->Theta - PrevTheta;
 	PrevTheta = s->Theta;
-	
+
 	AccumThetaCnt++;
 	if (AccumThetaCnt == IRP_PERCALC)
 	{
@@ -154,13 +163,13 @@ void SMC_Position_Estimation (SMC *s)
 	//
 	// What this allows us at the end is a fixed phase delay for theta compensation
 	// in all speed range, since cutoff frequency is changing as the motor speeds up.
-	// 
+	//
 	// Phase delay: Since cutoff frequency is the same as the input frequency, we can
 	// define phase delay as being constant of -45 DEG per filter. This is because
-	// the equation to calculate phase shift of this low pass filter is 
+	// the equation to calculate phase shift of this low pass filter is
 	// arctan(Fin/Fc), and Fin/Fc = 1 since they are equal, hence arctan(1) = 45 DEG.
 	// A total of -90 DEG after the two filters implemented (Kslf and KslfFinal).
-	
+
 	s->Kslf = s->KslfFinal = FracMpy(s->OmegaFltred,Q15(_PI / IRP_PERCALC));
 
 	// Since filter coefficients are dynamic, we need to make sure we have a minimum
@@ -246,7 +255,7 @@ void SMC_Position_Estimation (SMC *s)
 	s->ThetaOffset = CONSTANT_PHASE_SHIFT;
 	s->Theta = s->Theta + s->ThetaOffset;
 
-	POPCORCON();
+	//~ POPCORCON();
 
 	return;
 }
