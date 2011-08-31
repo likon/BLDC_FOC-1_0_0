@@ -339,6 +339,8 @@ void m_usart_init(void)
 
 int main(void)
 {
+	Disable_global_interrupt();
+	while(1);
   // Configure standard I/O streams as unbuffered.
 	#if __GNUC__ && __AVR32__
 	setbuf(stdin, NULL);

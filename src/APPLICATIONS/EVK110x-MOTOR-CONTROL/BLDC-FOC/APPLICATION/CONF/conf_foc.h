@@ -93,8 +93,6 @@
 //~ # define  rayon_carre_limitation                (1431655765 / (2 * E))//263066746   // 2/3      carre = square
 # define  vitesse_inst                          (864000)    //          vitesse = speed
 
-//~ # define  pi_Fcpu                               150796447	//This value is used only once. shouldnt be defined here, but in the .h of that file using it.
-#define PI_X_FCPU                                 ((FCPU_HZ * PI))
 //~ # define  tirq_demi_period_init                 300000
 # define  tirq_demi_period_init                     350000	//demi = half
 //transf_v: Seem to have something to do with 2500, as 2^31/858992 = 2500.001336, and with speedm.
@@ -117,6 +115,7 @@
 #define    P                  50	//Is this really the nr of pole pairs?
 
 //Section 4.4, AVR32723 appnote.
+//J seem to be ~1000
 #define     Kp_speed      741092              //!< Kdv = (0.04*J*R)/(Lc)      //1778545 //Change this, make motor spin faster
 #define     Ki_speed      1598                //!< Kiv = (0.01*J*R^2)/(Lc^2)  //3836
 

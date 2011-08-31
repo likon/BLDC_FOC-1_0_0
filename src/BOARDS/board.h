@@ -59,7 +59,8 @@
 #define STK1000           5   //!< AT32AP7000 STK1000 board.
 #define NGW100            6   //!< AT32AP7000 NGW100 board.
 #define STK600            7   //!< STK600 board.
-#define USB11             97  //!< USB11 rev A board with integrated motor driver
+#define PMSM              96  //!< PMSM B board with integrated motor drivers, Ebenharter Elektronik GmbH
+#define USB11             97  //!< USB11 rev A board with integrated motor driver, Ebenharter Elektronik GmbH
 #define USER_BOARD        99  //!< User-reserved board (if any).
 //! @}
 
@@ -87,6 +88,8 @@
   #include "NGW100/ngw100.h"
 #elif BOARD == STK600
   #include "STK600/stk600.h"
+#elif BOARD == PMSM
+  #include "PMSM/pmsm.h"
 #elif BOARD == USB11
   #include "USB11/usb11.h"
 #elif BOARD == USER_BOARD

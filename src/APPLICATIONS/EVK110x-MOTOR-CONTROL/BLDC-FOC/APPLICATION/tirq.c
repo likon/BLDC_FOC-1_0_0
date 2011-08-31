@@ -26,7 +26,7 @@ void tirq_estimator_update_teta_and_speed(volatile unsigned short *teta_elec, vo
     *teta_elec = 360;
     nieme = 0;
   }
-  *vitesse_elec = PI_X_FCPU / tirq_demi_period;  //pi * Fcpu  (Fcpu=48Mhz)
+  *vitesse_elec = (FCPU_HZ * PI) / tirq_demi_period;  //pi * Fcpu  (Fcpu=48Mhz)
 
   //~ printf("vitesse_elect: %i \n\r", vitesse_elec);	//TODO: REMOVE
   //~ printf("demi_period: %i, teta_elec: %i\n\r", tirq_demi_period, *teta_elec);
