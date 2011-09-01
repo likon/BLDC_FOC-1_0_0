@@ -43,13 +43,13 @@ UTIL_PATH = $(PRJ_PATH)/UTILS
 PIC_PATH = pic
 
 # CPU architecture: {ap|ucr1|ucr2}
-ARCH = ucr2
+ARCH = ucr3
 
 # Part: {none|ap7xxx|uc3xxxxx}
-PART = uc3a1512
+PART = uc3l032
 
 # Flash memories: [{cfi|internal}@address,size]...
-FLASH = internal@0x80000000,512Kb
+FLASH = internal@0x80000000,32Kb
 
 # Clock source to use when programming: [{xtal|extclk|int}]
 PROG_CLOCK = xtal
@@ -65,7 +65,7 @@ TARGET = $(PART)-bldc_foc.elf
 # Things that might be added to DEFS:
 #   BOARD             Board used: see $(BRDS_PATH)/board.h
 #   EXT_BOARD         Extension board used (if any): see $(BRDS_PATH)/board.h
-DEFS = -D BOARD=USB11
+DEFS = -D BOARD=PMSM
 
 # Include path
 INC_PATH = \
@@ -79,6 +79,9 @@ INC_PATH = \
   $(DRVR_PATH)/USBB/ \
   $(DRVR_PATH)/USBB/ENUM/ \
   $(DRVR_PATH)/USBB/ENUM/DEVICE/ \
+  $(DRVR_PATH)/ADCIFB \
+  $(DRVR_PATH)/INTC \
+  $(DRVR_PATH)/PWMA \
   $(SERV_PATH)/USB/ \
   $(SERV_PATH)/USB/CLASS/CDC/ \
   $(SERV_PATH)/MOTOR_CONTROL/CONCORDIA/ \
@@ -92,6 +95,7 @@ INC_PATH = \
   $(MAIN_PATH)/ \
   $(PIC_PATH)
 
+
 # C source files
 CSRCS = \
   $(UTIL_PATH)/DEBUG/print_funcs.c \
@@ -99,6 +103,9 @@ CSRCS = \
   $(DRVR_PATH)/USBB/ENUM/usb_task.c \
   $(DRVR_PATH)/USBB/ENUM/DEVICE/usb_device_task.c \
   $(DRVR_PATH)/USBB/ENUM/DEVICE/usb_standard_request.c \
+  $(DRVR_PATH)/ADCIFB/adcifb.c \
+  $(DRVR_PATH)/INTC/intc.c \
+  $(DRVR_PATH)/PWMA/pwma.c \
   $(MAIN_PATH)/ENUM/usb_descriptors.c \
   $(MAIN_PATH)/ENUM/usb_specific_request.c \
   $(SERV_PATH)/MOTOR_CONTROL/CONCORDIA/concordia.c \
@@ -130,10 +137,11 @@ LIB_PATH = \
 
 # Libraries to link with the project
 LIBS = \
-  drivers-at32uc3a-speed_opt \
+  m \
   newlib_addons-at32ucr2-speed_opt \
-  dsp-at32ucr2-dspaccandsize_opt \
-  m
+  #~ drivers-at32uc3a-speed_opt \
+  #~ dsp-at32ucr2-dspaccandsize_opt \
+
 
 # Linker script file if any
 LINKER_SCRIPT = $(UTIL_PATH)/LINKER_SCRIPTS/AT32UC3A/0512/GCC/link_uc3a0512.lds
