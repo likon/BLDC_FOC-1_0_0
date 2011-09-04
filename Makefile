@@ -64,24 +64,19 @@
 # ENVIRONMENT SETTINGS
 # ** ** ** *** ** ** ** ** ** ** ** ** ** ** **
 
-FirstWord = $(if $(1),$(word 1,$(1)))
-LastWord  = $(if $(1),$(word $(words $(1)),$(1)))
-
-MAKE      = make
-
-lc = $(subst A,a,$(subst B,b,$(subst C,c,$(subst D,d,$(subst E,e,$(subst F,f,$(subst G,g,$(subst H,h,$(subst I,i,$(subst J,j,$(subst K,k,$(subst L,l,$(subst M,m,$(subst N,n,$(subst O,o,$(subst P,p,$(subst Q,q,$(subst R,r,$(subst S,s,$(subst T,t,$(subst U,u,$(subst V,v,$(subst W,w,$(subst X,x,$(subst Y,y,$(subst Z,z,$1))))))))))))))))))))))))))
-
-
-ifdef BOARD
-	MAKECFG = $(call lc, config_$(BOARD).mk)
-else
-	MAKECFG   = config_usb11.mk
+ifndef BOARD
+	BOARD = PMSM
 endif
 
+FirstWord = $(if $(1),$(word 1,$(1)))
+LastWord  = $(if $(1),$(word $(words $(1)),$(1)))
+lc = $(subst A,a,$(subst B,b,$(subst C,c,$(subst D,d,$(subst E,e,$(subst F,f,$(subst G,g,$(subst H,h,$(subst I,i,$(subst J,j,$(subst K,k,$(subst L,l,$(subst M,m,$(subst N,n,$(subst O,o,$(subst P,p,$(subst Q,q,$(subst R,r,$(subst S,s,$(subst T,t,$(subst U,u,$(subst V,v,$(subst W,w,$(subst X,x,$(subst Y,y,$(subst Z,z,$1))))))))))))))))))))))))))
+
+MAKE      = make
+MAKECFG = $(call lc, config_$(BOARD).mk)
 TGTTYPE   = $(suffix $(TARGET))
 
 RM        = rm -Rf
-
 AR        = avr32-ar
 ARFLAGS   = rcs
 
@@ -174,7 +169,7 @@ all: info a lss sym sizes
 else
 ifeq ($(TGTTYPE),.elf)
 .PHONY: all
-all: elf lss sym hex bin
+all: info elf lss sym hex bin
 else
 $(error $(ERR_TARGET_TYPE))
 endif

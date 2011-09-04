@@ -46,7 +46,7 @@
 #include <avr32/io.h>
 #include "compiler.h"
 
-void concordia(int ia, int ib, int ic, int *ialpha ,int *ibeta)
+void concordia(volatile int ia, volatile int ib, volatile int ic, volatile int *ialpha, volatile int *ibeta)
 {
   int ibc;
 

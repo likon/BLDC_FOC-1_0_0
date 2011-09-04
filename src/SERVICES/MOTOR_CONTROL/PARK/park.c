@@ -49,7 +49,7 @@
 extern const int coss[361];
 extern const int sinn[361];
 
-void park(int ialpha, int ibeta,unsigned short teta, int *Id, int *Iq)
+void park(volatile int ialpha, volatile int ibeta, volatile unsigned short teta, volatile int *Id, volatile int *Iq)
 {
   // Id = ialpha cos(teta)+ibeta sin(teta)
   // Iq= ibeta cos(teta)- ialpha sin( teta)

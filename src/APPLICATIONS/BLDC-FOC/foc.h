@@ -1,9 +1,9 @@
 /*This file is prepared for Doxygen automatic documentation generation.*/
 /*! \file ******************************************************************
  *
- * \brief Processing of I.P regulator.
+ * \brief Processing of Field Oriented Control Process.
  *
- * This file contains the Execution of I.P Regulator Process.
+ * This file contains the Execution of Field Oriented Control Process.
  *
  * - Compiler:           IAR EWAVR32 and GNU GCC for AVR32
  * - Supported devices:  All AVR32 devices can be used.
@@ -41,25 +41,37 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifndef _FOC_H_
+#define _FOC_H_
+
 //_____ I N C L U D E S ____________________________________________________
-#include "ip_reg.h"
-#include "util.h"
+
+#include "compiler.h"
+
 //_____ M A C R O S ________________________________________________________
 
+
 //_____ D E F I N I T I O N S ______________________________________________
+typedef enum {
+  FOC_state_ramp_up_init=0,
+  FOC_state_ramp_up=1,
+  FOC_state_regulation=2
+} FOC_STATE_t;
 
-//_____ P R I V A T E   D E C L A R A T I O N S ____________________________
+typedef enum {
+  FOC_rampup_step_alignement_init=0,
+  FOC_rampup_step_alignement=1,
+  FOC_rampup_step_openloop=2,
+  FOC_rampup_step_fieldreg_loop=3,
+  FOC_rampup_step_torquereg_loop=4
+} FOC_RAMPUP_STATE_t;
 
-//! @brief This function executes I.P Regulator
-//! Theory :
-//!        Feedback=Feedback-Discharge+Ki.Te.Error
-//!        Output=Feedback-Kd.Mes
-//!        Error=Ref-Mes
+//! @brief This function manages state machine access.
 //!
-void IP_REG_compute(volatile IP_REG_variables_t* IP_reg)
-{
-     IP_reg->IP_REG_feedback=IP_reg->IP_REG_feedback-IP_reg->IP_REG_discharge+(int)(((long long int)IP_reg->Ki * (long long int)IP_reg->IP_REG_lasterror)>>31);
-     IP_reg->IP_REG_output=IP_reg->IP_REG_feedback-(int)(((long long int)IP_reg->Kp *(long long int)IP_reg->IP_REG_mes)>>31);
-     IP_reg->IP_REG_lasterror=IP_reg->IP_REG_ref-IP_reg->IP_REG_mes;
-}
+extern void FOC_set_state_machine(FOC_STATE_t FOC_state_p);
+//! @brief This function manages state machine for Field Oriented Control Algorithm.
+//!
+extern void FOC_state_machine(void);
 
+
+#endif  // _FOC_H_

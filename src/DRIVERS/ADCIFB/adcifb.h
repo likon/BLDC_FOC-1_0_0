@@ -52,6 +52,7 @@
 
 #include <avr32/io.h>
 #include "compiler.h"
+#include <stdbool.h>
 
 
 //! The timeguard used for polling.
@@ -65,7 +66,7 @@ typedef struct
 
   //! Channels Sample & Hold Time in [0,15], where Ts&h = shtim * Tclk_adc.
   unsigned short  shtim;
-  
+
   //! Ratio Fclk_adcifb/Fclk_adc = 2*i with i an integer in [1,64]
   unsigned short  ratio_clkadcifb_clkadc;
 

@@ -42,7 +42,7 @@
 #include "compiler.h"
 #include "gpio.h"
 #include "usart.h"
-#include "print_funcs.h"
+//~ #include "print_funcs.h"
 
 
 //! ASCII representation of hexadecimal digits.

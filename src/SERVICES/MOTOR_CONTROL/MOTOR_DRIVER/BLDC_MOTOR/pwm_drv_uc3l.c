@@ -63,11 +63,9 @@
 //! @{
 void pwm_drv_init(volatile pwm_drv_options_t *pwm_drv_options)
 {
-#if BOARD == PMSM
+/*
   volatile avr32_pwma_t *pwm = &AVR32_PWMA;
-#else
-  volatile avr32_pwm_t *pwm = &AVR32_PWM;
-#endif
+
   // select GPIO alternate function
    static const gpio_map_t PWM_GPIO_MAP  =
   {
@@ -116,19 +114,19 @@ void pwm_drv_init(volatile pwm_drv_options_t *pwm_drv_options)
   pwm->channel[PWM_ZL_PWM_CHANNEL].cprd= pwm_drv_options->max_pwm_value; // channel period
 
   pwm->channel[PWM_ZL_PWM_CHANNEL].cdty= pwm_drv_options->max_pwm_value - 10; // duty cycle, should be < CPRD
+*/
 }
+
 void pwm_drv_start(void)
 {
-#if BOARD == PMSM
   volatile avr32_pwma_t *pwm = &AVR32_PWMA;
-#else
-  volatile avr32_pwm_t *pwm = &AVR32_PWM;
-#endif
   pwm->ier = (1<<PWM_XL_PWM_CHANNEL );
+
   #if BOARD != PMSM
   pwm->ena = (1<<PWM_XL_PWM_CHANNEL )|(1<<PWM_YL_PWM_CHANNEL )|(1<<PWM_ZL_PWM_CHANNEL ); // enable channel 0 to 3
   #endif
   //TODO: BOARD == PMSM
+
 }
 
 void pwm_drv_stop(void)
@@ -160,11 +158,11 @@ void pwm_drv_duty_cycle(volatile pwm_drv_options_t * pwm_drv_options, U32 pwm0, 
 	//return; //TODO: REMOVE!!!! Debug code
 #endif
 
-  volatile avr32_pwm_t *pwm = &AVR32_PWM;
+  //~ volatile avr32_pwm_t *pwm = &AVR32_PWM; //TODO: !!!! Fix!!!!
 
-  pwm->channel[PWM_XL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm0;
-  pwm->channel[PWM_YL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm1;
-  pwm->channel[PWM_ZL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm2;
+  //~ pwm->channel[PWM_XL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm0;
+  //~ pwm->channel[PWM_YL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm1;
+  //~ pwm->channel[PWM_ZL_PWM_CHANNEL].cupd= pwm_drv_options->max_pwm_value - pwm2;
 }
 
 //@}

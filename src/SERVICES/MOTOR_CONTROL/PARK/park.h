@@ -47,7 +47,7 @@
 #include "compiler.h"
 #include "cos_sin.h"
 
-extern void park(int ialpha, int ibeta,unsigned short teta, int *Id, int *Iq);
+extern void park(volatile int ialpha, volatile int ibeta, volatile unsigned short teta, volatile int *Id, volatile int *Iq);
 extern void park_inv(int Vd, int Vq,unsigned short teta, volatile int *valpha, volatile int *vbeta);
 
 //@}

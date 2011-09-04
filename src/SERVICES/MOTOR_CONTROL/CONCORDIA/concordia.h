@@ -46,6 +46,6 @@
 #include <avr32/io.h>
 #include "compiler.h"
 
-extern void concordia(int ia, int ib, int ic, int *ialpha ,int *ibeta);
+extern void concordia(volatile int ia, volatile int ib, volatile int ic, volatile int *ialpha, volatile int *ibeta);
 
 //@}

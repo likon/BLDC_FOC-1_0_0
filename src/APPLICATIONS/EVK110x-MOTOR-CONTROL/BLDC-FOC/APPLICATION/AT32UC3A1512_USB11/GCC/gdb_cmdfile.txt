@@ -1,2 +1,0 @@
-target extended-remote :4711
-sym uc3a0512-bldc_svpwm_example.elf

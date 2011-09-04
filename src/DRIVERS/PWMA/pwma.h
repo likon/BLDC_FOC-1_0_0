@@ -1,15 +1,11 @@
-/* This header file is part of the ATMEL AVR-UC3-SoftwareFramework-1.7.0 Release */
-
 /*This file has been prepared for Doxygen automatic documentation generation.*/
 /*! \file *********************************************************************
  *
- * \brief PWM driver for AVR32 UC3.
+ * \brief Basic Pulse Width Modulation Controller (PWMA) driver.
  *
- * This file defines a useful set of functions for the PWM interface on AVR32
- * devices.
  *
  * - Compiler:           IAR EWAVR32 and GNU GCC for AVR32
- * - Supported devices:  All AVR32 devices with a PWM module can be used.
+ * - Supported devices:  All AVR32 devices with a PWMA module.
  * - AppNote:
  *
  * \author               Atmel Corporation: http://www.atmel.com \n
@@ -48,107 +44,54 @@
  *
  */
 
-#ifndef _PWM_H_
-#define _PWM_H_
+#ifndef _PWMA_H_
+#define _PWMA_H_
 
 #include <avr32/io.h>
+#include "compiler.h"
 
 
-//! Value returned by function when it completed successfully.
-#define PWM_SUCCESS 0
-
-//! Value returned by function when it was unable to complete successfully
-//! for some unspecified reason.
-#define PWM_FAILURE -1
-
-//! Value returned by function when the input paramters are out of range.
-#define PWM_INVALID_INPUT 1
-
-//! Value returned by function when the channel number is invalid.
-#define PWM_INVALID_ARGUMENT 1
-
-//! Operate PWM channel in left aligned mode.
-#define PWM_MODE_LEFT_ALIGNED 0
-
-//! Operate PWM channel in center aligned mode.
-#define PWM_MODE_CENTER_ALIGNED 1
-
-//! PWM channel starts output low level.
-#define PWM_POLARITY_LOW 0
-
-//! PWM channel starts output high level.
-#define PWM_POLARITY_HIGH 1
-
-//! PWM channel write in CUPDx updates duty cycle at the next period start event.
-#define PWM_UPDATE_DUTY 0
-
-//! PWM channel write in CUPDx updates period at the next period start event.
-#define PWM_UPDATE_PERIOD 1
-
-
-//! Input parameters when initializing a PWM channel.
-typedef struct
-{
-  //! CLKB divide factor.
-  unsigned int divb;
-
-  //! CLKA divide factor.
-  unsigned int diva;
-
-  //! Divider input clock B.
-  unsigned int preb;
-
-  //! Divider input clock A.
-  unsigned int prea;
-} pwm_opt_t;
-
-
-/*! \brief This function initialize the PWM controller (mode register) and disable the interrupt.
- * \param opt PWM Channel structure parameter
- * \return PWM_SUCCESS or PWM_INVALID_INPUT
+/*! \brief Configure and enable the PWMA.
+ *
+ * This function will enable the PWMA module and configure a mask of channels.
+ *
+ * \param pwma Pointer to the PWMA module.
+ * \param channel_mask Bit mask of channels to set period_cycles for.
+ * \param period_cycles Period cycles for the PWMA module, i.e. the TOP value (and eventually the SPREAD value).
+ * \param duty_cycles Number of cycles for the active period for the channels
+ *                    provided by channel_mask.
  */
-extern int pwm_init(const pwm_opt_t *opt);
+void pwma_config_and_enable(volatile avr32_pwma_t *pwma,
+                            unsigned long long int channel_mask,
+                            int period_cycles, int duty_cycles);
 
-/*! \brief Initialize a specific PWM channel.
- * \param channel_id The channel identifier mask
- * \param *pwm_channel Pointer to PWM channel struct avr32_pwm_channel_t
- * \return PWM_SUCCESS, PWM_INVALID_INPUT or PWM_INVALID_ARGUMENT
+/*! \brief Change the number of cycles for the active period for a channel mask.
+ *
+ * \param pwma Pointer to the PWMA module.
+ * \param channel_mask Bit mask of the channels to change number of cycles for.
+ * \param duty_cycles Number of cycles for the active period for the channels
+ *                    provided by channel_mask.
  */
-extern int pwm_channel_init(unsigned int channel_id, const avr32_pwm_channel_t *pwm_channel);
+void pwma_set_channels_value( volatile avr32_pwma_t *pwma,
+                              unsigned long long int channel_mask,
+                              int duty_cycles);
 
-/*! \brief Start PWM channels.
- * \param channels_bitmask A bit-mask with set bits indicating channels to start.
- * \return PWM_SUCCESS or PWM_INVALID_INPUT
+/*! \brief Change a multiple channel period cycles into multiple channels (up to four channels).
+ *
+ * \param pwma pointer to the PWMA module.
+ * \param channel_mask bit mask of the channels to change number of cycles for.
+ * \param channel_duty_cycles pointer to an array of max four channel duty cycles,
+ *        the first element in the array points to the lowest numbered channel to
+ *        change and so on.
  */
-extern int pwm_start_channels(unsigned long channels_bitmask);
+void pwma_set_multiple_values(volatile avr32_pwma_t *pwma,
+                              unsigned long long int channel_mask,
+                              unsigned char *channel_duty_cycles);
 
-/*! \brief Stop PWM channels.
- * \param channels_bitmask A bit-mask with set bits indicating channels to stop.
- * \return PWM_SUCCESS or PWM_INVALID_INPUT
+/*! \brief Disable a PWMA module
+ *
+ * \param pwma pointer to the PWMA module.
  */
-extern int pwm_stop_channels(unsigned long channels_bitmask);
+void pwma_disable(volatile avr32_pwma_t *pwma);
 
-/*! \brief Update channel register CPRDx or CDTYx by forcing synchronization with the PWM period.
- * This function uses the CUPDx register as a double buffer for the period or the duty cycle.
- * Only the first 20 bits of cupd are significant.
- * \param channel_id The channel identifier (0 to max channel-1)
- * \param *pwm_channel Pointer to PWM channel struct avr32_pwm_channel_t
- * \return PWM_SUCCESS or PWM_INVALID_INPUT
- * \note This update function should be preferred when updating a PWM channel by polling.
- */
-extern int pwm_sync_update_channel(unsigned int channel_id, const avr32_pwm_channel_t *pwm_channel);
-
-/*! \brief Update channel register CPRDx or CDTYx without synchronizing with the PWM period.
- * This function uses the CUPDx register as a double buffer for the period or the duty cycle.
- * Only the first 20 bits of cupd are significant.
- * \param channel_id The channel identifier (0 to max channel-1)
- * \param *pwm_channel Pointer to PWM channel struct avr32_pwm_channel_t
- * \return PWM_SUCCESS or PWM_INVALID_INPUT
- * \warning Calling this function several times in a row may result in some update values never being
- * issued to PWM if some external synchronizing mechanism like an interrupt is not used.
- * \note This update function should be preferred when updating a PWM channel from an interrupt handler.
- */
-extern int pwm_async_update_channel(unsigned int channel_id, const avr32_pwm_channel_t *pwm_channel);
-
-
-#endif  // _PWM_H_
+#endif /* _PWMA_H_ */

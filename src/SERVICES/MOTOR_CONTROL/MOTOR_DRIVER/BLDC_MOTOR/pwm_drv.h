@@ -45,6 +45,7 @@
 
 #ifndef _PWM_DRV_H_
 #define _PWM_DRV_H_
+
 extern void __attribute__((interrupt)) pwm_interrupt_pic(void);
 __attribute__((__interrupt__)) void pwm_int_handler( void );
 //! Input parameters.
@@ -61,7 +62,8 @@ typedef struct
 /*! \brief Init PWM_DRV service
  * \param *pwm_drv_options PWM_DRV struct param.
  */
-extern void pwm_drv_init(volatile pwm_drv_options_t *pwm_drv_options);
+void pwm_drv_init(volatile pwm_drv_options_t *pwm_drv_options);
+
 /*! \brief START pwm channel PWM_DRV service
  */
 extern void pwm_drv_start(void);

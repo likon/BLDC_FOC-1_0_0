@@ -1,15 +1,11 @@
-/* This source file is part of the ATMEL AVR-UC3-SoftwareFramework-1.7.0 Release */
-
 /*This file has been prepared for Doxygen automatic documentation generation.*/
 /*! \file *********************************************************************
  *
- * \brief PWM driver for AVR32 UC3.
+ * \brief Basic Pulse Width Modulation Controller (PWMA) driver.
  *
- * This file defines a useful set of functions for the PWM interface on AVR32
- * devices.
  *
  * - Compiler:           IAR EWAVR32 and GNU GCC for AVR32
- * - Supported devices:  All AVR32 devices with a PWM module can be used.
+ * - Supported devices:  All AVR32 devices with a PWMA module.
  * - AppNote:
  *
  * \author               Atmel Corporation: http://www.atmel.com \n
@@ -48,100 +44,98 @@
  *
  */
 
-#include "compiler.h"
 #include "pwma.h"
 
 
-int pwm_init(const pwm_opt_t *opt)
+void pwma_config_and_enable(volatile avr32_pwma_t *pwma,
+                            unsigned long long int channel_mask,
+                            int period_cycles, int duty_cycles)
 {
-  volatile avr32_pwm_t *pwm = &AVR32_PWM;
-  Bool global_interrupt_enabled = Is_global_interrupt_enabled();
+  pwma->cr =
+      (period_cycles << AVR32_PWMA_CR_TOP_OFFSET) // Set the TOP and SPREAD values of the timebase counter
+      | AVR32_PWMA_CR_TCLR_MASK                   // Clear the timebase counter
+      | AVR32_PWMA_CR_EN_MASK;                    // Enable the PWMA
 
-  if (opt == 0 ) // Null pointer.
-    return PWM_INVALID_INPUT;
-
-  // Disable interrupt.
-  if (global_interrupt_enabled) Disable_global_interrupt();
-  pwm->idr = ((1 << (AVR32_PWM_LINES_MSB + 1)) - 1) << AVR32_PWM_IDR_CHID0_OFFSET;
-  pwm->isr;
-  if (global_interrupt_enabled) Enable_global_interrupt();
-
-  // Set PWM mode register.
-  pwm->mr =
-    ((opt->diva)<<AVR32_PWM_DIVA_OFFSET) |
-    ((opt->divb)<<AVR32_PWM_DIVB_OFFSET) |
-    ((opt->prea)<<AVR32_PWM_PREA_OFFSET) |
-    ((opt->preb)<<AVR32_PWM_PREB_OFFSET)
-    ;
-
-  return PWM_SUCCESS;
+  pwma_set_channels_value(pwma, channel_mask, duty_cycles);
 }
 
 
-int pwm_channel_init( unsigned int channel_id, const avr32_pwm_channel_t *pwm_channel)
+void pwma_set_channels_value( volatile avr32_pwma_t *pwma,
+                              unsigned long long int channel_mask,
+                              int duty_cycles)
 {
-  volatile avr32_pwm_t *pwm = &AVR32_PWM;
+  unsigned long int channel_mask_low = channel_mask & 0xffffffff;
+  unsigned long int channel_mask_high = channel_mask >> 32;
 
-  if (pwm_channel == 0) // Null pointer.
-    return PWM_INVALID_ARGUMENT;
-  if (channel_id > AVR32_PWM_LINES_MSB) // Control input values.
-    return PWM_INVALID_INPUT;
+  //#
+  //# Interlinked single value PWM operation: several channels are interlinked
+  //# to allow multiple channels to be updated simultaneously with the same duty
+  //# cycle
+  //#
 
-  pwm->channel[channel_id].cmr= pwm_channel->cmr;   // Channel mode.
-  pwm->channel[channel_id].cdty= pwm_channel->cdty; // Duty cycle, should be < CPRD.
-  pwm->channel[channel_id].cprd= pwm_channel->cprd; // Channel period.
+  // Wait for the PWMA to be ready for writing.
+  while (pwma->sr & AVR32_PWMA_SR_BUSY_MASK);
+  
+  //#
+  //# First 32 channels
+  //#
+  // Set the common duty cycle value.
+  pwma->isduty = duty_cycles;
+  // Define the interlinked channels
+  pwma->ischset0 = channel_mask_low;
 
-  return PWM_SUCCESS;
+  // Wait for the PWMA to be ready for writing.
+  while (pwma->sr & AVR32_PWMA_SR_BUSY_MASK);
+  
+  //#
+  //# Last 32 channels
+  //#
+  // Set the common duty cycle value.
+  pwma->isduty = duty_cycles;
+  // Define the interlinked channels
+  pwma->ischset1 = channel_mask_high;
+
+  // Wait for the PWMA to be ready for writing.
+  while (pwma->sr & AVR32_PWMA_SR_BUSY_MASK);
 }
 
 
-int pwm_start_channels(unsigned long channels_bitmask)
+void pwma_set_multiple_values( volatile avr32_pwma_t *pwma,
+                               unsigned long long int channel_mask,
+                               unsigned char *channel_duty_cycles)
 {
-  if (channels_bitmask & ~((1 << (AVR32_PWM_LINES_MSB + 1)) - 1))
-    return PWM_INVALID_INPUT;
+  int           current_channel = 0;
+  unsigned char channels[4];
+  int           i = 0;
 
-  AVR32_PWM.ena = channels_bitmask; // Enable channels.
 
-  return PWM_SUCCESS;
+  do
+  {
+    if ((channel_mask >> i) & 0x1)
+    {
+      channels[current_channel++] = i;
+    }
+    i++;
+  } while (current_channel < 4 && i < 64);
+
+  // Wait for the PWMA to be ready for writing.
+  while (pwma->sr & AVR32_PWMA_SR_BUSY_MASK);
+
+  pwma->imduty = (channel_duty_cycles[3] << 24)
+      | (channel_duty_cycles[2] << 16)
+      | (channel_duty_cycles[1] << 8)
+      | (channel_duty_cycles[0]);
+  pwma->imchsel = (channels[3] << 24)
+      | (channels[2] << 16)
+      | (channels[1] << 8)
+      | (channels[0]);
+
+  // Wait for the PWMA to be ready for writing.
+  while (pwma->sr & AVR32_PWMA_SR_BUSY_MASK);
 }
 
 
-int pwm_stop_channels(unsigned long channels_bitmask)
+void pwma_disable(volatile avr32_pwma_t *pwma)
 {
-  if (channels_bitmask & ~((1 << (AVR32_PWM_LINES_MSB + 1)) - 1))
-    return PWM_INVALID_INPUT;
-
-  AVR32_PWM.dis = channels_bitmask; // Disable channels.
-
-  return PWM_SUCCESS;
-}
-
-
-int pwm_sync_update_channel(unsigned int channel_id, const avr32_pwm_channel_t *pwm_channel)
-{
-  volatile avr32_pwm_t *pwm = &AVR32_PWM;
-
-  if (channel_id > AVR32_PWM_LINES_MSB)
-     return PWM_INVALID_INPUT;
-
-  AVR32_PWM.isr;                                    // Acknowledgement and clear previous register state.
-  pwm->channel[channel_id].cmr= pwm_channel->cmr;   // Channel mode register: update of the period or duty cycle.
-  while (!(AVR32_PWM.isr & (1 << channel_id)));     // Wait until the last write has been taken into account.
-  pwm->channel[channel_id].cupd= pwm_channel->cupd; // Channel update CPRDx or CDTYx according to CPD value in CMRx.
-
-  return PWM_SUCCESS;
-}
-
-
-int pwm_async_update_channel(unsigned int channel_id, const avr32_pwm_channel_t *pwm_channel)
-{
-  volatile avr32_pwm_t *pwm = &AVR32_PWM;
-
-  if (channel_id > AVR32_PWM_LINES_MSB)
-     return PWM_INVALID_INPUT;
-
-  pwm->channel[channel_id].cmr= pwm_channel->cmr;   // Channel mode register: update of the period or duty cycle.
-  pwm->channel[channel_id].cupd= pwm_channel->cupd; // Channel update CPRDx or CDTYx according to CPD value in CMRx.
-
-  return PWM_SUCCESS;
+  pwma->cr &= ~AVR32_PWMA_EN_MASK;
 }

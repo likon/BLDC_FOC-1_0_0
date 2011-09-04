@@ -67,7 +67,7 @@ typedef struct
   //! last Error Value.
   int IP_REG_lasterror;
   //! Discharge Value.
-  int IP_REG_discharge;  
+  int IP_REG_discharge;
   //! Ki Parameter
   int Ki;
   //! Kp Parameter
@@ -76,6 +76,6 @@ typedef struct
 
 //! @brief This function manages I.P regulator.
 //!
-extern void IP_REG_compute(IP_REG_variables_t* IP_reg);
+extern void IP_REG_compute(volatile IP_REG_variables_t* IP_reg);
 
 #endif  // _IP_REG_H_
